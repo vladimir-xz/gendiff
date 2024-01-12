@@ -1,0 +1,14 @@
+{
+    "name": "hexlet/code",
+    "description": "calculate diferencies",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vladimir",
+            "email": "vladimir156xz@gmail.com"
+        }
+    ],
+    "require": {
+        "docopt/docopt": "^1.0"
+    }
+}
