@@ -1,6 +1,11 @@
 {
     "name": "hexlet/code",
     "description": "calculate diferencies",
+    "autoload": {
+        "files": [
+            "src/Differ/genDiff.php"
+        ]
+    },
     "license": "MIT",
     "authors": [
         {
@@ -10,5 +15,8 @@
     ],
     "require": {
         "docopt/docopt": "^1.0"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.8"
     }
 }
