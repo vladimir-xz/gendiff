@@ -3,7 +3,7 @@
     "description": "calculate differencies",
     "autoload": {
         "files": [
-            "src/Differ/genDiff.php"
+            "src/Differ/Differ.php"
         ]
     },
     "license": "MIT",
