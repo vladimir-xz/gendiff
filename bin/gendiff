@@ -33,8 +33,6 @@ $params = array(
 );
 
 $args = Docopt::handle($doc, $params);
-foreach ($args as $k=>$v)
-    echo $k.': '.json_encode($v).PHP_EOL;
 
 $pathToFile1 = $args["<firstFile>"];
 $pathToFile2 = $args["<secondFile>"];

@@ -31,5 +31,5 @@ function genDiff($pathToFile1, $pathToFile2)
         }
     }, array_keys($mergedFiles), array_values($mergedFiles));
     $stringResult = implode("\n", $result);
-    return "{\n{$stringResult}\n}";
+    return "{\n{$stringResult}\n}\n";
 }
