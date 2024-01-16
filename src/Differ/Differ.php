@@ -2,19 +2,12 @@
 
 namespace Differ\Differ;
 
-function getJsonContent($pathToFile)
-{
-    if (file_exists($pathToFile)) {
-        $content = file_get_contents($pathToFile, true);
-        return json_decode($content, true);
-    }
-    throw new \Exception("File do not found: \"{$pathToFile}\"!");
-}
+use Differ\Processing;
 
 function genDiff($pathToFile1, $pathToFile2)
 {
-    $firstFile = getJsonContent($pathToFile1);
-    $secondFile = getJsonContent($pathToFile2);
+    $firstFile = Processing\getJsonContent($pathToFile1);
+    $secondFile = Processing\getJsonContent($pathToFile2);
     $mergedFiles = array_merge($secondFile, $firstFile);
     ksort($mergedFiles);
     $result = array_map(function ($key, $value) use ($firstFile, $secondFile) {
