@@ -37,10 +37,5 @@ $args = Docopt::handle($doc, $params);
 $pathToFile1 = $args["<firstFile>"];
 $pathToFile2 = $args["<secondFile>"];
 
-$args = Docopt::handle($doc, $params);
-
-$pathToFile1 = $args["<firstFile>"];
-$pathToFile2 = $args["<secondFile>"];
-
 $diff = Differ\genDiff($pathToFile1, $pathToFile2);
 print_r($diff);

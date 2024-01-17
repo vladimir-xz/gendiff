@@ -3,17 +3,17 @@
 namespace Differ\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Differ\Differ;
 
-class UserTest extends TestCase
+use function Differ\Differ\genDiff;
+
+class DifferTest extends TestCase
 {
     public function testGenDiff(): void
     {
-        // $name = 'john';
-        // $children = [new User('Mark')];
-        // $user = new User($name, $children);
+        $firstFile = __DIR__ . "/fixtures/hi.json";
+        $secondFile = __DIR__ . "/fixtures/ku.json";
+        $result = file_get_contents(__DIR__ . "/fixtures/hi-ku-test.txt");
 
-        $this->assertEquals($name, $user->getName());
-        $this->assertEquals(collect($children), $user->getChildren());
+        $this->assertEquals($result, genDiff($firstFile, $secondFile));
     }
 }
