@@ -10,10 +10,15 @@ class DifferTest extends TestCase
 {
     public function testGenDiff(): void
     {
-        $firstFile = __DIR__ . "/fixtures/FlatOne.json";
-        $secondFile = __DIR__ . "/fixtures/FlatTwo.json";
-        $result = file_get_contents(__DIR__ . "/fixtures/hi-ku-test.txt");
+        $firstFileJson = __DIR__ . "/fixtures/FlatOne.json";
+        $secondFileJson = __DIR__ . "/fixtures/FlatTwo.json";
+        $result = file_get_contents(__DIR__ . "/fixtures/example.txt");
 
-        $this->assertEquals($result, genDiff($firstFile, $secondFile));
+        $this->assertEquals($result, genDiff($firstFileJson, $secondFileJson));
+
+        $firstFileYml = __DIR__ . "/fixtures/FlatOne.yml";
+        $secondFileYml = __DIR__ . "/fixtures/FlatTwo.yml";
+
+        $this->assertEquals($result, genDiff($firstFileYml, $secondFileYml));
     }
 }

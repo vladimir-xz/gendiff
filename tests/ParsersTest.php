@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 use function Differ\Processing\getJsonContent;
 
-class ProcessTest extends TestCase
+class ParsersTest extends TestCase
 {
     public function testException(): void
     {
