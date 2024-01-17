@@ -3,6 +3,7 @@
     "description": "calculate differencies",
     "autoload": {
         "files": [
+            "src/Processing.php",
             "src/Differ/Differ.php"
         ]
     },
