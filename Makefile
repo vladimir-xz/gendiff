@@ -7,4 +7,4 @@ lint:
 test:
 	composer exec --verbose phpunit tests
 test-coverage:
-	XDEBUG_MODE=coverage composer exec --verbose phpunit tests -- --coverage-text
+	phpunit --log-junit 'reports/unitreport.xml' --coverage-clover 'reports/clover.xml' test/
