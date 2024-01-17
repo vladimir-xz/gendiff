@@ -16,8 +16,8 @@ class DifferTest extends TestCase
 
         $this->assertEquals($result, genDiff($firstFileJson, $secondFileJson));
 
-        $firstFileYml = __DIR__ . "/fixtures/FlatOne.yml";
-        $secondFileYml = __DIR__ . "/fixtures/FlatTwo.yml";
+        $firstFileYml = __DIR__ . "/fixtures/FlatOne.yaml";
+        $secondFileYml = __DIR__ . "/fixtures/FlatTwo.yaml";
 
         $this->assertEquals($result, genDiff($firstFileYml, $secondFileYml));
     }
