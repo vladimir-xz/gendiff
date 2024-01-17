@@ -2,12 +2,12 @@
 
 namespace Differ\Differ;
 
-use function Differ\Processing\getJsonContent;
+use function Differ\Processing\parseFile;
 
 function genDiff($pathToFile1, $pathToFile2)
 {
-    $firstFile = getJsonContent($pathToFile1);
-    $secondFile = getJsonContent($pathToFile2);
+    $firstFile = parseFile($pathToFile1);
+    $secondFile = parseFile($pathToFile2);
     $mergedFiles = array_merge($secondFile, $firstFile);
     ksort($mergedFiles);
     $result = array_map(function ($key, $value) use ($firstFile, $secondFile) {
