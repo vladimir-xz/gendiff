@@ -12,30 +12,30 @@ if (file_exists($autoloadPath1)) {
 
 use Differ\Differ;
 
-// $doc = <<<DOC
-// Generate diff
+$doc = <<<DOC
+Generate diff
 
-// Usage:
-//   gendiff (-h|--help)
-//   gendiff (-v|--version)
-//   gendiff [--format <fmt>] <firstFile> <secondFile>
+Usage:
+  gendiff (-h|--help)
+  gendiff (-v|--version)
+  gendiff [--format <fmt>] <firstFile> <secondFile>
 
-// Options:
-//   -h --help                     Show this screen
-//   -v --version                  Show version
-//   --format <fmt>                Report format [default: stylish]
+Options:
+  -h --help                     Show this screen
+  -v --version                  Show version
+  --format <fmt>                Report format [default: stylish]
 
-// DOC;
+DOC;
 
-// $params = array(
-//     'help'=>true,
-//     'version'=>'Generate diff',
-// );
+$params = array(
+    'help'=>true,
+    'version'=>'Generate diff',
+);
 
-// $args = Docopt::handle($doc, $params);
+$args = Docopt::handle($doc, $params);
 
-// $pathToFile1 = $args["<firstFile>"];
-// $pathToFile2 = $args["<secondFile>"];
+$pathToFile1 = $args["<firstFile>"];
+$pathToFile2 = $args["<secondFile>"];
 
-$diff = Differ\genDiff('FlatOne.yaml', 'FlatTwo.yaml');
+$diff = Differ\genDiff($pathToFile1, $pathToFile2);
 print_r($diff);
