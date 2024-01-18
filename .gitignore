@@ -5,3 +5,4 @@ hi.json
 ku.json
 /tests/fixtures/coverage/
 /build/
+/.phpunit.cache/
