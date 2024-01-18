@@ -14,6 +14,9 @@ function parseFile($pathToFile)
         throw new \Exception("File \"{$pathBaseName}\" is empty.");
     }
     $fileExtention = pathinfo($pathToFile, PATHINFO_EXTENSION);
+    if ($fileExtention === 'yml') {
+        $fileExtention = 'yaml';
+    }
     switch ($fileExtention) {
         case 'json':
             $content = file_get_contents($pathToFile, true);
