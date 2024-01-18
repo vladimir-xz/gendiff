@@ -19,7 +19,7 @@ function parseFile($pathToFile)
             $content = file_get_contents($pathToFile, true);
             return json_decode($content, true);
         case 'yaml':
-            $content = Yaml::parseFile($pathToFile);
+            $content = Yaml::parseFile($pathToFile, Yaml::PARSE_OBJECT_FOR_MAP);
             return $content;
         default:
             throw new \Exception("Unknow file extention: \"{$fileExtention}\"!");

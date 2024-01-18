@@ -37,5 +37,5 @@ use Differ\Differ;
 // $pathToFile1 = $args["<firstFile>"];
 // $pathToFile2 = $args["<secondFile>"];
 
-$diff = Differ\genDiff('example.txt', 'hi.json');
+$diff = Differ\genDiff('FlatOne.yaml', 'FlatTwo.yaml');
 print_r($diff);

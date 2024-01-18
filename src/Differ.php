@@ -6,8 +6,12 @@ use function Differ\Processing\parseFile;
 
 function genDiff($pathToFile1, $pathToFile2)
 {
-    $firstFile = parseFile($pathToFile1);
-    $secondFile = parseFile($pathToFile2);
+    $firstFile = (array)parseFile($pathToFile1);
+    $secondFile = (array)parseFile($pathToFile2);
+    // $firstFile = get_object_vars($firstFile);
+    // $secondFile = get_object_vars($secondFile);
+    // $firstFile = (array)$firstFile;
+    // $secondFile = (array)$secondFile;
     $mergedFiles = array_merge($secondFile, $firstFile);
     ksort($mergedFiles);
     $result = array_map(function ($key, $value) use ($firstFile, $secondFile) {
