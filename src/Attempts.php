@@ -11,17 +11,23 @@ $contentOne = json_decode($contentOne, true);
 $contentTwo = file_get_contents($nestedSecondFileJson, true);
 $contentTwo = json_decode($contentTwo, true);
 
-$jsonTwo = [ 'first' =>
-[    "timeout" => 20,
+$jsonTwo = [
+    "timeout" => 20,
     "verbose" => 'hello',
-    "host" => "hexlet.io"]
+    "host" => "hexlet.io",
+    "settings6" => [
+        "key" => true,
+        "doge" => [
+            "wow" => ""
+        ]
+    ]
 ];
 
-$jsonOne = [ 'first' =>
-[    "host" => "hexlet.io",
+$jsonOne = [
+    "host" => "hexlet.io",
     "timeout" => 50,
     "proxy" => "123.234.53.22",
-     "follow" => "haha"]
+     "follow" => "haha"
 ];
 
 $hi = [
@@ -44,6 +50,14 @@ $ku = [
             "wow" => "so much"
         ]
     ],
+    "group3" => [
+        "deep" => [
+          "id" => [
+            "number" => 45
+          ]
+        ],
+        "fee" => 100500
+      ]
 ];
 
 function ifArraysOfSameType($array1, $array2)
@@ -65,21 +79,21 @@ function lets($array1, $array2)
     ksort($merged);
     $result = array_reduce(array_keys($merged), function ($acc, $key) use ($array1, $array2) {
         if (!array_key_exists($key, $array2)) {
-            $acc["- {$key}"] = json_encode($array1[$key], JSON_PRETTY_PRINT);
+            $acc["- {$key}"] = ($array1[$key]);
             return $acc;
         } elseif (!array_key_exists($key, $array1)) {
-            $acc["+ {$key}"] = json_encode($array2[$key], JSON_PRETTY_PRINT);
+            $acc["+ {$key}"] = ($array2[$key]);
             return $acc;
         } elseif ($array1[$key] === $array2[$key]) {
-            $acc["  {$key}"] = json_encode($array1[$key], JSON_PRETTY_PRINT);
+            $acc["  {$key}"] = ($array1[$key]);
             return $acc;
         } else {
             if (is_array($array1[$key]) && is_array($array2[$key])) {
                 $acc["  {$key}"] = lets($array1[$key], $array2[$key]);
                 return $acc;
             } else {
-                $acc["- {$key}"] = json_encode($array1[$key], JSON_PRETTY_PRINT);
-                $acc["+ {$key}"] = json_encode($array2[$key], JSON_PRETTY_PRINT);
+                $acc["- {$key}"] = ($array1[$key]);
+                $acc["+ {$key}"] = ($array2[$key]);
                 return $acc;
             }
         }
@@ -87,14 +101,19 @@ function lets($array1, $array2)
     return $result;
 }
 
-function printing($array, $separator = '    ', $depth = 1)
+function printing($array, $separator = '*', $depth = 0, $adding = '')
 {
     $adding = str_repeat($separator, $depth);
     $result = array_map(function ($key, $value) use ($separator, $depth, $adding) {
+        $depth += 4;
+        if (in_array($key[0], ['+', '-', ' '])) {
+            $adding = str_repeat($separator, $depth - 2);
+        } else {
+            $adding = str_repeat($separator, $depth);
+        }
         $result = "{$adding}{$key}";
         if (is_array($value)) {
-            $depth += 1;
-            $value = printing($value, $separator, $depth);
+            $value = printing($value, $separator, $depth, $adding);
         }
         $result .= ": {$value}";
         return $result;
