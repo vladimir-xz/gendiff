@@ -3,13 +3,16 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use function Functional\sort;
+use Symfony\Component\Yaml\Yaml;
 
 $nestedFirstFileJson = __DIR__ . "/../tests/fixtures/NestedOne.json";
 $nestedSecondFileJson = __DIR__ . "/../tests/fixtures/NestedTwo.json";
-$contentOne = file_get_contents($nestedFirstFileJson, true);
-$contentOne = json_decode($contentOne, true);
-$contentTwo = file_get_contents($nestedSecondFileJson, true);
-$contentTwo = json_decode($contentTwo, true);
+$contentOne = Yaml::parseFile($nestedFirstFileJson, Yaml::PARSE_OBJECT_FOR_MAP);
+$contentTwo = Yaml::parseFile($nestedSecondFileJson, Yaml::PARSE_OBJECT_FOR_MAP);
+// $contentOne = file_get_contents($nestedFirstFileJson, true);
+// $contentOne = json_decode($contentOne, true);
+// $contentTwo = file_get_contents($nestedSecondFileJson, true);
+// $contentTwo = json_decode($contentTwo, true);
 
 $jsonTwo = [
     "timeout" => 20,
@@ -24,7 +27,7 @@ $jsonTwo = [
 ];
 
 $jsonOne = [
-    "host" => "hexlet.io",
+    "host" => null,
     "timeout" => 50,
     "proxy" => "123.234.53.22",
      "follow" => "haha"
@@ -60,6 +63,23 @@ $ku = [
       ]
 ];
 
+function makeStringIfNotArray(mixed $item)
+{
+    if (!is_array($item)) {
+        $result = str_replace("\"", '', json_encode($item, JSON_PRETTY_PRINT));
+        return $result;
+    }
+    return $item;
+}
+
+function ifArrayOrObject($object)
+{
+    if (is_array($object) || is_object($object)) {
+        return true;
+    }
+    return false;
+}
+
 function ifArraysOfSameType($array1, $array2)
 {
     if (array_key_exists(0, $array1) && !array_key_exists(0, $array2)) {
@@ -70,10 +90,22 @@ function ifArraysOfSameType($array1, $array2)
     return true;
 }
 
-function lets($array1, $array2)
+function ifObjectBothAreSame($array1, $array2)
 {
+    if (is_object($array1) && !is_object($array2)) {
+        return false;
+    } elseif (!is_object($array1) && is_object($array2)) {
+        return false;
+    }
+    return true;
+}
+
+function lets($object1, $object2)
+{
+    $array1 = (array)$object1;
+    $array2 = (array)$object2;
     $merged = array_merge($array1, $array2);
-    if (!ifArraysOfSameType($array1, $array2)) {
+    if (!ifObjectBothAreSame($object1, $object1)) {
         return $merged;
     }
     ksort($merged);
@@ -88,7 +120,7 @@ function lets($array1, $array2)
             $acc["  {$key}"] = ($array1[$key]);
             return $acc;
         } else {
-            if (is_array($array1[$key]) && is_array($array2[$key])) {
+            if (ifArrayOrObject($array1[$key]) && ifArrayOrObject($array2[$key])) {
                 $acc["  {$key}"] = lets($array1[$key], $array2[$key]);
                 return $acc;
             } else {
@@ -101,7 +133,7 @@ function lets($array1, $array2)
     return $result;
 }
 
-function printing($array, $separator = '*', $depth = 0, $adding = '')
+function printing($array, $separator = ' ', $depth = 0, $adding = '')
 {
     $adding = str_repeat($separator, $depth);
     $result = array_map(function ($key, $value) use ($separator, $depth, $adding) {
@@ -112,10 +144,12 @@ function printing($array, $separator = '*', $depth = 0, $adding = '')
             $adding = str_repeat($separator, $depth);
         }
         $result = "{$adding}{$key}";
-        if (is_array($value)) {
+        $convertedValue = makeStringIfNotArray($value);
+        if (is_array($value) || is_object($value)) {
             $value = printing($value, $separator, $depth, $adding);
+            $convertedValue = $value;
         }
-        $result .= ": {$value}";
+        $result .= ": {$convertedValue}";
         return $result;
     }, array_keys($array), $array);
     $final = implode("\n", $result);
