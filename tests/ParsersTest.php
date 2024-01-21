@@ -4,7 +4,7 @@ namespace Differ\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function Differ\Processing\parseFile;
+use function Differ\Parsers\parseFile;
 
 class ParsersTest extends TestCase
 {
