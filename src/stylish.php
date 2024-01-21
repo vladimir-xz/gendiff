@@ -2,7 +2,7 @@
 
 namespace Differ\Stylish;
 
-function makeStringIfNotArray(mixed $item)
+function makeString(mixed $item)
 {
     if (!is_array($item)) {
         $result = trim(json_encode($item, JSON_PRETTY_PRINT), "\"");
@@ -11,21 +11,22 @@ function makeStringIfNotArray(mixed $item)
     return $item;
 }
 
-function printing($array, $separator = ' ', $depth = 0, $adding = '')
+function printing($array, $separator = '    ', $depth = 0, $offset = 2)
 {
     $adding = str_repeat($separator, $depth);
-    $result = array_map(function ($key, $value) use ($separator, $depth, $adding) {
-        $depth += 4;
+    $result = array_map(function ($key, $value) use ($separator, $depth, $offset) {
+        $depth += 1;
         if (in_array($key[0], ['+', '-', ' '])) {
-            $adding = str_repeat($separator, $depth - 2);
+            $adding = str_repeat($separator, $depth);
+            $adding = substr($adding, $offset);
         } else {
             $adding = str_repeat($separator, $depth);
         }
         $result = "{$adding}{$key}";
-        $convertedValue = makeStringIfNotArray($value);
         if (is_array($value)) {
-            $value = printing($value, $separator, $depth, $adding);
-            $convertedValue = $value;
+            $convertedValue = printing($value, $separator, $depth, $offset);
+        } else {
+            $convertedValue = makeString($value);
         }
         $result .= ": {$convertedValue}";
         return $result;
