@@ -5,7 +5,7 @@
         "files": [
             "src/Parsers.php",
             "src/Differ.php",
-            "src/DifferNew.php"
+            "src/stylish.php"
         ]
     },
     "license": "MIT",

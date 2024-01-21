@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\Processing;
+namespace Differ\Parsers;
 
 use Symfony\Component\Yaml\Yaml;
 
@@ -22,7 +22,7 @@ function parseFile($pathToFile)
             $content = file_get_contents($pathToFile, true);
             return json_decode($content, true);
         case 'yaml':
-            $content = Yaml::parseFile($pathToFile, Yaml::PARSE_OBJECT_FOR_MAP);
+            $content = Yaml::parseFile($pathToFile);
             return $content;
         default:
             throw new \Exception("Unknow file extention: \"{$fileExtention}\"!");

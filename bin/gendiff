@@ -11,6 +11,8 @@ if (file_exists($autoloadPath1)) {
 }
 
 use Differ\Differ;
+use function Differ\Parsers\parseFile;
+use function Differ\Stylish\printing;
 
 $doc = <<<DOC
 Generate diff
@@ -30,12 +32,18 @@ DOC;
 $params = array(
     'help'=>true,
     'version'=>'Generate diff',
+    '--format' => 'stylish',
 );
 
 $args = Docopt::handle($doc, $params);
 
 $pathToFile1 = $args["<firstFile>"];
 $pathToFile2 = $args["<secondFile>"];
+$format = $args["--format"];
 
-$diff = Differ\genDiff($pathToFile1, $pathToFile2);
-print_r($diff);
+$parsedFileOne = parseFile($pathToFile1);
+$parsedFileTwo = parseFile($pathToFile2);
+$diff = Differ\genDiff($parsedFileOne, $parsedFileTwo);
+if ($format === 'stylish') {
+    echo (printing($diff));
+}
