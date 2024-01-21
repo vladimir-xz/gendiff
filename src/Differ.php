@@ -27,6 +27,15 @@ function FirstgenDiff($pathToFile1, $pathToFile2, $depth = 0)
     return "{\n{$stringResult}\n}\n";
 }
 
+function makeStringIfNotArray(mixed $item)
+{
+    if (!is_array($item)) {
+        $result = trim(json_encode($item, JSON_PRETTY_PRINT), "\"");
+        return $result;
+    }
+    return $item;
+}
+
 function ifArraysOfSameType($array1, $array2)
 {
     if (array_key_exists(0, $array1) && !array_key_exists(0, $array2)) {
@@ -79,10 +88,12 @@ function printing($array, $separator = ' ', $depth = 0, $adding = '')
             $adding = str_repeat($separator, $depth);
         }
         $result = "{$adding}{$key}";
+        $convertedValue = makeStringIfNotArray($value);
         if (is_array($value)) {
             $value = printing($value, $separator, $depth, $adding);
+            $convertedValue = $value;
         }
-        $result .= ": {$value}";
+        $result .= ": {$convertedValue}";
         return $result;
     }, array_keys($array), $array);
     $final = implode("\n", $result);
