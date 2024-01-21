@@ -24,9 +24,16 @@ function printing($array, $separator = '    ', $depth = 0, $offset = 2)
         }
         $result = "{$adding}{$key}";
         if (is_array($value)) {
+<<<<<<< HEAD
             $convertedValue = printing($value, $separator, $depth, $offset);
         } else {
             $convertedValue = makeString($value);
+=======
+            $value = printing($value, $separator, $depth, $offset);
+            $convertedValue = $value;
+        } else {
+            $convertedValue = makeStringIfNotArray($value);
+>>>>>>> refs/remotes/origin/main
         }
         $result .= ": {$convertedValue}";
         return $result;
