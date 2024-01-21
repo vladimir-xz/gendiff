@@ -38,7 +38,7 @@ function ifArraysOfSameType($array1, $array2)
     return true;
 }
 
-function genDiff($array1, $array2)
+function compareArrays($array1, $array2)
 {
     $merged = array_merge($array1, $array2);
     if (!ifArraysOfSameType($array1, $array2)) {
@@ -57,7 +57,7 @@ function genDiff($array1, $array2)
             return $acc;
         } else {
             if (is_array($array1[$key]) && is_array($array2[$key])) {
-                $acc["  {$key}"] = genDiff($array1[$key], $array2[$key]);
+                $acc["  {$key}"] = compareArrays($array1[$key], $array2[$key]);
                 return $acc;
             } else {
                 $acc["- {$key}"] = ($array1[$key]);
@@ -69,11 +69,13 @@ function genDiff($array1, $array2)
     return $result;
 }
 
-// function genDiff($pathToFile1, $pathToFile2)
-// {
-//     $firstFile = (array)parseFile($pathToFile1);
-//     $secondFile = (array)parseFile($pathToFile2);
-//     $array = lets($firstFile, $secondFile);
-//     $result = printing($array);
-//     return $result;
-// }
+function genDiff($pathToFile1, $pathToFile2, $format)
+{
+    $firstFile = (array)parseFile($pathToFile1);
+    $secondFile = (array)parseFile($pathToFile2);
+    $array = compareArrays($firstFile, $secondFile);
+    switch ($format) {
+        case 'stylish':
+            return (printing($array));
+    }
+}

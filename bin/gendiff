@@ -41,9 +41,5 @@ $pathToFile1 = $args["<firstFile>"];
 $pathToFile2 = $args["<secondFile>"];
 $format = $args["--format"];
 
-$parsedFileOne = parseFile($pathToFile1);
-$parsedFileTwo = parseFile($pathToFile2);
-$diff = Differ\genDiff($parsedFileOne, $parsedFileTwo);
-if ($format === 'stylish') {
-    echo (printing($diff));
-}
+$diff = Differ\genDiff($pathToFile1, $pathToFile2, $format);
+echo $diff;
