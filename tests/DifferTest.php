@@ -33,5 +33,9 @@ class DifferTest extends TestCase
         $nestedSecondFileYaml = __DIR__ . "/fixtures/NestedTwo.yaml";
 
         $this->assertEquals($resultNested, genDiff($nestedFirstFileYaml, $nestedSecondFileYaml, 'stylish'));
+
+        $resultPlain = file_get_contents(__DIR__ . "/fixtures/resultPlain.txt");
+
+        $this->assertEquals($resultPlain, genDiff($nestedFirstFileYaml, $nestedSecondFileYaml, 'plain'));
     }
 }
