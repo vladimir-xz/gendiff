@@ -5,7 +5,8 @@ namespace Differ\Differ;
 use Differ\Stylish;
 
 use function Differ\Parsers\parseFile;
-use function Differ\Stylish\showPrettyAssociative;
+use function Differ\Stylish\showStylish;
+use function Differ\Formatters\plain\showPlain;
 
 $hi = [
     "settings6" => [
@@ -155,6 +156,8 @@ function genDiff($pathToFile1, $pathToFile2, $format)
     $array = compareAssociative($firstFile, $secondFile);
     switch ($format) {
         case 'stylish':
-            return (showPrettyAssociative($array));
+            return (showStylish($array));
+        case 'plain':
+            return showPlain($array);
     }
 }

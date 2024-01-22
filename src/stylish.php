@@ -55,35 +55,52 @@ function getSameLine($array)
 function getChangedLine($array)
 {
     if (array_key_exists('+/-', $array)) {
-        return ['symbol' => '  ', 'value' => $array['+/-']];
+        return ['symbol' => '+/-', 'value' => $array['+/-']];
     }
     return null;
 }
 
-function showPrettyAssociative($array, $separator = '    ', $depth = 0, $offset = 2)
+function getBothLines($array)
+{
+    if (array_key_exists('-', $array) && array_key_exists('+', $array)) {
+        return ['symbol' => 'both', 'value' => ['-' => $array['-'], '+' => $array['+']]];
+    }
+    return null;
+}
+
+function findandGetDifference($value)
+{
+    if (!is_null(getBothLines($value))) {
+        return getBothLines($value);
+    } elseif (!is_null(getSameLine($value))) {
+        return getSameLine($value);
+    } elseif (!is_null(getDeletedLine($value))) {
+        return getDeletedLine($value);
+    } elseif (!is_null(getNewLine($value))) {
+        return getNewLine($value);
+    } elseif (!is_null(getChangedLine($value))) {
+        return getChangedLine($value);
+    }
+}
+
+function showStylish($array, $separator = '    ', $depth = 0, $offset = 2)
 {
     $adding = str_repeat($separator, $depth);
     $result = array_map(function ($key, $value) use ($separator, $depth, $offset) {
         $depth += 1;
         $adding = substr(str_repeat($separator, $depth), $offset);
-        if (!is_null(getDeletedLine($value)) && !is_null(getNewLine($value))) {
-            ['symbol' => $symbolMinus, 'value' => $deletedValue] = getDeletedLine($value);
-            $deletedValue = toString($deletedValue, $separator, $depth, $offset);
-            ['symbol' => $symbolPlus, 'value' => $addedValue] = getNewLine($value);
-            $addedValue = toString($addedValue, $separator, $depth, $offset);
-            $line = "{$adding}{$symbolMinus}{$key}: {$deletedValue}\n{$adding}{$symbolPlus}{$key}: {$addedValue}";
+        ['symbol' => $symbol, 'value' => $difference] = findandGetDifference($value);
+        if ($symbol === 'both') {
+            $deletedValue = toString($difference['-'], $separator, $depth);
+            $addedValue = toString($difference['+'], $separator, $depth);
+            $line = "{$adding}- {$key}: {$deletedValue}\n{$adding}+ {$key}: {$addedValue}";
             return $line;
-        } elseif (!is_null(getSameLine($value))) {
-            ['symbol' => $symbol, 'value' => $newValue] = getSameLine($value);
-        } elseif (!is_null(getDeletedLine($value))) {
-            ['symbol' => $symbol, 'value' => $newValue] = getDeletedLine($value);
-        } elseif (!is_null(getNewLine($value))) {
-            ['symbol' => $symbol, 'value' => $newValue] = getNewLine($value);
-        } elseif (!is_null(getChangedLine($value))) {
-            ['symbol' => $symbol, 'value' => $newValue] = getChangedLine($value);
-            $newValue = showPrettyAssociative($newValue, $separator, $depth, $offset);
+        } elseif ($symbol === '+/-') {
+            $symbol = '  ';
+            $newValue = showStylish($difference, $separator, $depth, $offset);
+        } else {
+            $newValue = toString($difference, $separator, $depth);
         }
-        $newValue = toString($newValue, $separator, $depth, $offset);
         $line = "{$adding}{$symbol}{$key}: {$newValue}";
         return $line;
     }, array_keys($array), $array);
