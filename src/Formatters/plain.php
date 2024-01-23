@@ -2,7 +2,7 @@
 
 namespace Differ\Formatters\plain;
 
-use Differ\Stylish;
+use Differ\Formatters\Stylish;
 
 use function Differ\Stylish\makeString;
 
@@ -12,7 +12,7 @@ function showPlain($array, $tempForKeys = [])
         $tempForKeys[] = $key;
         $keyToPrint = implode('.', $tempForKeys);
         $valueToPrint = is_array($value) ? '[complex value]' : trim(json_encode($value, JSON_PRETTY_PRINT), "\"");
-        ['symbol' => $symbol, 'value' => $difference] = Stylish\findandGetDifference($value);
+        ['symbol' => $symbol, 'value' => $difference] = Stylish\getValueAndSymbol($value);
         switch ($symbol) {
             case 'both':
                 $oldValue = is_array($difference['-'])
@@ -26,13 +26,14 @@ function showPlain($array, $tempForKeys = [])
                 return showPlain($difference, $tempForKeys);
             // case '  ':
             //     return "Property '{$keyToPrint}' stayed the same";
-            case '+ ':
+            case '+':
                 return "Property '{$keyToPrint}' was added with value: '{$valueToPrint}'";
-            case '- ':
+            case '-':
                 return "Property '{$keyToPrint}' was removed";
         }
     }, array_keys($array), $array);
-    return implode("\n", $result);
+    $withoutEmpty = array_filter($result, fn ($array) => $array);
+    return implode("\n", $withoutEmpty);
 }
 
 // function showPlain($array, $tempForKeys = [], $acc = '')

@@ -5,8 +5,7 @@ namespace Differ\Differ;
 use Differ\Stylish;
 
 use function Differ\Parsers\parseFile;
-use function Differ\Stylish\showStylish;
-use function Differ\Formatters\plain\showPlain;
+use function Differ\Formatters\chooseFormate;
 
 $hi = [
     "settings6" => [
@@ -64,27 +63,27 @@ function ifArraysOfSameType($array1, $array2)
 
 function addNewLine($array)
 {
-    return ['+' => $array ?? 'null'];
+    return ['symbol' => '+', 'value' => $array ?? 'null'];
 }
 
 function addDeletedLine($array)
 {
-    return ['-' => $array ?? 'null'];
+    return ['symbol' => '-', 'value' => $array ?? 'null'];
 }
 
 function addSameLine($array)
 {
-    return ['same' => $array ?? 'null'];
+    return ['symbol' => ' ', 'value' => $array ?? 'null'];
 }
 
 function addChangedLine($array)
 {
-    return ['+/-' => $array ?? 'null'];
+    return ['symbol' => '+/-', 'value' => $array ?? 'null'];
 }
 
 function addOldAndNew($old, $new)
 {
-    return ['-' => $old ?? 'null', '+' => $new ?? 'null'];
+    return ['symbol' => 'both', 'value' => ['-' => $old ?? 'null', '+' => $new ?? 'null']];
 }
 
 function compareAssociative($array1, $array2)
@@ -154,10 +153,5 @@ function genDiff($pathToFile1, $pathToFile2, $format)
     $firstFile = (array)parseFile($pathToFile1);
     $secondFile = (array)parseFile($pathToFile2);
     $array = compareAssociative($firstFile, $secondFile);
-    switch ($format) {
-        case 'stylish':
-            return (showStylish($array));
-        case 'plain':
-            return showPlain($array);
-    }
+    return chooseFormate($format, $array);
 }
