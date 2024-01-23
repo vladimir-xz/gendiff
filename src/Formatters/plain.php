@@ -11,23 +11,29 @@ function showPlain($array, $tempForKeys = [])
     $result = array_map(function ($key, $value) use ($tempForKeys) {
         $tempForKeys[] = $key;
         $keyToPrint = implode('.', $tempForKeys);
-        $valueToPrint = is_array($value) ? '[complex value]' : trim(json_encode($value, JSON_PRETTY_PRINT), "\"");
         ['symbol' => $symbol, 'value' => $difference] = Stylish\getValueAndSymbol($value);
+        $valueToPrint = is_array($difference) ? '[complex value]' : var_export($difference, true);
+        $valueToPrint === 'NULL' ? 'null' : $valueToPrint;
         switch ($symbol) {
             case 'both':
                 $oldValue = is_array($difference['-'])
                 ? '[complex value]'
-                : trim(json_encode($difference['-'], JSON_PRETTY_PRINT), "\"");
+                : var_export($difference['-'], true);
+                $oldValue === 'NULL' ? 'null' : $oldValue;
                 $newValue = is_array($difference['+'])
                 ? '[complex value]'
-                : trim(json_encode($difference['+'], JSON_PRETTY_PRINT), "\"");
-                return "Property '{$keyToPrint}' was updated. From '{$oldValue}' to '{$newValue}'";
+                : var_export($difference['+'], true);
+                if ($newValue === "'null'") {
+                    $newValue = 'null';
+                }
+                $newValue === "'null'" ? 'null' : $newValue;
+                return "Property '{$keyToPrint}' was updated. From {$oldValue} to {$newValue}";
             case '+/-':
                 return showPlain($difference, $tempForKeys);
             // case '  ':
             //     return "Property '{$keyToPrint}' stayed the same";
             case '+':
-                return "Property '{$keyToPrint}' was added with value: '{$valueToPrint}'";
+                return "Property '{$keyToPrint}' was added with value: {$valueToPrint}";
             case '-':
                 return "Property '{$keyToPrint}' was removed";
         }
