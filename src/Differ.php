@@ -63,22 +63,22 @@ function ifArraysOfSameType($array1, $array2)
 
 function addNewLine($array)
 {
-    return ['symbol' => '+', 'value' => $array ?? 'null'];
+    return ['symbol' => '+', 'value' => $array ];
 }
 
 function addDeletedLine($array)
 {
-    return ['symbol' => '-', 'value' => $array ?? 'null'];
+    return ['symbol' => '-', 'value' => $array ];
 }
 
 function addSameLine($array)
 {
-    return ['symbol' => ' ', 'value' => $array ?? 'null'];
+    return ['symbol' => ' ', 'value' => $array ];
 }
 
 function addChangedLine($array)
 {
-    return ['symbol' => '+/-', 'value' => $array ?? 'null'];
+    return ['symbol' => '+/-', 'value' => $array ];
 }
 
 function addOldAndNew($old, $new)

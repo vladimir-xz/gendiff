@@ -4,6 +4,7 @@ namespace Differ\Formatters;
 
 use function Differ\Formatters\plain\showPlain;
 use function Differ\Formatters\Stylish\showStylish;
+use function Differ\Formatters\json\showJson;
 
 function chooseFormate(string $format, array $array)
 {
@@ -12,5 +13,7 @@ function chooseFormate(string $format, array $array)
             return showStylish($array);
         case 'plain':
             return showPlain($array);
+        case 'json':
+            return json_encode($array);
     }
 }

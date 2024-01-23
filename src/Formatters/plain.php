@@ -39,7 +39,8 @@ function showPlain($array, $tempForKeys = [])
         }
     }, array_keys($array), $array);
     $withoutEmpty = array_filter($result, fn ($array) => $array);
-    return implode("\n", $withoutEmpty);
+    $result = implode("\n", $withoutEmpty);
+    echo "{$result}\n";
 }
 
 // function showPlain($array, $tempForKeys = [], $acc = '')
