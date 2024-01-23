@@ -6,6 +6,10 @@
 
 [![asciicast](https://asciinema.org/a/b4yfaEEDFvw2dMW4SRe8K3jNB.svg)](https://asciinema.org/a/b4yfaEEDFvw2dMW4SRe8K3jNB)
 
-Nested Tree
+Nested Tree, stylish print:
 
 [![asciicast](https://asciinema.org/a/lqiIqSJNjM9l8NSKlwcSvyvyV.svg)](https://asciinema.org/a/lqiIqSJNjM9l8NSKlwcSvyvyV)
+
+Nested Tree, plain print:
+
+[![asciicast](https://asciinema.org/a/RUoIcj3N1Kg9TgoNjOskYFlzf.svg)](https://asciinema.org/a/RUoIcj3N1Kg9TgoNjOskYFlzf)
