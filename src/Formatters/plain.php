@@ -17,6 +17,9 @@ function showPlain(array $comparedArray, array $tempForKeys = [])
                 $oldValue = is_array($difference['-'])
                 ? '[complex value]'
                 : var_export($difference['-'], true);
+                if ($oldValue === "'null'") {
+                    $newValue = 'null';
+                }
                 $oldValue === 'NULL' ? 'null' : $oldValue;
                 $newValue = is_array($difference['+'])
                 ? '[complex value]'
