@@ -17,7 +17,8 @@ function chooseFormate(string $format, array $array)
         case 'json':
             $result = makeArrayFromDifferencies($array);
             $result = json_encode($result, JSON_PRETTY_PRINT);
-            return str_replace("\"  ", "\"", $result);
+            $stringResult = $result;
+            return str_replace("\"  ", "\"", $stringResult);
         default:
             throw new \Exception("Unknown report format: \"{$format}\"!");
     }

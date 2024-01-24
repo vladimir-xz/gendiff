@@ -5,8 +5,9 @@ namespace Differ\Formatters\Stylish;
 function makeString(mixed $item)
 {
     if (!is_array($item)) {
-        $stringItem = json_encode($item, JSON_PRETTY_PRINT, 512);
-        $result = trim($stringItem, "\"");
+        $jsonFile = json_encode($item, JSON_PRETTY_PRINT, 512);
+        $stringJson = $jsonFile;
+        $result = trim($stringJson, "\"");
         return $result;
     }
     return $item;
