@@ -20,7 +20,12 @@ function parseFile(string $pathToFile)
     switch ($fileExtention) {
         case 'json':
             $content = file_get_contents($pathToFile, true);
-            return json_decode($content, true);
+            if ($content === false) {
+                throw new \Exception("Unknow file extention: \"{$content}\"!");
+                 return;
+            }
+            $contentString = $content;
+            return json_decode($contentString, true);
         case 'yaml':
             $content = Yaml::parseFile($pathToFile);
             return $content;

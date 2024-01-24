@@ -5,7 +5,8 @@ namespace Differ\Formatters\Stylish;
 function makeString(mixed $item)
 {
     if (!is_array($item)) {
-        $result = trim(json_encode($item, JSON_PRETTY_PRINT, 512), "\"");
+        $stringItem = json_encode($item, JSON_PRETTY_PRINT, 512);
+        $result = trim($stringItem, "\"");
         return $result;
     }
     return $item;
@@ -16,7 +17,7 @@ function printing(array $comparedArray, string $separator = '    ', int $depth =
     $adding = str_repeat($separator, $depth);
     $result = array_map(function ($key, $value) use ($separator, $depth, $offset) {
         $depth += 1;
-        if (in_array($key[0], ['+', '-', ' '])) {
+        if (in_array($key[0], ['+', '-', ' '], false)) {
             $adding = str_repeat($separator, $depth);
             $adding = substr($adding, $offset, null);
         } else {

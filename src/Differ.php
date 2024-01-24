@@ -41,7 +41,7 @@ function addOldAndNew(mixed $old, mixed $new)
     return ['symbol' => 'both', 'value' => ['-' => $old ?? 'null', '+' => $new ?? 'null']];
 }
 
-function getValueAndSymbol($array)
+function getValueAndSymbol(array $array)
 {
     return ['symbol' => $array['symbol'], 'value' => $array['value']];
 }
