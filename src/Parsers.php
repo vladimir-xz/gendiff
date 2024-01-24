@@ -22,7 +22,6 @@ function parseFile(string $pathToFile)
             $content = file_get_contents($pathToFile, true);
             if ($content === false) {
                 throw new \Exception("Unknow file extention: \"{$content}\"!");
-                 return;
             }
             $contentString = $content;
             return json_decode($contentString, true);
