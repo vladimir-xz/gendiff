@@ -37,5 +37,10 @@ class DifferTest extends TestCase
         $resultPlain = file_get_contents(__DIR__ . "/fixtures/resultPlain.txt");
 
         $this->assertEquals($resultPlain, genDiff($nestedFirstFileYaml, $nestedSecondFileYaml, 'plain'));
+
+        $resultJson = __DIR__ . "/fixtures/resultOfJson.json";
+        $resultJsonContent = file_get_contents($resultJson, true);
+
+        $this->assertEquals($resultJsonContent, genDiff($nestedFirstFileYaml, $nestedSecondFileYaml, 'json'));
     }
 }

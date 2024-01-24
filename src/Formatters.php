@@ -16,6 +16,6 @@ function chooseFormate(string $format, array $array)
             return showPlain($array);
         case 'json':
             $result = makeArrayOfDifferencies($array);
-            return json_encode($result, JSON_PRETTY_PRINT);
+            return str_replace("\"  ", "\"", json_encode($result, JSON_PRETTY_PRINT));
     }
 }
