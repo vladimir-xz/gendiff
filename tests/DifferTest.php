@@ -17,7 +17,7 @@ class DifferTest extends TestCase
         $this->assertEquals($resultNested, genDiff($nestedFirstFileJson, $nestedSecondFileJson, 'stylish'));
 
         $nestedFirstFileYaml = __DIR__ . "/fixtures/NestedOne.yaml";
-        $nestedSecondFileYaml = __DIR__ . "/fixtures/NestedTwo.yaml";
+        $nestedSecondFileYaml = __DIR__ . "/fixtures/NestedTwo.yml";
 
         $this->assertEquals($resultNested, genDiff($nestedFirstFileYaml, $nestedSecondFileYaml, 'stylish'));
 

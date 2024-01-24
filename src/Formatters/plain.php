@@ -28,8 +28,8 @@ function showPlain($array, $tempForKeys = [])
                 return "Property '{$keyToPrint}' was updated. From {$oldValue} to {$newValue}";
             case '+/-':
                 return showPlain($difference, $tempForKeys);
-            // case '  ':
-            //     return "Property '{$keyToPrint}' stayed the same";
+            case ' ':
+                break;
             case '+':
                 return "Property '{$keyToPrint}' was added with value: {$valueToPrint}";
             case '-':

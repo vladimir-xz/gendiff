@@ -9,15 +9,15 @@ use function Differ\Formatters\plain\showPlain;
 
 class FormattersTest extends TestCase
 {
-    public function testDoNotExistException(): void
+    public function testUnknownReportFormatException(): void
     {
         $this->expectExceptionMessage("Unknown report format: \"html\"!");
         chooseFormate('html', []);
     }
 
-    // public function testUnknownSymbolOfValue(): void
-    // {
-    //     $this->expectExceptionMessage("Unknown symbol of value: \"symbol\"!");
-    //     showPlain('html', []);
-    // }
+    public function testUnknownSymbolOfValue(): void
+    {
+        $this->expectExceptionMessage("Unknown symbol of value: \"*\"!");
+        showPlain([['symbol' => '*', 'value' => 0]]);
+    }
 }
