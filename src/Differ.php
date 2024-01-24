@@ -91,6 +91,11 @@ function addOldAndNew($old, $new)
     return ['symbol' => 'both', 'value' => ['-' => $old ?? 'null', '+' => $new ?? 'null']];
 }
 
+function getValueAndSymbol($array)
+{
+    return ['symbol' => $array['symbol'], 'value' => $array['value']];
+}
+
 function compareAssociative($array1, $array2)
 {
     $merged = array_merge($array1, $array2);
@@ -116,6 +121,23 @@ function compareAssociative($array1, $array2)
         }
     }, []);
     return $result;
+}
+
+function makeArrayOfDifferencies($array)
+{
+    $result = array_map(function ($key, $value) {
+        ['symbol' => $symbol, 'value' => $difference] = getValueAndSymbol($value);
+        if ($symbol === 'both') {
+            $deletedValue = ["- {$key}" => $difference['-']];
+            $addedValue = ["+ {$key}" => $difference['+']];
+            return [...$deletedValue, ...$addedValue];
+        } elseif ($symbol === '+/-') {
+            return ["  {$key}" => makeArrayOfDifferencies($difference)];
+        } else {
+            return ["{$symbol} {$key}" => $difference];
+        }
+    }, array_keys($array), $array);
+    return array_merge(...$result);
 }
 
 // $one = compareAssociative($jsonOne, $jsonTwo);
