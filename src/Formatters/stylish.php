@@ -11,61 +11,6 @@ function makeString(mixed $item)
     return $item;
 }
 
-// function getNewLine($array)
-// {
-//     if (array_key_exists('+', $array)) {
-//         return ['symbol' => '+ ', 'value' => $array['+']];
-//     }
-//     return null;
-// }
-
-// function getDeletedLine($array)
-// {
-//     if (array_key_exists('-', $array)) {
-//         return ['symbol' => '- ', 'value' => $array['-']];
-//     }
-//     return null;
-// }
-
-// function getSameLine($array)
-// {
-//     if (array_key_exists('same', $array)) {
-//         return ['symbol' => '  ', 'value' => $array['same']];
-//     }
-//     return null;
-// }
-
-// function getChangedLine($array)
-// {
-//     if (array_key_exists('+/-', $array)) {
-//         return ['symbol' => '+/-', 'value' => $array['+/-']];
-//     }
-//     return null;
-// }
-
-// function getBothLines($array)
-// {
-//     if (array_key_exists('-', $array) && array_key_exists('+', $array)) {
-//         return ['symbol' => 'both', 'value' => ['-' => $array['-'], '+' => $array['+']]];
-//     }
-//     return null;
-// }
-
-// function findandGetDifference($value)
-// {
-//     if (!is_null(getBothLines($value))) {
-//         return getBothLines($value);
-//     } elseif (!is_null(getSameLine($value))) {
-//         return getSameLine($value);
-//     } elseif (!is_null(getDeletedLine($value))) {
-//         return getDeletedLine($value);
-//     } elseif (!is_null(getNewLine($value))) {
-//         return getNewLine($value);
-//     } elseif (!is_null(getChangedLine($value))) {
-//         return getChangedLine($value);
-//     }
-// }
-
 function printing($array, $separator = '    ', $depth = 0, $offset = 2)
 {
     $adding = str_repeat($separator, $depth);

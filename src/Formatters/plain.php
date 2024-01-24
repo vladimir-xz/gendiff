@@ -34,6 +34,8 @@ function showPlain($array, $tempForKeys = [])
                 return "Property '{$keyToPrint}' was added with value: {$valueToPrint}";
             case '-':
                 return "Property '{$keyToPrint}' was removed";
+            default:
+                throw new \Exception("Unknown symbol of value: \"{$symbol}\"!");
         }
     }, array_keys($array), $array);
     $withoutEmpty = array_filter($result, fn ($array) => $array);

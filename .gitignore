@@ -7,3 +7,4 @@ ku.json
 /build/
 /.phpunit.cache/
 json.php
+/.phpunit.cache/
