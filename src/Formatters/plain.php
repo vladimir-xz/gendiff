@@ -2,16 +2,14 @@
 
 namespace Differ\Formatters\plain;
 
-use Differ\Formatters\Stylish;
-
-use function Differ\Stylish\makeString;
+use function Differ\Differ\getValueAndSymbol;
 
 function showPlain($array, $tempForKeys = [])
 {
     $result = array_map(function ($key, $value) use ($tempForKeys) {
         $tempForKeys[] = $key;
         $keyToPrint = implode('.', $tempForKeys);
-        ['symbol' => $symbol, 'value' => $difference] = Stylish\getValueAndSymbol($value);
+        ['symbol' => $symbol, 'value' => $difference] = getValueAndSymbol($value);
         $valueToPrint = is_array($difference) ? '[complex value]' : var_export($difference, true);
         $valueToPrint === 'NULL' ? 'null' : $valueToPrint;
         switch ($symbol) {
@@ -42,28 +40,3 @@ function showPlain($array, $tempForKeys = [])
     $result = implode("\n", $withoutEmpty);
     return $result;
 }
-
-// function showPlain($array, $tempForKeys = [], $acc = '')
-// {
-//     $last = function ($array) {
-//          $name = end($array);
-//          return "+ {$name}";
-//     };
-//     $result = array_map(function ($key, $value) use ($tempForKeys, $acc) {
-//         $tempForKeys[] = substr($key, 2);
-//         $valueToPrint = is_array($value) ? '[complex value]' : makeString($value);
-//         switch ($key[0]) {
-//             case '-':
-//                 if (array_key_exists($last, $array)) {
-//                 }
-//                 $acc .= "Property '{$tempForKeys}' was removed";
-//                 return;
-//             case '+':
-//                 $acc .= "Property '{$tempForKeys}' was added with value: {$valueToPrint}\n";
-//                 return;
-//             case ' ':
-//                 $acc = is_array($value) : showPlain($value, )
-
-//         }
-//     }, array_keys($array), $array);
-// }

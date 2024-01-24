@@ -6,3 +6,4 @@ ku.json
 /tests/fixtures/coverage/
 /build/
 /.phpunit.cache/
+json.php

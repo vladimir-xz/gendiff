@@ -11,28 +11,6 @@ function makeString(mixed $item)
     return $item;
 }
 
-function toString(mixed $item, $separator = '    ', $depth = 0, $offset = 2)
-{
-    $adding = str_repeat($separator, $depth);
-    if (!is_array($item)) {
-        return trim(var_export($item, true), "'");
-    }
-    $result = array_map(function ($key, $value) use ($separator, $depth) {
-        $depth += 1;
-        $adding = str_repeat($separator, $depth);
-        $stringValue = toString($value, $separator, $depth);
-        $result = "{$adding}{$key}: {$stringValue}";
-        return $result;
-    }, array_keys($item), $item);
-    $final = implode("\n", $result);
-    return "{\n{$final}\n{$adding}}";
-}
-
-function getValueAndSymbol($array)
-{
-    return ['symbol' => $array['symbol'], 'value' => $array['value']];
-}
-
 // function getNewLine($array)
 // {
 //     if (array_key_exists('+', $array)) {
@@ -87,23 +65,6 @@ function getValueAndSymbol($array)
 //         return getChangedLine($value);
 //     }
 // }
-
-function showStylish($array)
-{
-    $result = array_map(function ($key, $value) {
-        ['symbol' => $symbol, 'value' => $difference] = getValueAndSymbol($value);
-        if ($symbol === 'both') {
-            $deletedValue = ["- {$key}" => $difference['-']];
-            $addedValue = ["+ {$key}" => $difference['+']];
-            return [...$deletedValue, ...$addedValue];
-        } elseif ($symbol === '+/-') {
-            return ["  {$key}" => showStylish($difference)];
-        } else {
-            return ["{$symbol} {$key}" => $difference];
-        }
-    }, array_keys($array), $array);
-    return array_merge(...$result);
-}
 
 function printing($array, $separator = '    ', $depth = 0, $offset = 2)
 {
