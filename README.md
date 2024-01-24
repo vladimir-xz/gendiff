@@ -13,3 +13,7 @@ Nested Tree, stylish print:
 Nested Tree, plain print:
 
 [![asciicast](https://asciinema.org/a/RUoIcj3N1Kg9TgoNjOskYFlzf.svg)](https://asciinema.org/a/RUoIcj3N1Kg9TgoNjOskYFlzf)
+
+Format report - json:
+
+[![asciicast](https://asciinema.org/a/Qn0NTxcuXQ3qT1pLmXQSEdgZV.svg)](https://asciinema.org/a/Qn0NTxcuXQ3qT1pLmXQSEdgZV)
