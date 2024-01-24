@@ -61,6 +61,11 @@ function ifArraysOfSameType($array1, $array2)
     return true;
 }
 
+function addLine($symbol, $array)
+{
+    return ['symbol' => $symbol, 'value' => $array ];
+}
+
 function addNewLine($array)
 {
     return ['symbol' => '+', 'value' => $array ];

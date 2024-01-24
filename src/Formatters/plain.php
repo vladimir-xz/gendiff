@@ -40,7 +40,7 @@ function showPlain($array, $tempForKeys = [])
     }, array_keys($array), $array);
     $withoutEmpty = array_filter($result, fn ($array) => $array);
     $result = implode("\n", $withoutEmpty);
-    echo "{$result}\n";
+    return $result;
 }
 
 // function showPlain($array, $tempForKeys = [], $acc = '')
