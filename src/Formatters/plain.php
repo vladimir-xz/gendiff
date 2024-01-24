@@ -18,16 +18,14 @@ function showPlain(array $comparedArray, array $tempForKeys = [])
                 ? '[complex value]'
                 : var_export($difference['-'], true);
                 if ($oldValue === "'null'") {
-                    $newValue = 'null';
+                    $oldValue = 'null';
                 }
-                $oldValue === 'NULL' ? 'null' : $oldValue;
                 $newValue = is_array($difference['+'])
                 ? '[complex value]'
                 : var_export($difference['+'], true);
                 if ($newValue === "'null'") {
                     $newValue = 'null';
                 }
-                $newValue === "'null'" ? 'null' : $newValue;
                 return "Property '{$keyToPrint}' was updated. From {$oldValue} to {$newValue}";
             case '+/-':
                 return showPlain($difference, $tempForKeys);
