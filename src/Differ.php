@@ -4,6 +4,7 @@ namespace Differ\Differ;
 
 use function Differ\Parsers\parseFile;
 use function Differ\Formatters\chooseFormate;
+use function Functional\sort;
 
 function ifArraysOfSameType(mixed $array1, mixed $array2)
 {
@@ -47,8 +48,8 @@ function getValueAndSymbol($array)
 
 function compareData(array $arrayOne, array $arrayTwo)
 {
-    $merged = array_merge($arrayOne, $arrayTwo);
-    ksort($merged);
+    $mergedKeys = array_merge(array_keys($arrayOne), array_keys($arrayTwo));
+    $sortedKeys = sort(array_unique($mergedKeys), fn ($left, $right) => strcmp($left, $right), true);
     $result = array_map(function ($key) use ($arrayOne, $arrayTwo) {
         if (!array_key_exists($key, $arrayTwo)) {
             return [$key => addDeletedLine($arrayOne[$key])];
@@ -63,7 +64,7 @@ function compareData(array $arrayOne, array $arrayTwo)
                 return [$key => addOldAndNew($arrayOne[$key], $arrayTwo[$key])];
             }
         }
-    }, array_keys($merged));
+    }, $sortedKeys);
     return array_merge(...$result);
 }
 
@@ -84,7 +85,7 @@ function makeArrayFromDifferencies(array $comparedValues)
     return array_merge(...$result);
 }
 
-function genDiff(string $pathToFile1, string $pathToFile2, string $format)
+function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish')
 {
     $firstFile = (array)parseFile($pathToFile1);
     $secondFile = (array)parseFile($pathToFile2);
