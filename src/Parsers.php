@@ -4,7 +4,7 @@ namespace Differ\Parsers;
 
 use Symfony\Component\Yaml\Yaml;
 
-function parseFile($pathToFile)
+function parseFile(string $pathToFile)
 {
     if (!file_exists($pathToFile)) {
         throw new \Exception("File do not found: \"{$pathToFile}\"!");

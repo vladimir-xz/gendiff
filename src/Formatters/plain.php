@@ -4,7 +4,7 @@ namespace Differ\Formatters\plain;
 
 use function Differ\Differ\getValueAndSymbol;
 
-function showPlain($array, $tempForKeys = [])
+function showPlain(array $comparedArray, array $tempForKeys = [])
 {
     $result = array_map(function ($key, $value) use ($tempForKeys) {
         $tempForKeys[] = $key;
@@ -37,7 +37,7 @@ function showPlain($array, $tempForKeys = [])
             default:
                 throw new \Exception("Unknown symbol of value: \"{$symbol}\"!");
         }
-    }, array_keys($array), $array);
+    }, array_keys($comparedArray), $comparedArray);
     $withoutEmpty = array_filter($result, fn ($array) => $array);
     $result = implode("\n", $withoutEmpty);
     return $result;

@@ -5,7 +5,7 @@ namespace Differ\Differ;
 use function Differ\Parsers\parseFile;
 use function Differ\Formatters\chooseFormate;
 
-function ifArraysOfSameType($array1, $array2)
+function ifArraysOfSameType(mixed $array1, mixed $array2)
 {
     if (array_key_exists(0, $array1) && !array_key_exists(0, $array2)) {
         return false;
@@ -15,27 +15,27 @@ function ifArraysOfSameType($array1, $array2)
     return true;
 }
 
-function addNewLine($array)
+function addNewLine(mixed $array)
 {
     return ['symbol' => '+', 'value' => $array ];
 }
 
-function addDeletedLine($array)
+function addDeletedLine(mixed $array)
 {
     return ['symbol' => '-', 'value' => $array ];
 }
 
-function addSameLine($array)
+function addSameLine(mixed $array)
 {
     return ['symbol' => ' ', 'value' => $array ];
 }
 
-function addChangedLine($array)
+function addChangedLine(mixed $array)
 {
     return ['symbol' => '+/-', 'value' => $array ];
 }
 
-function addOldAndNew($old, $new)
+function addOldAndNew(mixed $old, mixed $new)
 {
     return ['symbol' => 'both', 'value' => ['-' => $old ?? 'null', '+' => $new ?? 'null']];
 }
@@ -45,34 +45,29 @@ function getValueAndSymbol($array)
     return ['symbol' => $array['symbol'], 'value' => $array['value']];
 }
 
-function compareData($array1, $array2)
+function compareData(array $arrayOne, array $arrayTwo)
 {
-    $merged = array_merge($array1, $array2);
+    $merged = array_merge($arrayOne, $arrayTwo);
     ksort($merged);
-    $result = array_reduce(array_keys($merged), function ($acc, $key) use ($array1, $array2) {
-        if (!array_key_exists($key, $array2)) {
-            $acc[$key] = addDeletedLine($array1[$key]);
-            return $acc;
-        } elseif (!array_key_exists($key, $array1)) {
-            $acc[$key] = addNewLine($array2[$key]);
-            return $acc;
-        } elseif ($array1[$key] === $array2[$key]) {
-            $acc[$key] = addSameLine($array1[$key]);
-            return $acc;
+    $result = array_map(function ($key) use ($arrayOne, $arrayTwo) {
+        if (!array_key_exists($key, $arrayTwo)) {
+            return [$key => addDeletedLine($arrayOne[$key])];
+        } elseif (!array_key_exists($key, $arrayOne)) {
+            return [$key => addNewLine($arrayTwo[$key])];
+        } elseif ($arrayOne[$key] === $arrayTwo[$key]) {
+            return [$key => addSameLine($arrayTwo[$key])];
         } else {
-            if (is_array($array1[$key]) && is_array($array2[$key])) {
-                $acc[$key] = addChangedLine(compareData($array1[$key], $array2[$key]));
-                return $acc;
+            if (is_array($arrayOne[$key]) && is_array($arrayTwo[$key])) {
+                return [$key => addChangedLine(compareData($arrayOne[$key], $arrayTwo[$key]))];
             } else {
-                $acc[$key] = addOldAndNew($array1[$key], $array2[$key]);
-                return $acc;
+                return [$key => addOldAndNew($arrayOne[$key], $arrayTwo[$key])];
             }
         }
-    }, []);
-    return $result;
+    }, array_keys($merged));
+    return array_merge(...$result);
 }
 
-function makeArrayOfDifferencies($array)
+function makeArrayFromDifferencies(array $comparedValues)
 {
     $result = array_map(function ($key, $value) {
         ['symbol' => $symbol, 'value' => $difference] = getValueAndSymbol($value);
@@ -81,15 +76,15 @@ function makeArrayOfDifferencies($array)
             $addedValue = ["+ {$key}" => $difference['+']];
             return [...$deletedValue, ...$addedValue];
         } elseif ($symbol === '+/-') {
-            return ["  {$key}" => makeArrayOfDifferencies($difference)];
+            return ["  {$key}" => makeArrayFromDifferencies($difference)];
         } else {
             return ["{$symbol} {$key}" => $difference];
         }
-    }, array_keys($array), $array);
+    }, array_keys($comparedValues), $comparedValues);
     return array_merge(...$result);
 }
 
-function genDiff($pathToFile1, $pathToFile2, $format)
+function genDiff(string $pathToFile1, string $pathToFile2, string $format)
 {
     $firstFile = (array)parseFile($pathToFile1);
     $secondFile = (array)parseFile($pathToFile2);
