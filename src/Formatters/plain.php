@@ -7,8 +7,8 @@ use function Differ\Differ\getValueAndSymbol;
 function showPlain(array $comparedArray, array $tempForKeys = [])
 {
     $result = array_map(function ($key, $value) use ($tempForKeys) {
-        $tempForKeys[] = $key;
-        $keyToPrint = implode('.', $tempForKeys);
+        $newKeys = array_merge($tempForKeys, [$key]);
+        $keyToPrint = implode('.', $newKeys);
         ['symbol' => $symbol, 'value' => $difference] = getValueAndSymbol($value);
         $valueToPrint = is_array($difference) ? '[complex value]' : var_export($difference, true);
         $valueToPrint === 'NULL' ? 'null' : $valueToPrint;
@@ -28,7 +28,7 @@ function showPlain(array $comparedArray, array $tempForKeys = [])
                 }
                 return "Property '{$keyToPrint}' was updated. From {$oldValue} to {$newValue}";
             case '+/-':
-                return showPlain($difference, $tempForKeys);
+                return showPlain($difference, $newKeys);
             case ' ':
                 break;
             case '+':

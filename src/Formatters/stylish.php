@@ -17,22 +17,49 @@ function printing(array $comparedArray, string $separator = '    ', int $depth =
 {
     $adding = str_repeat($separator, $depth);
     $result = array_map(function ($key, $value) use ($separator, $depth, $offset) {
-        $depth += 1;
+        $nextDepth =  $depth + 1;
         if (in_array($key[0], ['+', '-', ' '], true)) {
-            $adding = str_repeat($separator, $depth);
-            $adding = substr($adding, $offset, null);
+            $addingWithouOffset = str_repeat($separator, $nextDepth);
+            $adding = substr($addingWithouOffset, $offset, null);
         } else {
-            $adding = str_repeat($separator, $depth);
+            $adding = str_repeat($separator, $nextDepth);
         }
-        $result = "{$adding}{$key}";
+        $resultKey = "{$adding}{$key}";
         if (is_array($value)) {
-            $convertedValue = printing($value, $separator, $depth, $offset);
+            $convertedValue = printing($value, $separator, $nextDepth, $offset);
         } else {
             $convertedValue = makeString($value);
         }
-        $result .= ": {$convertedValue}";
+        $result = "{$resultKey}: {$convertedValue}";
         return $result;
     }, array_keys($comparedArray), $comparedArray);
     $final = implode("\n", $result);
     return "{\n{$final}\n{$adding}}";
+}
+
+
+function pr(array $comparedArray, string $separator = '    ', int $depth = 0, int $offset = 2)
+{
+    $iter = function ($value, $depth) use ($separator, $offset) {
+        $lines = array_map(function ($key, $value) use (&$iter, $separator, $offset, $depth) {
+            $newDepth = $depth + 1;
+            if (in_array($key[0], ['+', '-', ' '], true)) {
+                $addingWithouOffset = str_repeat($separator, $newDepth);
+                $adding = substr($addingWithouOffset, $offset, null);
+            } else {
+                $adding = str_repeat($separator, $depth);
+            }
+            $keyString = "{$adding}{$key}";
+            if (is_array($value)) {
+                $convertedValue = $iter($value, $newDepth);
+            } else {
+                $convertedValue = makeString($value);
+            }
+            $stringResult = "{$keyString}: {$convertedValue}";
+            return $stringResult;
+        }, array_keys($value), $value);
+        return $lines;
+    };
+
+    return "{\n{$iter($comparedArray, $depth)}\n}";
 }
