@@ -4,9 +4,18 @@ namespace Differ\Parsers;
 
 use Symfony\Component\Yaml\Yaml;
 
+function makePathAbsolute(string $pathToFile)
+{
+    $realPath = realpath($pathToFile);
+    if ($realPath === false) {
+        return __DIR__ . $pathToFile;
+    }
+    return $realPath;
+}
+
 function parseFile(string $pathToFile)
 {
-    $absolutePath = realpath($pathToFile) ? realpath($pathToFile) : __DIR__ . $pathToFile;
+    $absolutePath = makePathAbsolute($pathToFile);
     if (!file_exists($absolutePath)) {
         throw new \Exception("File do not found: \"{$pathToFile}\"!");
     } elseif (filesize($absolutePath) == 0) {
