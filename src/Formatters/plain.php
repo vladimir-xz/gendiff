@@ -6,27 +6,23 @@ use function Differ\Differ\getValueAndSymbol;
 
 function showPlain(array $comparedArray, array $tempForKeys = [])
 {
-    $result = array_map(function ($key, $value) use ($tempForKeys) {
+    $differencies = array_map(function ($key, $value) use ($tempForKeys) {
         $newKeys = array_merge($tempForKeys, [$key]);
         $keyToPrint = implode('.', $newKeys);
         ['symbol' => $symbol, 'value' => $difference] = getValueAndSymbol($value);
-        $valueToPrint = is_array($difference) ? '[complex value]' : var_export($difference, true);
-        $valueToPrint === 'NULL' ? 'null' : $valueToPrint;
+        $valueString = is_array($difference) ? '[complex value]' : var_export($difference, true);
+        $valueToPrint = $valueString === "'null'" ? 'null' : $valueString;
         switch ($symbol) {
             case 'both':
-                $oldValue = is_array($difference['-'])
+                $oldValueString = is_array($difference['-'])
                 ? '[complex value]'
                 : var_export($difference['-'], true);
-                if ($oldValue === "'null'") {
-                    $oldValue = 'null';
-                }
-                $newValue = is_array($difference['+'])
+                $oldValueToPrint = $oldValueString === "'null'" ? 'null' : $oldValueString ;
+                $newValueString = is_array($difference['+'])
                 ? '[complex value]'
                 : var_export($difference['+'], true);
-                if ($newValue === "'null'") {
-                    $newValue = 'null';
-                }
-                return "Property '{$keyToPrint}' was updated. From {$oldValue} to {$newValue}";
+                $newValueToPrint = $newValueString === "'null'" ? 'null' : $newValueString ;
+                return "Property '{$keyToPrint}' was updated. From {$oldValueToPrint} to {$newValueToPrint}";
             case '+/-':
                 return showPlain($difference, $newKeys);
             case ' ':
@@ -39,7 +35,7 @@ function showPlain(array $comparedArray, array $tempForKeys = [])
                 throw new \Exception("Unknown symbol of value: \"{$symbol}\"!");
         }
     }, array_keys($comparedArray), $comparedArray);
-    $withoutEmpty = array_filter($result, fn ($array) => $array);
+    $withoutEmpty = array_filter($differencies, fn ($array) => $array);
     $result = implode("\n", $withoutEmpty);
     return $result;
 }
