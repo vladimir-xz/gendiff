@@ -64,5 +64,5 @@ function stylishPrinting(array $comparedArray, string $separator = '    ', int $
         return implode("\n", ["{", ...$lines, "{$endingSeparator}}"]);
     };
 
-    return "{$iter($comparedArray, $depth)}\n";
+    return "{$iter($comparedArray, $depth)}";
 }
