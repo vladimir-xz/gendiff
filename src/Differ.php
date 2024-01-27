@@ -58,7 +58,7 @@ function compareData(array $arrayOne, array $arrayTwo)
     return array_merge(...$result);
 }
 
-function makeArrayFromDifferencies(array $comparedValues)
+function makeArrayFromDifferencies(array $comparedData)
 {
     $result = array_map(function ($key, $value) {
         ['symbol' => $symbol, 'value' => $difference] = getValueAndSymbol($value);
@@ -71,14 +71,14 @@ function makeArrayFromDifferencies(array $comparedValues)
         } else {
             return ["{$symbol} {$key}" => $difference];
         }
-    }, array_keys($comparedValues), $comparedValues);
+    }, array_keys($comparedData), $comparedData);
     return array_merge(...$result);
 }
 
 function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish')
 {
-    $firstFile = (array)parseFile($pathToFile1);
-    $secondFile = (array)parseFile($pathToFile2);
+    $firstFile = parseFile($pathToFile1);
+    $secondFile = parseFile($pathToFile2);
     $array = compareData($firstFile, $secondFile);
     return chooseFormateAndPrint($format, $array);
 }
