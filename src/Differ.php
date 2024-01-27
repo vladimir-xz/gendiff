@@ -79,6 +79,6 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'sty
 {
     $firstFile = parseFile($pathToFile1);
     $secondFile = parseFile($pathToFile2);
-    $array = compareData($firstFile, $secondFile);
-    return chooseFormateAndPrint($format, $array);
+    $differencies = compareData($firstFile, $secondFile);
+    return chooseFormateAndPrint($format, $differencies);
 }

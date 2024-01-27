@@ -6,16 +6,16 @@ use function Differ\Differ\makeArrayFromDifferencies;
 use function Differ\Formatters\plain\showPlain;
 use function Differ\Formatters\Stylish\stylishPrinting;
 
-function chooseFormateAndPrint(string $format, array $array)
+function chooseFormateAndPrint(string $format, array $differencies)
 {
     switch ($format) {
         case 'stylish':
-            $result = makeArrayFromDifferencies($array);
+            $result = makeArrayFromDifferencies($differencies);
             return stylishPrinting($result);
         case 'plain':
-            return showPlain($array);
+            return showPlain($differencies);
         case 'json':
-            $result = makeArrayFromDifferencies($array);
+            $result = makeArrayFromDifferencies($differencies);
             $resultJson = json_encode($result, JSON_PRETTY_PRINT);
             if ($resultJson === false) {
                 throw new \Exception("Failed to turn array into string");
