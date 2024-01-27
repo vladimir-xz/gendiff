@@ -5,6 +5,7 @@ hi.json
 ku.json
 /tests/fixtures/coverage/
 /build/
-/.phpunit.cache/
 json.php
 /.phpunit.cache/
+.phpunit.result.cache
+report/

@@ -6,8 +6,8 @@ use Symfony\Component\Yaml\Yaml;
 
 function parseFile(string $pathToFile)
 {
-    $absolutePath = realpath($pathToFile);
-    if ($absolutePath === false) {
+    $absolutePath = realpath($pathToFile) ?: __DIR__ . $pathToFile;
+    if (!file_exists($absolutePath)) {
         throw new \Exception("File do not found: \"{$pathToFile}\"!");
     } elseif (filesize($absolutePath) == 0) {
         $pathBaseName = pathinfo($absolutePath, PATHINFO_BASENAME);

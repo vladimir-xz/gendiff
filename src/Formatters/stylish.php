@@ -15,7 +15,7 @@ function makeString(mixed $item)
     return $item;
 }
 
-function stylishPrinting(array $comparedArray, string $separator = '    ', int $depth = 0, int $offset = 2)
+function stylishPrinting1(array $comparedArray, string $separator = '    ', int $depth = 0, int $offset = 2)
 {
     $adding = str_repeat($separator, $depth);
     $result = array_map(function ($key, $value) use ($separator, $depth, $offset) {
@@ -40,28 +40,29 @@ function stylishPrinting(array $comparedArray, string $separator = '    ', int $
 }
 
 
-// function pr(array $comparedArray, string $separator = '    ', int $depth = 0, int $offset = 2)
-// {
-//     $iter = function ($value, $depth) use ($separator, $offset) {
-//         $lines = array_map(function ($key, $value) use (&$iter, $separator, $offset, $depth) {
-//             $newDepth = $depth + 1;
-//             if (in_array($key[0], ['+', '-', ' '], true)) {
-//                 $addingWithouOffset = str_repeat($separator, $newDepth);
-//                 $adding = substr($addingWithouOffset, $offset, null);
-//             } else {
-//                 $adding = str_repeat($separator, $depth);
-//             }
-//             $keyString = "{$adding}{$key}";
-//             if (is_array($value)) {
-//                 $convertedValue = $iter($value, $newDepth);
-//             } else {
-//                 $convertedValue = makeString($value);
-//             }
-//             $stringResult = "{$keyString}: {$convertedValue}";
-//             return $stringResult;
-//         }, array_keys($value), $value);
-//         return $lines;
-//     };
+function stylishPrinting(array $comparedArray, string $separator = '    ', int $depth = 0, int $offset = 2)
+{
+    $iter = function ($value, $depth) use (&$iter, $separator, $offset) {
+        $endingSeparator = str_repeat($separator, $depth);
+        $lines = array_map(function ($key, $value) use (&$iter, $separator, $offset, $depth) {
+            $newDepth = $depth + 1;
+            if (in_array($key[0], ['+', '-', ' '], true)) {
+                $addingWithouOffset = str_repeat($separator, $newDepth);
+                $adding = substr($addingWithouOffset, $offset, null);
+            } else {
+                $adding = str_repeat($separator, $newDepth);
+            }
+            $keyString = "{$adding}{$key}";
+            if (is_array($value)) {
+                $convertedValue = $iter($value, $newDepth);
+            } else {
+                $convertedValue = makeString($value);
+            }
+            $stringResult = "{$keyString}: {$convertedValue}";
+            return $stringResult;
+        }, array_keys($value), $value);
+        return implode("\n", ["{", ...$lines, "{$endingSeparator}}"]);
+    };
 
-//     return "{\n{$iter($comparedArray, $depth)}\n}";
-// }
+    return "{$iter($comparedArray, $depth)}\n";
+}
