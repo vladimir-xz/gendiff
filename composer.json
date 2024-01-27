@@ -7,8 +7,7 @@
             "src/Differ.php",
             "src/Formatters.php",
             "src/Formatters/stylish.php",
-            "src/Formatters/plain.php",
-            "src/Formatters/json.php"
+            "src/Formatters/plain.php"
         ]
     },
     "license": "MIT",
