@@ -38,9 +38,5 @@ $pathToFile1 = $args["<firstFile>"];
 $pathToFile2 = $args["<secondFile>"];
 $format = $args["--format"];
 
-// $pathToFile1 = '../tests/fixtures/NestedOne.yaml';
-// $pathToFile2 = '../tests/fixtures/NestedTwo.yaml';
-// $format = 'stylish';
-
 $diff = Differ\genDiff($pathToFile1, $pathToFile2, $format);
 echo $diff;
