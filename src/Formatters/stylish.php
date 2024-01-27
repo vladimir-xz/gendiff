@@ -15,7 +15,7 @@ function makeString(mixed $item)
     return $item;
 }
 
-function printing(array $comparedArray, string $separator = '    ', int $depth = 0, int $offset = 2)
+function stylishPrinting(array $comparedArray, string $separator = '    ', int $depth = 0, int $offset = 2)
 {
     $adding = str_repeat($separator, $depth);
     $result = array_map(function ($key, $value) use ($separator, $depth, $offset) {
@@ -28,7 +28,7 @@ function printing(array $comparedArray, string $separator = '    ', int $depth =
         }
         $resultKey = "{$adding}{$key}";
         if (is_array($value)) {
-            $convertedValue = printing($value, $separator, $nextDepth, $offset);
+            $convertedValue = stylishPrinting($value, $separator, $nextDepth, $offset);
         } else {
             $convertedValue = makeString($value);
         }

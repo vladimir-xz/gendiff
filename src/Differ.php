@@ -3,18 +3,8 @@
 namespace Differ\Differ;
 
 use function Differ\Parsers\parseFile;
-use function Differ\Formatters\chooseFormate;
+use function Differ\Formatters\chooseFormateAndPrint;
 use function Functional\sort;
-
-function ifArraysOfSameType(mixed $array1, mixed $array2)
-{
-    if (array_key_exists(0, $array1) && !array_key_exists(0, $array2)) {
-        return false;
-    } elseif (!array_key_exists(0, $array1) && array_key_exists(0, $array2)) {
-        return false;
-    }
-    return true;
-}
 
 function addNewLine(mixed $array)
 {
@@ -90,5 +80,5 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'sty
     $firstFile = (array)parseFile($pathToFile1);
     $secondFile = (array)parseFile($pathToFile2);
     $array = compareData($firstFile, $secondFile);
-    return chooseFormate($format, $array);
+    return chooseFormateAndPrint($format, $array);
 }

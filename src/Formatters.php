@@ -4,14 +4,14 @@ namespace Differ\Formatters;
 
 use function Differ\Differ\makeArrayFromDifferencies;
 use function Differ\Formatters\plain\showPlain;
-use function Differ\Formatters\Stylish\printing;
+use function Differ\Formatters\Stylish\stylishPrinting;
 
-function chooseFormate(string $format, array $array)
+function chooseFormateAndPrint(string $format, array $array)
 {
     switch ($format) {
         case 'stylish':
             $result = makeArrayFromDifferencies($array);
-            return printing($result);
+            return stylishPrinting($result);
         case 'plain':
             return showPlain($array);
         case 'json':
