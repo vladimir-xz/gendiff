@@ -4,12 +4,6 @@ namespace Differ\Parsers;
 
 use Symfony\Component\Yaml\Yaml;
 
-// function ifPathIsAbsolute($pathToFile)
-// {
-//     $absolutePath = __DIR__ . $pathToFile;
-//     if
-// }
-
 function parseFile(string $pathToFile)
 {
     $absolutePath = realpath($pathToFile);
