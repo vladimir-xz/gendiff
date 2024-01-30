@@ -27,10 +27,10 @@ Options:
 
 DOC;
 
-$params = array(
-    'help'=>true,
-    'version'=>'Generate diff'
-);
+$params = [
+    'help' => true,
+    'version' => 'Generate diff'
+];
 
 $args = Docopt::handle($doc, $params);
 
