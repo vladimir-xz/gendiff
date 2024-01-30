@@ -5,13 +5,14 @@ namespace Differ\Tests;
 use PHPUnit\Framework\TestCase;
 
 use function Differ\Parsers\parseFile;
+use function Differ\Parsers\makePathAbsolute;
 
 class ParsersTest extends TestCase
 {
     public function testDoNotExistException(): void
     {
         $this->expectExceptionMessage("File do not found: \"/notexist.txt\"!");
-        parseFile('/notexist.txt');
+        makePathAbsolute('/notexist.txt');
     }
     public function testBadExtention(): void
     {
@@ -23,6 +24,6 @@ class ParsersTest extends TestCase
     {
         $empty = __DIR__ . "/fixtures/empty.json";
         $this->expectExceptionMessage("File \"empty.json\" is empty.");
-        parseFile($empty);
+        makePathAbsolute($empty);
     }
 }

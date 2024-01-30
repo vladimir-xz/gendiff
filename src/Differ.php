@@ -3,6 +3,7 @@
 namespace Differ\Differ;
 
 use function Differ\Parsers\parseFile;
+use function Differ\Parsers\makePathAbsolute;
 use function Differ\Formatters\chooseFormateAndPrint;
 use function Functional\sort;
 
@@ -77,8 +78,10 @@ function makeArrayFromDifferencies(array $comparedData)
 
 function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish')
 {
-    $firstFile = parseFile($pathToFile1);
-    $secondFile = parseFile($pathToFile2);
+    $firstAbsolutePath = makePathAbsolute($pathToFile1);
+    $secondAbsolutePath = makePathAbsolute($pathToFile2);
+    $firstFile = parseFile($firstAbsolutePath);
+    $secondFile = parseFile($secondAbsolutePath);
     $differencies = compareData($firstFile, $secondFile);
     return chooseFormateAndPrint($format, $differencies);
 }
