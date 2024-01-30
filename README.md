@@ -24,7 +24,7 @@
 
 
 <h2>Instruction:</h2>
-<p>Download this git repository, open "php-project-45" directory and type in command line "make install". </p>
+<p>Download this git repository, open "php-project-48" directory and type in command line "make install". </p>
 <p>Then you can type the required format (stylish, plain or json) at the command prompt with files locations</p>
 
 
