@@ -14,38 +14,38 @@ function makeString(mixed $item, string $separator = '    ', int $depth = 0)
         $result = trim($jsonFile, "\"");
         return $result;
     }
-    $adding = str_repeat($separator, $depth);
+    $emptySpace = str_repeat($separator, $depth);
     $result = array_map(function ($key, $value) use ($separator, $depth) {
         $nextDepth =  $depth + 1;
-        $adding = str_repeat($separator, $nextDepth);
-        $resultKey = "{$adding}{$key}";
+        $emptySpace = str_repeat($separator, $nextDepth);
+        $resultKey = "{$emptySpace}{$key}";
         $convertedValue = makeString($value, $separator, $nextDepth);
         $result = "{$resultKey}: {$convertedValue}";
         return $result;
     }, array_keys($item), $item);
     $final = implode("\n", $result);
-    return "{\n{$final}\n{$adding}}";
+    return "{\n{$final}\n{$emptySpace}}";
 }
 
 function makeStringUsingInterfaces(array $comparedData, string $separator = '    ', int $depth = 0, int $offset = 2)
 {
-    $adding = str_repeat($separator, $depth);
+    $emptySpace = str_repeat($separator, $depth);
     $result = array_map(function ($key, $value) use ($separator, $depth, $offset) {
         ['symbol' => $symbol, 'value' => $difference] = getValueAndSymbol($value);
         $nextDepth =  $depth + 1;
-        $adding = substr(str_repeat($separator, $nextDepth), $offset, null);
+        $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
         if ($symbol === 'both') {
             $deletedValue = makeString($difference['-'], $separator, $nextDepth);
             $addedValue = makeString($difference['+'], $separator, $nextDepth);
-            return "{$adding}- {$key}: {$deletedValue}\n{$adding}+ {$key}: {$addedValue}";
+            return "{$emptySpace}- {$key}: {$deletedValue}\n{$emptySpace}+ {$key}: {$addedValue}";
         } elseif ($symbol === '+/-') {
             $convertedValue = makeStringUsingInterfaces($difference, $separator, $nextDepth);
-            return "{$adding}  {$key}: {$convertedValue}";
+            return "{$emptySpace}  {$key}: {$convertedValue}";
         } else {
             $valueString = makeString($difference, $separator, $nextDepth);
-            return "{$adding}{$symbol} {$key}: {$valueString}";
+            return "{$emptySpace}{$symbol} {$key}: {$valueString}";
         }
     }, array_keys($comparedData), $comparedData);
     $final = implode("\n", $result);
-    return "{\n{$final}\n{$adding}}";
+    return "{\n{$final}\n{$emptySpace}}";
 }
