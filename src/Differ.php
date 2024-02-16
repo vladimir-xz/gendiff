@@ -34,7 +34,7 @@ function addOldAndNew(mixed $old, mixed $new)
 
 function getValueAndSymbol(array $array)
 {
-    return ['symbol' => $array['symbol'], 'value' => $array['value']];
+    return ['symbol' => $array['symbol'] ?? '', 'value' => $array['value'] ?? $array];
 }
 
 function compareData(array $arrayOne, array $arrayTwo)
@@ -56,23 +56,6 @@ function compareData(array $arrayOne, array $arrayTwo)
             }
         }
     }, $sortedKeys);
-    return array_merge(...$result);
-}
-
-function makeArrayFromDifferencies(array $comparedData)
-{
-    $result = array_map(function ($key, $value) {
-        ['symbol' => $symbol, 'value' => $difference] = getValueAndSymbol($value);
-        if ($symbol === 'both') {
-            $deletedValue = ["- {$key}" => $difference['-']];
-            $addedValue = ["+ {$key}" => $difference['+']];
-            return [...$deletedValue, ...$addedValue];
-        } elseif ($symbol === '+/-') {
-            return ["  {$key}" => makeArrayFromDifferencies($difference)];
-        } else {
-            return ["{$symbol} {$key}" => $difference];
-        }
-    }, array_keys($comparedData), $comparedData);
     return array_merge(...$result);
 }
 

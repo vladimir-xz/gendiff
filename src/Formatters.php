@@ -2,25 +2,24 @@
 
 namespace Differ\Formatters;
 
-use function Differ\Differ\makeArrayFromDifferencies;
 use function Differ\Formatters\plain\showPlain;
-use function Differ\Formatters\Stylish\stylishPrinting;
+use function Differ\Formatters\Stylish\makeArrayFromDifferencies;
+use function Differ\Formatters\Json\printJson;
 
 function chooseFormateAndPrint(string $format, array $differencies)
 {
     switch ($format) {
         case 'stylish':
-            $result = makeArrayFromDifferencies($differencies);
-            return stylishPrinting($result);
+            // $result = makeArrayFromDifferencies($differencies);
+            return makeArrayFromDifferencies($differencies);
         case 'plain':
             return showPlain($differencies);
         case 'json':
-            $result = makeArrayFromDifferencies($differencies);
-            $resultJson = json_encode($result, JSON_PRETTY_PRINT);
-            if ($resultJson === false) {
-                throw new \Exception("Failed to turn array into string");
-            }
-            return str_replace("\"  ", "\"", $resultJson);
+            return printJson($differencies);
+        //     if ($resultJson === false) {
+        //         throw new \Exception("Failed to turn array into string");
+        //     }
+        //     return str_replace("\"  ", "\"", $resultJson);
         default:
             throw new \Exception("Unknown report format: \"{$format}\"!");
     }

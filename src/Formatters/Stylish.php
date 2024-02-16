@@ -2,7 +2,9 @@
 
 namespace Differ\Formatters\Stylish;
 
-function makeString(mixed $item)
+use function Differ\Differ\getValueAndSymbol;
+
+function makeString(mixed $item, string $separator = '    ', int $depth = 0)
 {
     if (!is_array($item)) {
         $jsonFile = json_encode($item, JSON_PRETTY_PRINT, 512);
@@ -12,29 +14,39 @@ function makeString(mixed $item)
         $result = trim($jsonFile, "\"");
         return $result;
     }
-    return $item;
+    $adding = str_repeat($separator, $depth);
+    $result = array_map(function ($key, $value) use ($separator, $depth) {
+        $nextDepth =  $depth + 1;
+        $adding = str_repeat($separator, $nextDepth);
+        $resultKey = "{$adding}{$key}";
+        $convertedValue = makeString($value, $separator, $nextDepth);
+        $result = "{$resultKey}: {$convertedValue}";
+        return $result;
+    }, array_keys($item), $item);
+    $final = implode("\n", $result);
+    return "{\n{$final}\n{$adding}}";
 }
 
-function stylishPrinting(array $comparedArray, string $separator = '    ', int $depth = 0, int $offset = 2)
+function makeArrayFromDifferencies(array $comparedData, string $separator = '    ', int $depth = 0, int $offset = 2)
 {
     $adding = str_repeat($separator, $depth);
     $result = array_map(function ($key, $value) use ($separator, $depth, $offset) {
+        ['symbol' => $symbol, 'value' => $difference] = getValueAndSymbol($value);
         $nextDepth =  $depth + 1;
-        if (in_array($key[0], ['+', '-', ' '], true)) {
-            $addingWithouOffset = str_repeat($separator, $nextDepth);
-            $adding = substr($addingWithouOffset, $offset, null);
+        $addingWithouOffset = str_repeat($separator, $nextDepth);
+        $adding = substr($addingWithouOffset, $offset, null);
+        if ($symbol === 'both') {
+            $deletedValue = makeString($difference['-'], $separator, $nextDepth);
+            $addedValue = makeString($difference['+'], $separator, $nextDepth);
+            return "{$adding}- {$key}: {$deletedValue}\n{$adding}+ {$key}: {$addedValue}";
+        } elseif ($symbol === '+/-') {
+            $convertedValue = makeArrayFromDifferencies($difference, $separator, $nextDepth);
+            return "{$adding}  {$key}: {$convertedValue}";
         } else {
-            $adding = str_repeat($separator, $nextDepth);
+            $valueSting = makeString($difference, $separator, $nextDepth);
+            return "{$adding}{$symbol} {$key}: {$valueSting}";
         }
-        $resultKey = "{$adding}{$key}";
-        if (is_array($value)) {
-            $convertedValue = stylishPrinting($value, $separator, $nextDepth, $offset);
-        } else {
-            $convertedValue = makeString($value);
-        }
-        $result = "{$resultKey}: {$convertedValue}";
-        return $result;
-    }, array_keys($comparedArray), $comparedArray);
+    }, array_keys($comparedData), $comparedData);
     $final = implode("\n", $result);
     return "{\n{$final}\n{$adding}}";
 }
