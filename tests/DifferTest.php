@@ -15,11 +15,11 @@ final class DifferTest extends TestCase
     {
         $nestedFirstFileJson = __DIR__ . "/fixtures/NestedOne.json";
         $nestedSecondFileJson = __DIR__ . "/fixtures/NestedTwo.json";
-        $resultNested = file_get_contents(__DIR__ . "/fixtures/exampleNested.txt");
+        $resultNested = file_get_contents(__DIR__ . "/fixtures/ExampleNested.txt");
         $nestedFirstFileYaml = __DIR__ . "/fixtures/NestedOne.yaml";
         $nestedSecondFileYaml = __DIR__ . "/fixtures/NestedTwo.yml";
-        $resultPlain = file_get_contents(__DIR__ . "/fixtures/resultPlain.txt");
-        $resultJson = __DIR__ . "/fixtures/resultOfJson.json";
+        $resultPlain = file_get_contents(__DIR__ . "/fixtures/ResultPlain.txt");
+        $resultJson = __DIR__ . "/fixtures/ResultOfJson.json";
         $resultJsonContent = file_get_contents($resultJson, true);
 
         return [
@@ -38,27 +38,3 @@ final class DifferTest extends TestCase
         $this->assertEquals($expected, genDiff($arrayOne, $arrayTwo, $format));
     }
 }
-
-// public function testGenDiff(): void
-// {
-//         $nestedFirstFileJson = __DIR__ . "/fixtures/NestedOne.json";
-//         $nestedSecondFileJson = __DIR__ . "/fixtures/NestedTwo.json";
-//         $resultNested = file_get_contents(__DIR__ . "/fixtures/exampleNested.txt");
-
-//         $this->assertEquals($resultNested, genDiff($nestedFirstFileJson, $nestedSecondFileJson, 'stylish'));
-
-//         $nestedFirstFileYaml = __DIR__ . "/fixtures/NestedOne.yaml";
-//         $nestedSecondFileYaml = __DIR__ . "/fixtures/NestedTwo.yml";
-
-
-//         $this->assertEquals($resultNested, genDiff($nestedFirstFileYaml, $nestedSecondFileYaml, 'stylish'));
-
-//         $resultPlain = file_get_contents(__DIR__ . "/fixtures/resultPlain.txt");
-
-//         $this->assertEquals($resultPlain, genDiff($nestedFirstFileYaml, $nestedSecondFileYaml, 'plain'));
-
-//         $resultJson = __DIR__ . "/fixtures/resultOfJson.json";
-//         $resultJsonContent = file_get_contents($resultJson, true);
-
-//         $this->assertEquals($resultJsonContent, genDiff($nestedFirstFileYaml, $nestedSecondFileYaml, 'json'));
-// }

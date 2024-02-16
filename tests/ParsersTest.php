@@ -11,19 +11,19 @@ class ParsersTest extends TestCase
 {
     public function testDoNotExistException(): void
     {
-        $this->expectExceptionMessage("File do not found: \"/notexist.txt\"!");
-        makePathAbsolute('/notexist.txt');
+        $this->expectExceptionMessage("File do not found: \"/Notexist.txt\"!");
+        makePathAbsolute('/Notexist.txt');
     }
     public function testBadExtention(): void
     {
-        $txtFile = __DIR__ . "/fixtures/example.txt";
+        $txtFile = __DIR__ . "/fixtures/Example.txt";
         $this->expectExceptionMessage("Unknow file extention: \"txt\"!");
         parseFile($txtFile);
     }
     public function testEmptyDile(): void
     {
-        $empty = __DIR__ . "/fixtures/empty.json";
-        $this->expectExceptionMessage("File \"empty.json\" is empty.");
+        $empty = __DIR__ . "/fixtures/Empty.json";
+        $this->expectExceptionMessage("File \"Empty.json\" is empty.");
         makePathAbsolute($empty);
     }
 }
