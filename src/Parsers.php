@@ -26,9 +26,6 @@ function parseFile(string $pathToFile)
     $fileExtention = pathinfo($pathToFile, PATHINFO_EXTENSION);
     if ($fileExtention === 'json') {
         $content = file_get_contents($pathToFile, true);
-        if ($content === false) {
-            throw new \Exception("Unknow file extention: \"{$content}\"!");
-        }
         return json_decode($content, true);
     } elseif ($fileExtention === 'yaml' || $fileExtention === 'yml') {
         $content = Yaml::parseFile($pathToFile);
