@@ -33,8 +33,7 @@ function makeArrayFromDifferencies(array $comparedData, string $separator = '   
     $result = array_map(function ($key, $value) use ($separator, $depth, $offset) {
         ['symbol' => $symbol, 'value' => $difference] = getValueAndSymbol($value);
         $nextDepth =  $depth + 1;
-        $addingWithouOffset = str_repeat($separator, $nextDepth);
-        $adding = substr($addingWithouOffset, $offset, null);
+        $adding = substr(str_repeat($separator, $nextDepth), $offset, null);
         if ($symbol === 'both') {
             $deletedValue = makeString($difference['-'], $separator, $nextDepth);
             $addedValue = makeString($difference['+'], $separator, $nextDepth);
@@ -43,8 +42,8 @@ function makeArrayFromDifferencies(array $comparedData, string $separator = '   
             $convertedValue = makeArrayFromDifferencies($difference, $separator, $nextDepth);
             return "{$adding}  {$key}: {$convertedValue}";
         } else {
-            $valueSting = makeString($difference, $separator, $nextDepth);
-            return "{$adding}{$symbol} {$key}: {$valueSting}";
+            $valueString = makeString($difference, $separator, $nextDepth);
+            return "{$adding}{$symbol} {$key}: {$valueString}";
         }
     }, array_keys($comparedData), $comparedData);
     $final = implode("\n", $result);
