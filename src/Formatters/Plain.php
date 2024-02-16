@@ -6,7 +6,7 @@ use function Differ\Differ\getValueAndSymbol;
 
 function stringifyNullProperly(string $value)
 {
-    $newValue = $value === "'null'" ? 'null' : $value;
+    $newValue = $value === "NULL" ? 'null' : $value;
     return $newValue;
 }
 

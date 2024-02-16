@@ -29,7 +29,7 @@ function addChangedLine(mixed $array)
 
 function addOldAndNew(mixed $old, mixed $new)
 {
-    return ['symbol' => 'both', 'value' => ['-' => $old ?? 'null', '+' => $new ?? 'null']];
+    return ['symbol' => 'both', 'value' => ['-' => $old, '+' => $new]];
 }
 
 function getValueAndSymbol(array $array)
