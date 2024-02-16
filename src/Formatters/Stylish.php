@@ -27,7 +27,7 @@ function makeString(mixed $item, string $separator = '    ', int $depth = 0)
     return "{\n{$final}\n{$adding}}";
 }
 
-function makeArrayFromDifferencies(array $comparedData, string $separator = '    ', int $depth = 0, int $offset = 2)
+function makeStringUsingInterfaces(array $comparedData, string $separator = '    ', int $depth = 0, int $offset = 2)
 {
     $adding = str_repeat($separator, $depth);
     $result = array_map(function ($key, $value) use ($separator, $depth, $offset) {
@@ -39,7 +39,7 @@ function makeArrayFromDifferencies(array $comparedData, string $separator = '   
             $addedValue = makeString($difference['+'], $separator, $nextDepth);
             return "{$adding}- {$key}: {$deletedValue}\n{$adding}+ {$key}: {$addedValue}";
         } elseif ($symbol === '+/-') {
-            $convertedValue = makeArrayFromDifferencies($difference, $separator, $nextDepth);
+            $convertedValue = makeStringUsingInterfaces($difference, $separator, $nextDepth);
             return "{$adding}  {$key}: {$convertedValue}";
         } else {
             $valueString = makeString($difference, $separator, $nextDepth);
