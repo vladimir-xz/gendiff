@@ -4,6 +4,12 @@ namespace Differ\Formatters\plain;
 
 use function Differ\Differ\getValueAndSymbol;
 
+function stringifyNullProperly(string $value)
+{
+    $newValue = $value === "'null'" ? 'null' : $value;
+    return $newValue;
+}
+
 function showPlain(array $comparedArray, array $tempForKeys = [])
 {
     $differencies = array_map(function ($key, $value) use ($tempForKeys) {
@@ -11,17 +17,17 @@ function showPlain(array $comparedArray, array $tempForKeys = [])
         $keyToPrint = implode('.', $newKeys);
         ['symbol' => $symbol, 'value' => $difference] = getValueAndSymbol($value);
         $valueString = is_array($difference) ? '[complex value]' : var_export($difference, true);
-        $valueToPrint = $valueString === "'null'" ? 'null' : $valueString;
+        $valueToPrint = stringifyNullProperly($valueString);
         switch ($symbol) {
             case 'both':
                 $oldValueString = is_array($difference['-'])
                 ? '[complex value]'
                 : var_export($difference['-'], true);
-                $oldValueToPrint = $oldValueString === "'null'" ? 'null' : $oldValueString ;
+                $oldValueToPrint = stringifyNullProperly($oldValueString);
                 $newValueString = is_array($difference['+'])
                 ? '[complex value]'
                 : var_export($difference['+'], true);
-                $newValueToPrint = $newValueString === "'null'" ? 'null' : $newValueString ;
+                $newValueToPrint = stringifyNullProperly($newValueString);
                 return "Property '{$keyToPrint}' was updated. From {$oldValueToPrint} to {$newValueToPrint}";
             case '+/-':
                 return showPlain($difference, $newKeys);
