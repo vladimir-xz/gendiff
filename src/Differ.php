@@ -34,7 +34,7 @@ function addOldAndNew(mixed $old, mixed $new)
 
 function getValueAndSymbol(array $array)
 {
-    return ['symbol' => $array['symbol'] ?? '', 'value' => $array['value'] ?? $array];
+    return ['symbol' => $array['symbol'], 'value' => $array['value']];
 }
 
 function compareData(array $arrayOne, array $arrayTwo)
