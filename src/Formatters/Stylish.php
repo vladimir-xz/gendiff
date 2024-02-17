@@ -35,9 +35,11 @@ function makeStringUsingInterfaces(array $comparedData, string $separator = '   
         $nextDepth =  $depth + 1;
         $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
         if ($status === 'old and new') {
-            $deletedValue = makeString($difference['-'], $separator, $nextDepth);
-            $addedValue = makeString($difference['+'], $separator, $nextDepth);
-            return "{$emptySpace}- {$key}: {$deletedValue}\n{$emptySpace}+ {$key}: {$addedValue}";
+            $oldAndNewValues = array_map(function ($value) use ($separator, $nextDepth, $emptySpace, $key) {
+                $stringValue = makeString($value['value'], $separator, $nextDepth);
+                return "{$emptySpace}{$value['symbol']}{$key}: {$stringValue}";
+            }, $difference);
+            return implode("\n", $oldAndNewValues);
         } elseif ($status === 'changed') {
             $convertedValue = makeStringUsingInterfaces($difference, $separator, $nextDepth);
             return "{$emptySpace}{$symbol}{$key}: {$convertedValue}";

@@ -29,7 +29,7 @@ function addChangedLine(mixed $array)
 
 function addOldAndNew(mixed $old, mixed $new)
 {
-    return ['status' => 'old and new', 'symbol' => '  ', 'value' => ['-' => $old, '+' => $new]];
+    return ['status' => 'old and new', 'symbol' => '', 'value' => [addDeletedLine($old), addNewLine($new)]];
 }
 
 function getNod(array $array)

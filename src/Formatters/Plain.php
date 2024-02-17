@@ -10,6 +10,15 @@ function stringifyNullProperly(string $value)
     return $newValue;
 }
 
+function printValuePlain(mixed $value)
+{
+    $valueString = is_array($value)
+    ? '[complex value]'
+    : var_export($value, true);
+    $valueToPrint = stringifyNullProperly($valueString);
+    return $valueToPrint;
+}
+
 function showPlain(array $comparedArray, array $tempForKeys = [])
 {
     $differencies = array_map(function ($key, $value) use ($tempForKeys) {
@@ -20,15 +29,16 @@ function showPlain(array $comparedArray, array $tempForKeys = [])
         $valueToPrint = stringifyNullProperly($valueString);
         switch ($status) {
             case 'old and new':
-                $oldValueString = is_array($difference['-'])
-                ? '[complex value]'
-                : var_export($difference['-'], true);
-                $oldValueToPrint = stringifyNullProperly($oldValueString);
-                $newValueString = is_array($difference['+'])
-                ? '[complex value]'
-                : var_export($difference['+'], true);
-                $newValueToPrint = stringifyNullProperly($newValueString);
-                return "Property '{$keyToPrint}' was updated. From {$oldValueToPrint} to {$newValueToPrint}";
+                $oldAndNewValues = array_map(fn ($value) => printValuePlain($value['value']), $difference);
+                // $oldValueString = is_array($difference['-'])
+                // ? '[complex value]'
+                // : var_export($difference['-'], true);
+                // $oldValueToPrint = stringifyNullProperly($oldValueString);
+                // $newValueString = is_array($difference['+'])
+                // ? '[complex value]'
+                // : var_export($difference['+'], true);
+                // $newValueToPrint = stringifyNullProperly($newValueString);
+                return "Property '{$keyToPrint}' was updated. From {$oldAndNewValues[0]} to {$oldAndNewValues[1]}";
             case 'changed':
                 return showPlain($difference, $newKeys);
             case 'same':
