@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\Formatters\plain;
+namespace Differ\Formatters\Plain;
 
 use function Differ\Differ\getValueAndSymbol;
 

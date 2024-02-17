@@ -37,23 +37,21 @@ function getValueAndSymbol(array $array)
     return ['symbol' => $array['symbol'], 'value' => $array['value']];
 }
 
-function compareData(array $arrayOne, array $arrayTwo)
+function compare(array $dataOne, array $dataTwo)
 {
-    $mergedKeys = array_merge(array_keys($arrayOne), array_keys($arrayTwo));
+    $mergedKeys = array_merge(array_keys($dataOne), array_keys($dataTwo));
     $sortedKeys = sort(array_unique($mergedKeys), fn ($left, $right) => strcmp($left, $right), true);
-    $result = array_map(function ($key) use ($arrayOne, $arrayTwo) {
-        if (!array_key_exists($key, $arrayTwo)) {
-            return [$key => addDeletedLine($arrayOne[$key])];
-        } elseif (!array_key_exists($key, $arrayOne)) {
-            return [$key => addNewLine($arrayTwo[$key])];
-        } elseif ($arrayOne[$key] === $arrayTwo[$key]) {
-            return [$key => addSameLine($arrayTwo[$key])];
+    $result = array_map(function ($key) use ($dataOne, $dataTwo) {
+        if (!array_key_exists($key, $dataTwo)) {
+            return [$key => addDeletedLine($dataOne[$key])];
+        } elseif (!array_key_exists($key, $dataOne)) {
+            return [$key => addNewLine($dataTwo[$key])];
+        } elseif ($dataOne[$key] === $dataTwo[$key]) {
+            return [$key => addSameLine($dataTwo[$key])];
+        } elseif (is_array($dataOne[$key]) && is_array($dataTwo[$key])) {
+            return [$key => addChangedLine(compare($dataOne[$key], $dataTwo[$key]))];
         } else {
-            if (is_array($arrayOne[$key]) && is_array($arrayTwo[$key])) {
-                return [$key => addChangedLine(compareData($arrayOne[$key], $arrayTwo[$key]))];
-            } else {
-                return [$key => addOldAndNew($arrayOne[$key], $arrayTwo[$key])];
-            }
+            return [$key => addOldAndNew($dataOne[$key], $dataTwo[$key])];
         }
     }, $sortedKeys);
     return array_merge(...$result);
@@ -65,6 +63,6 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'sty
     $secondAbsolutePath = makePathAbsolute($pathToFile2);
     $firstFile = parseFile($firstAbsolutePath);
     $secondFile = parseFile($secondAbsolutePath);
-    $differencies = compareData($firstFile, $secondFile);
+    $differencies = compare($firstFile, $secondFile);
     return chooseFormateAndPrint($format, $differencies);
 }

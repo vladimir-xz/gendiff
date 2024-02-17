@@ -2,7 +2,7 @@
 
 namespace Differ\Formatters;
 
-use function Differ\Formatters\plain\showPlain;
+use function Differ\Formatters\Plain\showPlain;
 use function Differ\Formatters\Stylish\makeStringUsingInterfaces;
 use function Differ\Formatters\Json\printJson;
 
