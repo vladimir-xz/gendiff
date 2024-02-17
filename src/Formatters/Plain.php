@@ -25,8 +25,6 @@ function showPlain(array $comparedArray, array $tempForKeys = [])
         $newKeys = array_merge($tempForKeys, [$key]);
         $keyToPrint = implode('.', $newKeys);
         ['status' => $status, 'value' => $difference] = getNod($value);
-        $valueString = is_array($difference) ? '[complex value]' : var_export($difference, true);
-        $valueToPrint = stringifyNullProperly($valueString);
         switch ($status) {
             case 'old and new':
                 $oldAndNewValues = array_map(fn ($value) => printValuePlain($value['value']), $difference);
@@ -44,7 +42,8 @@ function showPlain(array $comparedArray, array $tempForKeys = [])
             case 'same':
                 break;
             case 'added':
-                return "Property '{$keyToPrint}' was added with value: {$valueToPrint}";
+                $valueString = printValuePlain($difference);
+                return "Property '{$keyToPrint}' was added with value: {$valueString}";
             case 'deleted':
                 return "Property '{$keyToPrint}' was removed";
             default:
