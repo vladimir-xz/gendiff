@@ -2,7 +2,7 @@
 
 namespace Differ\Formatters\Stylish;
 
-use function Differ\Differ\getValueAndSymbol;
+use function Differ\Differ\getNod;
 
 function makeString(mixed $item, string $separator = '    ', int $depth = 0)
 {
@@ -31,19 +31,19 @@ function makeStringUsingInterfaces(array $comparedData, string $separator = '   
 {
     $emptySpace = str_repeat($separator, $depth);
     $result = array_map(function ($key, $value) use ($separator, $depth, $offset) {
-        ['symbol' => $symbol, 'value' => $difference] = getValueAndSymbol($value);
+        ['status' => $status, 'symbol' => $symbol, 'value' => $difference] = getNod($value);
         $nextDepth =  $depth + 1;
         $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
-        if ($symbol === 'both') {
+        if ($status === 'old and new') {
             $deletedValue = makeString($difference['-'], $separator, $nextDepth);
             $addedValue = makeString($difference['+'], $separator, $nextDepth);
             return "{$emptySpace}- {$key}: {$deletedValue}\n{$emptySpace}+ {$key}: {$addedValue}";
-        } elseif ($symbol === '+/-') {
+        } elseif ($status === 'changed') {
             $convertedValue = makeStringUsingInterfaces($difference, $separator, $nextDepth);
-            return "{$emptySpace}  {$key}: {$convertedValue}";
+            return "{$emptySpace}{$symbol}{$key}: {$convertedValue}";
         } else {
             $valueString = makeString($difference, $separator, $nextDepth);
-            return "{$emptySpace}{$symbol} {$key}: {$valueString}";
+            return "{$emptySpace}{$symbol}{$key}: {$valueString}";
         }
     }, array_keys($comparedData), $comparedData);
     $final = implode("\n", $result);

@@ -2,7 +2,7 @@
 
 namespace Differ\Formatters\Plain;
 
-use function Differ\Differ\getValueAndSymbol;
+use function Differ\Differ\getNod;
 
 function stringifyNullProperly(string $value)
 {
@@ -15,11 +15,11 @@ function showPlain(array $comparedArray, array $tempForKeys = [])
     $differencies = array_map(function ($key, $value) use ($tempForKeys) {
         $newKeys = array_merge($tempForKeys, [$key]);
         $keyToPrint = implode('.', $newKeys);
-        ['symbol' => $symbol, 'value' => $difference] = getValueAndSymbol($value);
+        ['status' => $status,'symbol' => $symbol, 'value' => $difference] = getNod($value);
         $valueString = is_array($difference) ? '[complex value]' : var_export($difference, true);
         $valueToPrint = stringifyNullProperly($valueString);
-        switch ($symbol) {
-            case 'both':
+        switch ($status) {
+            case 'old and new':
                 $oldValueString = is_array($difference['-'])
                 ? '[complex value]'
                 : var_export($difference['-'], true);
@@ -29,16 +29,16 @@ function showPlain(array $comparedArray, array $tempForKeys = [])
                 : var_export($difference['+'], true);
                 $newValueToPrint = stringifyNullProperly($newValueString);
                 return "Property '{$keyToPrint}' was updated. From {$oldValueToPrint} to {$newValueToPrint}";
-            case '+/-':
+            case 'changed':
                 return showPlain($difference, $newKeys);
-            case ' ':
+            case 'same':
                 break;
-            case '+':
+            case 'added':
                 return "Property '{$keyToPrint}' was added with value: {$valueToPrint}";
-            case '-':
+            case 'deleted':
                 return "Property '{$keyToPrint}' was removed";
             default:
-                throw new \Exception("Unknown symbol of value: \"{$symbol}\"!");
+                throw new \Exception("Unknown status of value: \"{$status}\"!");
         }
     }, array_keys($comparedArray), $comparedArray);
     $withoutEmpty = array_filter($differencies, fn ($array) => $array);

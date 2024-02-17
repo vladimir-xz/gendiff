@@ -9,32 +9,32 @@ use function Functional\sort;
 
 function addNewLine(mixed $array)
 {
-    return ['symbol' => '+', 'value' => $array ];
+    return ['status' => 'added', 'symbol' => '+ ', 'value' => $array ];
 }
 
 function addDeletedLine(mixed $array)
 {
-    return ['symbol' => '-', 'value' => $array ];
+    return ['status' => 'deleted', 'symbol' => '- ', 'value' => $array ];
 }
 
 function addSameLine(mixed $array)
 {
-    return ['symbol' => ' ', 'value' => $array ];
+    return ['status' => 'same', 'symbol' => '  ', 'value' => $array ];
 }
 
 function addChangedLine(mixed $array)
 {
-    return ['symbol' => '+/-', 'value' => $array ];
+    return ['status' => 'changed', 'symbol' => '  ', 'value' => $array ];
 }
 
 function addOldAndNew(mixed $old, mixed $new)
 {
-    return ['symbol' => 'both', 'value' => ['-' => $old, '+' => $new]];
+    return ['status' => 'old and new', 'symbol' => '  ', 'value' => ['-' => $old, '+' => $new]];
 }
 
-function getValueAndSymbol(array $array)
+function getNod(array $array)
 {
-    return ['symbol' => $array['symbol'], 'value' => $array['value']];
+    return ['status' => $array['status'], 'symbol' => $array['symbol'], 'value' => $array['value']];
 }
 
 function compare(array $dataOne, array $dataTwo)

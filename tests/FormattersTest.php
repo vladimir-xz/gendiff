@@ -17,7 +17,7 @@ class FormattersTest extends TestCase
 
     public function testUnknownSymbolOfValue(): void
     {
-        $this->expectExceptionMessage("Unknown symbol of value: \"*\"!");
-        showPlain([['symbol' => '*', 'value' => 0]]);
+        $this->expectExceptionMessage("Unknown status of value: \"*\"!");
+        showPlain([['status' => '*', 'symbol' => '  ', 'value' => 0]]);
     }
 }
