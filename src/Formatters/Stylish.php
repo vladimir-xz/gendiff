@@ -30,13 +30,15 @@ function makeString(mixed $item, string $separator = '    ', int $depth = 0)
 function makeStringUsingInterfaces(array $comparedData, string $separator = '    ', int $depth = 0, int $offset = 2)
 {
     $emptySpace = str_repeat($separator, $depth);
-    $result = array_map(function ($key, $value) use ($separator, $depth, $offset) {
+    $result = array_map(function ($value) use ($separator, $depth, $offset) {
         ['status' => $status, 'symbol' => $symbol, 'value' => $difference] = getNod($value);
+        $key = key($difference);
         $nextDepth =  $depth + 1;
         $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
         if ($status === 'old and new') {
-            $oldAndNewValues = array_map(function ($value) use ($separator, $nextDepth, $emptySpace, $key) {
+            $oldAndNewValues = array_map(function ($value) use ($separator, $nextDepth, $emptySpace) {
                 $stringValue = makeString($value['value'], $separator, $nextDepth);
+                $keyOfValue = key($value['value']);
                 return "{$emptySpace}{$value['symbol']}{$key}: {$stringValue}";
             }, $difference);
             return implode("\n", $oldAndNewValues);
@@ -47,7 +49,7 @@ function makeStringUsingInterfaces(array $comparedData, string $separator = '   
             $valueString = makeString($difference, $separator, $nextDepth);
             return "{$emptySpace}{$symbol}{$key}: {$valueString}";
         }
-    }, array_keys($comparedData), $comparedData);
+    }, $comparedData);
     $final = implode("\n", $result);
     return "{\n{$final}\n{$emptySpace}}";
 }

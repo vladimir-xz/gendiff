@@ -2,29 +2,28 @@
 
 namespace Differ\Formatters\Json;
 
-use function Differ\Differ\getNod;
+use function Differ\Differ\getNode;
 
 function printJson(array $comparedData): string
 {
-    $result = array_map(function ($key, $value) {
-        ['status' => $status, 'symbol' => $symbol, 'value' => $difference] = getNod($value);
+    $result = array_map(function ($value) {
+        ['status' => $status, 'symbol' => $symbol, 'value' => $difference] = getNode($value);
+        $key = key($difference);
+        $value = current($difference);
         if ($status === 'old and new') {
-            $oldAndNewValues = array_map(function ($value) use ($key) {
-                $stringValue = json_encode($value['value'], 0, 512);
-                return "\"{$value['symbol']}{$key}\":{$stringValue}";
-            }, $difference);
+            $oldAndNewValues = array_map(function ($node) use ($key) {
+                $stringValue = json_encode(current($node['value']), 0, 512);
+                return "\"{$node['symbol']}{$key}\":{$stringValue}";
+            }, $value);
             return implode(',', $oldAndNewValues);
-            // $deletedValue = json_encode($value['value'], 0, 512);
-            // $addedValue = json_encode($difference['+'], 0, 512);
-            // return ["\"{$value['symbol']}{$key}\":{$stringValue},\"+ {$key}\":{$addedValue}"];
         } elseif ($status === 'changed') {
-            $innerJson = printJson($difference);
+            $innerJson = printJson($value);
             return "\"{$key}\":{$innerJson}";
         } else {
-            $valueJson = json_encode($difference);
+            $valueJson = json_encode($value);
             return "\"{$symbol}{$key}\":{$valueJson}";
         }
-    }, array_keys($comparedData), $comparedData);
+    }, $comparedData);
     $keysAndValuesInString = implode(',', $result);
     return "{{$keysAndValuesInString}}";
 }

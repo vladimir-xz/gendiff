@@ -15,9 +15,9 @@ class FormattersTest extends TestCase
         chooseFormateAndPrint('html', []);
     }
 
-    public function testUnknownSymbolOfValue(): void
+    public function testUnknownStatusOfValue(): void
     {
         $this->expectExceptionMessage("Unknown status of value: \"*\"!");
-        showPlain([['status' => '*', 'symbol' => '  ', 'value' => 0]]);
+        showPlain([['status' => '*', 'symbol' => '  ', 'value' => ['key' => 'value']]]);
     }
 }

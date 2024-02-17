@@ -29,10 +29,13 @@ function addChangedLine(mixed $array)
 
 function addOldAndNew(mixed $old, mixed $new)
 {
-    return ['status' => 'old and new', 'symbol' => '', 'value' => [addDeletedLine($old), addNewLine($new)]];
+    $commomKey = key($old);
+    return ['status' => 'old and new',
+    'symbol' => '',
+     'value' => [$commomKey => [addDeletedLine($old), addNewLine($new)]]];
 }
 
-function getNod(array $array)
+function getNode(array $array)
 {
     return ['status' => $array['status'], 'symbol' => $array['symbol'], 'value' => $array['value']];
 }
@@ -43,18 +46,18 @@ function compare(array $dataOne, array $dataTwo)
     $sortedKeys = sort(array_unique($mergedKeys), fn ($left, $right) => strcmp($left, $right), true);
     $result = array_map(function ($key) use ($dataOne, $dataTwo) {
         if (!array_key_exists($key, $dataTwo)) {
-            return [$key => addDeletedLine($dataOne[$key])];
+            return addDeletedLine([$key => $dataOne[$key]]);
         } elseif (!array_key_exists($key, $dataOne)) {
-            return [$key => addNewLine($dataTwo[$key])];
+            return addNewLine([$key => $dataTwo[$key]]);
         } elseif ($dataOne[$key] === $dataTwo[$key]) {
-            return [$key => addSameLine($dataTwo[$key])];
+            return addSameLine([$key => $dataTwo[$key]]);
         } elseif (is_array($dataOne[$key]) && is_array($dataTwo[$key])) {
-            return [$key => addChangedLine(compare($dataOne[$key], $dataTwo[$key]))];
+            return addChangedLine([$key => compare($dataOne[$key], $dataTwo[$key])]);
         } else {
-            return [$key => addOldAndNew($dataOne[$key], $dataTwo[$key])];
+            return addOldAndNew([$key => $dataOne[$key]], [$key => $dataTwo[$key]]);
         }
     }, $sortedKeys);
-    return array_merge(...$result);
+    return $result;
 }
 
 function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish')
