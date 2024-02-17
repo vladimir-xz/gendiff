@@ -15,7 +15,7 @@ function showPlain(array $comparedArray, array $tempForKeys = [])
     $differencies = array_map(function ($key, $value) use ($tempForKeys) {
         $newKeys = array_merge($tempForKeys, [$key]);
         $keyToPrint = implode('.', $newKeys);
-        ['status' => $status,'symbol' => $symbol, 'value' => $difference] = getNod($value);
+        ['status' => $status, 'value' => $difference] = getNod($value);
         $valueString = is_array($difference) ? '[complex value]' : var_export($difference, true);
         $valueToPrint = stringifyNullProperly($valueString);
         switch ($status) {
