@@ -90,7 +90,7 @@ function makeStylish(mixed $comparedData, int $depth = 0, string $separator = ' 
                 ['symbol' => $symbol, 'difference' => $difference] = getNode($node);
                 $key = key($difference);
                 $value = current($difference);
-                $stringValue = makeStylish($value, $nextDepth, false);
+                $stringValue = makeStylish($value, $nextDepth);
                 return "{$emptySpace}{$symbol}{$key}: {$stringValue}";
             }, $value);
             return implode("\n", $oldAndNewValues);
