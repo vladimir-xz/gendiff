@@ -6,8 +6,8 @@ use function Differ\Differ\getNode;
 
 function printJson(array $comparedData): string
 {
-    $result = array_map(function ($value) {
-        ['status' => $status, 'symbol' => $symbol, 'difference' => $difference] = getNode($value);
+    $result = array_map(function ($data) {
+        ['status' => $status, 'symbol' => $symbol, 'difference' => $difference] = getNode($data);
         $key = key($difference);
         $value = current($difference);
         if ($status === 'old and new') {
