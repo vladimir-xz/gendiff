@@ -68,7 +68,7 @@ function stringify(mixed $item)
     return $result;
 }
 
-function makeStylish(mixed $comparedData, int $depth = 0, bool $ifSorted = true, string $separator = '    ', int $offset = 2)
+function makeStylish(mixed $comparedData, int $depth = 0, string $separator = '    ', int $offset = 2)
 {
     if (!is_array($comparedData)) {
         return stringify($comparedData);
