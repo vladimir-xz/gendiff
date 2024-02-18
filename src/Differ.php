@@ -35,7 +35,7 @@ function addOldAndNew(mixed $old, mixed $new)
      'difference' => [$commomKey => [addDeletedLine($old), addNewLine($new)]]];
 }
 
-function getNode(array $array)
+function getNode(mixed $array)
 {
     return [
         'status' => $array['status'] ?? 'unsorted',

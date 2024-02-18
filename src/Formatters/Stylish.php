@@ -4,6 +4,7 @@ namespace Differ\Formatters\Stylish;
 
 use function Differ\Differ\getNode;
 use function Differ\Differ\getKeyAndValue;
+use function Functional\curry;
 
 function makeString(mixed $item, string $separator = '    ', int $depth = 0)
 {
@@ -57,7 +58,7 @@ function makeStringUsingInterfaces(array $comparedData, string $separator = '   
     return "{\n{$final}\n{$emptySpace}}";
 }
 
-function stringify(mixed $item, string $separator = '    ', int $depth = 0)
+function stringify(mixed $item)
 {
     $jsonFile = json_encode($item, JSON_PRETTY_PRINT, 512);
     if ($jsonFile === false) {
@@ -73,33 +74,26 @@ function makeStylish(mixed $comparedData, int $depth = 0, string $separator = ' 
         return stringify($comparedData);
     }
     $emptySpace = str_repeat($separator, $depth);
-    $result = array_map(function ($node) use ($separator, $depth, $offset) {
+    $result = array_map(function ($keyOfNode, $node) use ($separator, $depth, $offset) {
         ['status' => $status, 'symbol' => $symbol, 'difference' => $difference] = getNode($node);
-        ['key' => $key, 'value' => $value] = getKeyAndValue($difference);
+        $keyOfValue = is_array($difference) ? key($difference) : $keyOfNode;
+        $value = is_array($difference) ? current($difference) : $difference;
         $nextDepth =  $depth + 1;
         $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
         if ($status === 'old and new') {
-            $oldAndNewValues = array_map(function ($node) use ($separator, $nextDepth, $emptySpace) {
+            $oldAndNewValues = array_map(function ($node) use ($nextDepth, $emptySpace) {
                 ['symbol' => $symbol, 'difference' => $difference] = getNode($node);
                 $key = key($difference);
-                $value = is_array(current($difference));
-                $stringValue = stringify($value, $separator, $nextDepth);
+                $value = current($difference);
+                $stringValue = makeStylish($value, $nextDepth);
                 return "{$emptySpace}{$symbol}{$key}: {$stringValue}";
             }, $value);
             return implode("\n", $oldAndNewValues);
-        } elseif ($status === 'changed') {
-            $convertedValue = makeStylish($value, $nextDepth);
-            return "{$emptySpace}{$symbol}{$key}: {$convertedValue}";
         } else {
-            if (is_array($value)) {
-                $valueString = makeStylish([$value], $nextDepth);
-                return "{$emptySpace}{$symbol}{$key}: {$valueString}";
-            } else {
-                $valueString = makeStylish($value, $nextDepth);
-                return "{$emptySpace}{$symbol}{$key}: {$valueString}";
-            }
+            $convertedValue = makeStylish($value, $nextDepth);
         }
-    }, $comparedData);
+        return "{$emptySpace}{$symbol}{$keyOfValue}: {$convertedValue}";
+    }, array_keys($comparedData), $comparedData);
     $final = implode("\n", $result);
     return "{\n{$final}\n{$emptySpace}}";
 }
