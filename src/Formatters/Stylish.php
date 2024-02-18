@@ -75,6 +75,8 @@ function makeStylish(mixed $comparedData, int $depth = 0, string $separator = ' 
     }
     $emptySpace = str_repeat($separator, $depth);
     $result = array_map(function ($key, $data) use ($separator, $depth, $offset) {
+        $nextDepth =  $depth + 1;
+        $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
         ['status' => $status, 'symbol' => $symbol, 'difference' => $difference] = getNode($data);
         if ($status === 'unsorted') {
             $keyOfValue = $key;
@@ -83,8 +85,6 @@ function makeStylish(mixed $comparedData, int $depth = 0, string $separator = ' 
             $keyOfValue = key($difference);
             $value = current($difference);
         }
-        $nextDepth =  $depth + 1;
-        $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
         if ($status === 'old and new') {
             $oldAndNewValues = array_map(function ($node) use ($nextDepth, $emptySpace) {
                 ['symbol' => $symbol, 'difference' => $difference] = getNode($node);
