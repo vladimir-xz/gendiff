@@ -23,8 +23,8 @@ final class DifferTest extends TestCase
         $resultJsonContent = file_get_contents($resultJson, true);
 
         return [
-            // 'Nested Json'  => [$nestedFirstFileJson, $nestedSecondFileJson, 'stylish', $resultNested],
-            // 'Nested Yaml' => [$nestedFirstFileYaml, $nestedSecondFileYaml, 'stylish', $resultNested],
+            'Nested Json'  => [$nestedFirstFileJson, $nestedSecondFileJson, 'stylish', $resultNested],
+            'Nested Yaml' => [$nestedFirstFileYaml, $nestedSecondFileYaml, 'stylish', $resultNested],
             'Plain' => [$nestedFirstFileYaml, $nestedSecondFileYaml, 'plain', $resultPlain],
             'Json output'  => [$nestedFirstFileYaml, $nestedSecondFileYaml, 'json', $resultJsonContent],
         ];

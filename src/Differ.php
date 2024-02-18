@@ -37,7 +37,11 @@ function addOldAndNew(mixed $old, mixed $new)
 
 function getNode(array $array)
 {
-    return ['status' => $array['status'], 'symbol' => $array['symbol'], 'difference' => $array['difference']];
+    return [
+        'status' => $array['status'] ?? 'unsorted',
+        'symbol' => $array['symbol'] ?? '  ',
+        'difference' => $array['difference'] ?? $array
+    ];
 }
 
 function getKeyAndValue(array $difference)
