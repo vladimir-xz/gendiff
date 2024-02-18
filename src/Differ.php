@@ -9,22 +9,22 @@ use function Functional\sort;
 
 function addNewLine(mixed $array)
 {
-    return ['status' => 'added', 'symbol' => '+ ', 'value' => $array ];
+    return ['status' => 'added', 'symbol' => '+ ', 'difference' => $array ];
 }
 
 function addDeletedLine(mixed $array)
 {
-    return ['status' => 'deleted', 'symbol' => '- ', 'value' => $array ];
+    return ['status' => 'deleted', 'symbol' => '- ', 'difference' => $array ];
 }
 
 function addSameLine(mixed $array)
 {
-    return ['status' => 'same', 'symbol' => '  ', 'value' => $array ];
+    return ['status' => 'same', 'symbol' => '  ', 'difference' => $array ];
 }
 
 function addChangedLine(mixed $array)
 {
-    return ['status' => 'changed', 'symbol' => '  ', 'value' => $array ];
+    return ['status' => 'changed', 'symbol' => '  ', 'difference' => $array ];
 }
 
 function addOldAndNew(mixed $old, mixed $new)
@@ -32,12 +32,17 @@ function addOldAndNew(mixed $old, mixed $new)
     $commomKey = key($old);
     return ['status' => 'old and new',
     'symbol' => '',
-     'value' => [$commomKey => [addDeletedLine($old), addNewLine($new)]]];
+     'difference' => [$commomKey => [addDeletedLine($old), addNewLine($new)]]];
 }
 
 function getNode(array $array)
 {
-    return ['status' => $array['status'], 'symbol' => $array['symbol'], 'value' => $array['value']];
+    return ['status' => $array['status'], 'symbol' => $array['symbol'], 'difference' => $array['difference']];
+}
+
+function getKeyAndValue(array $difference)
+{
+    return ['key' => key($difference),'value' => current($difference)];
 }
 
 function compare(array $dataOne, array $dataTwo)

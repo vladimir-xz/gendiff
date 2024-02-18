@@ -18,6 +18,6 @@ class FormattersTest extends TestCase
     public function testUnknownStatusOfValue(): void
     {
         $this->expectExceptionMessage("Unknown status of value: \"*\"!");
-        showPlain([['status' => '*', 'symbol' => '  ', 'value' => ['key' => 'value']]]);
+        showPlain([['status' => '*', 'symbol' => '  ', 'difference' => ['key' => 'value']]]);
     }
 }

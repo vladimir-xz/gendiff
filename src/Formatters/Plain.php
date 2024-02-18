@@ -3,6 +3,7 @@
 namespace Differ\Formatters\Plain;
 
 use function Differ\Differ\getNode;
+use function Differ\Differ\getKeyAndValue;
 
 function stringifyNullProperly(string $value)
 {
@@ -22,15 +23,20 @@ function printValuePlain(mixed $value)
 function showPlain(array $comparedArray, array $tempForKeys = [])
 {
     $differencies = array_map(function ($node) use ($tempForKeys) {
-        ['status' => $status, 'value' => $difference] = getNode($node);
+        ['status' => $status, 'difference' => $difference] = getNode($node);
         $key = key($difference);
         $value = current($difference);
         $newKeys = array_merge($tempForKeys, [$key]);
         $keyToPrint = implode('.', $newKeys);
         switch ($status) {
             case 'old and new':
-                $oldAndNewValues = array_map(fn ($node) => printValuePlain(current($node['value'])), $value);
-                return "Property '{$keyToPrint}' was updated. From {$oldAndNewValues[0]} to {$oldAndNewValues[1]}";
+                $oldAndNewValues = array_map(function ($node) {
+                    ['status' => $status, 'difference' => $difference] = getNode($node);
+                        $valueToPrint = printValuePlain(current($difference));
+                        return [$status => $valueToPrint];
+                }, $value);
+                $bothValues = array_merge(...$oldAndNewValues);
+                return "Property '{$keyToPrint}' was updated. From {$bothValues['deleted']} to {$bothValues['added']}";
             case 'changed':
                 return showPlain($value, $newKeys);
             case 'same':
