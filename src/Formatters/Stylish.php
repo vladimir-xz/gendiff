@@ -56,7 +56,7 @@ function makeStylish(mixed $comparedData, int $depth = 0, string $separator = ' 
         return stringify($comparedData);
     }
     $emptySpace = str_repeat($separator, $depth);
-    $iter = function ($comparedData, $depth) use (&$iter, $separator, $offset) {
+    $iter = function ($comparedData) use (&$iter, $separator, $offset, $depth) {
         $result = array_map(function ($key, $data) use ($separator, $depth, $offset, &$iter) {
             $nextDepth =  $depth + 1;
             $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
@@ -69,11 +69,7 @@ function makeStylish(mixed $comparedData, int $depth = 0, string $separator = ' 
                 $value = current($difference);
             }
             if ($status === 'old and new') {
-                $oldAndNewValues = array_map(function ($node) use ($nextDepth, &$iter, $difference) {
-                    $result = $iter($difference, $nextDepth);
-                    return implode("\n", $result);
-                }, $value);
-                return implode("\n", $oldAndNewValues);
+                return implode("\n", $iter($value));
             } else {
                 $convertedValue = makeStylish($value, $nextDepth);
             }
