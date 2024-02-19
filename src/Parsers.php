@@ -4,40 +4,16 @@ namespace Differ\Parsers;
 
 use Symfony\Component\Yaml\Yaml;
 
-function makePathAbsolute(string $pathToFile)
+function parseFile(string $extention, string $content)
 {
-    $realPath = realpath($pathToFile);
-    if ($realPath === false) {
-        $absolutePath =  __DIR__ . $pathToFile;
-    } else {
-        $absolutePath = $realPath;
-    }
-    return $absolutePath;
-}
-
-function getFilesContent(string $absolutePath)
-{
-    if (!file_exists($absolutePath)) {
-        throw new \Exception("File do not found: \"{$absolutePath}\"!");
-    } elseif (filesize($absolutePath) == 0) {
-        $pathBaseName = pathinfo($absolutePath, PATHINFO_BASENAME);
-        throw new \Exception("File \"{$pathBaseName}\" is empty.");
-    }
-    return file_get_contents($absolutePath, true);
-}
-
-function parseFile(string $pathToFile)
-{
-    $fileExtention = pathinfo($pathToFile, PATHINFO_EXTENSION);
-    $content = getFilesContent($pathToFile);
-    if ($fileExtention === 'json') {
+    if ($extention === 'json') {
         if ($content === false) {
             throw new \Exception('Error when turning value into string');
         }
         return json_decode($content, true);
-    } elseif ($fileExtention === 'yaml' || $fileExtention === 'yml') {
+    } elseif ($extention === 'yaml' || $extention === 'yml') {
         return Yaml::parse($content);
     } else {
-        throw new \Exception("Unknow file extention: \"{$fileExtention}\"!");
+        throw new \Exception("Unknow file extention: \"{$extention}\"!");
     }
 }

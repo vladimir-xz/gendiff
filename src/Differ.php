@@ -2,8 +2,9 @@
 
 namespace Differ\Differ;
 
+use Differ\FilesProcessing;
+
 use function Differ\Parsers\parseFile;
-use function Differ\Parsers\makePathAbsolute;
 use function Differ\Formatters\chooseFormateAndPrint;
 use function Functional\sort;
 
@@ -44,11 +45,6 @@ function getNode(mixed $array)
     ];
 }
 
-function getKeyAndValue(array $difference)
-{
-    return ['key' => key($difference),'value' => current($difference)];
-}
-
 function compare(array $dataOne, array $dataTwo)
 {
     $mergedKeys = array_merge(array_keys($dataOne), array_keys($dataTwo));
@@ -71,10 +67,12 @@ function compare(array $dataOne, array $dataTwo)
 
 function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish')
 {
-    $firstAbsolutePath = makePathAbsolute($pathToFile1);
-    $secondAbsolutePath = makePathAbsolute($pathToFile2);
-    $firstFile = parseFile($firstAbsolutePath);
-    $secondFile = parseFile($secondAbsolutePath);
+    $firstAbsolutePath = FilesProcessing\makePathAbsolute($pathToFile1);
+    $secondAbsolutePath = FilesProcessing\makePathAbsolute($pathToFile2);
+    $firstContent = FilesProcessing\getFilesContent($firstAbsolutePath);
+    $secondContent = FilesProcessing\getFilesContent($secondAbsolutePath);
+    $firstFile = parseFile(pathinfo($firstAbsolutePath, PATHINFO_EXTENSION), $firstContent);
+    $secondFile = parseFile(pathinfo($secondAbsolutePath, PATHINFO_EXTENSION), $secondContent);
     $differencies = compare($firstFile, $secondFile);
     return chooseFormateAndPrint($format, $differencies);
 }
