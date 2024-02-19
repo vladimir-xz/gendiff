@@ -7,7 +7,7 @@ use Symfony\Component\Yaml\Yaml;
 function parseFile(string $extention, string $content)
 {
     if ($extention === 'json') {
-        if ($content === false) {
+        if ($content == false) {
             throw new \Exception('Error when turning value into string');
         }
         return json_decode($content, true);

@@ -3,7 +3,6 @@
 namespace Differ\Formatters\Plain;
 
 use function Differ\Differ\getNode;
-use function Differ\Differ\getKeyAndValue;
 
 function stringifyNullProperly(string $value)
 {
