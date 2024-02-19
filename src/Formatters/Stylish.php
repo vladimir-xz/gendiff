@@ -56,8 +56,8 @@ function makeStylish(mixed $comparedData, int $depth = 0, string $separator = ' 
         return stringify($comparedData);
     }
     $emptySpace = str_repeat($separator, $depth);
-    $iter = function ($comparedData) use (&$iter, $separator, $offset, $depth) {
-        $result = array_map(function ($key, $data) use ($separator, $depth, $offset, &$iter) {
+    $iter = function ($comparedData) use (&$iter, $depth, $separator, $offset) {
+        $result = array_map(function ($key, $data) use ($iter, $depth, $separator, $offset) {
             $nextDepth =  $depth + 1;
             $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
             ['status' => $status, 'symbol' => $symbol, 'difference' => $difference] = getNode($data);
@@ -77,7 +77,7 @@ function makeStylish(mixed $comparedData, int $depth = 0, string $separator = ' 
         }, array_keys($comparedData), $comparedData);
         return $result;
     };
-    $final = implode("\n", $iter($comparedData, $depth));
+    $final = implode("\n", $iter($comparedData));
     return "{\n{$final}\n{$emptySpace}}";
 }
 
