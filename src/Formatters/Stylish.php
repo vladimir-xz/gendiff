@@ -57,7 +57,7 @@ function makeStylish(mixed $comparedData, int $depth = 0, string $separator = ' 
     }
     $emptySpace = str_repeat($separator, $depth);
     $iter = function ($comparedData, $depth) use (&$iter, $separator, $offset) {
-        $result = array_map(function ($key, $data) use ($separator, $depth, $offset) {
+        $result = array_map(function ($key, $data) use ($separator, $depth, $offset, &$iter) {
             $nextDepth =  $depth + 1;
             $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
             ['status' => $status, 'symbol' => $symbol, 'difference' => $difference] = getNode($data);
@@ -69,12 +69,9 @@ function makeStylish(mixed $comparedData, int $depth = 0, string $separator = ' 
                 $value = current($difference);
             }
             if ($status === 'old and new') {
-                $oldAndNewValues = array_map(function ($node) use ($nextDepth, $emptySpace) {
-                    ['symbol' => $symbol, 'difference' => $difference] = getNode($node);
-                    $key = key($difference);
-                    $value = current($difference);
-                    $stringValue = makeStylish($value, $nextDepth);
-                    return "{$emptySpace}{$symbol}{$key}: {$stringValue}";
+                $oldAndNewValues = array_map(function ($node) use ($nextDepth, &$iter, $difference) {
+                    $result = $iter($difference, $nextDepth);
+                    return implode("\n", $result);
                 }, $value);
                 return implode("\n", $oldAndNewValues);
             } else {
