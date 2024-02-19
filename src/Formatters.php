@@ -2,19 +2,17 @@
 
 namespace Differ\Formatters;
 
-use function Differ\Formatters\Plain\showPlain;
-use function Differ\Formatters\Stylish\makeStylish;
-use function Differ\Formatters\Json\printJson;
+use Differ\Formatters;
 
 function chooseFormateAndPrint(string $format, array $differencies)
 {
     switch ($format) {
         case 'stylish':
-            return makeStylish($differencies);
+            return Stylish\makeStylish($differencies);
         case 'plain':
-            return showPlain($differencies);
+            return Plain\showPlain($differencies);
         case 'json':
-            return printJson($differencies);
+            return Json\printJson($differencies);
         default:
             throw new \Exception("Unknown report format: \"{$format}\"!");
     }
