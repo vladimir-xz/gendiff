@@ -19,7 +19,7 @@ function makeArrayForPrint(array $comparedData): array
         } elseif ($status === 'changed') {
             return [$key => makeArrayForPrint($value)];
         } else {
-            return [$key => $value];
+            return $difference;
         }
     }, $comparedData);
     return array_merge(...$result);
