@@ -23,3 +23,19 @@ function getFilesContent(string $absolutePath)
     }
     return file_get_contents($absolutePath, true);
 }
+
+function findDirectory(string $search, string $mainDirectory = "..")
+{
+    $dirAbsolute = makePathAbsolute($mainDirectory);
+    $scannedDirectory = array_diff(scandir($dirAbsolute), array('..', '.'));
+    if (in_array($search, $scannedDirectory) && is_dir($mainDirectory . '/' . $search)) {
+        return $dirAbsolute . '/' . $search;
+    }
+    $dir = array_map(function ($file) use ($search, $dirAbsolute) {
+        $filePath = $dirAbsolute . '/' . $file;
+        if (is_dir($filePath)) {
+            return findDirectory($search, $filePath);
+        }
+    }, $scannedDirectory);
+    return implode('', $dir);
+}
