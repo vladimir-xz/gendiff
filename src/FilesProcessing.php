@@ -23,8 +23,3 @@ function getFilesContent(string $absolutePath)
     }
     return file_get_contents($absolutePath, true);
 }
-
-function getPathToFixtures($path)
-{
-    return __DIR__  . "/fixtures/" . $path;
-}
