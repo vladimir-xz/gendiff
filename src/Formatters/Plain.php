@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\Formatters\Plain;
+namespace Differ\Differ;
 
 use function Differ\Differ\getNode;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\Formatters\Json;
+namespace Differ\Differ;
 
 use function Differ\Differ\getNode;
 

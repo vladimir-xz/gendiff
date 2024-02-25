@@ -4,8 +4,8 @@ namespace Differ\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function Differ\Formatters\chooseFormateAndPrint;
-use function Differ\Formatters\plain\showPlain;
+use function Differ\Differ\chooseFormateAndPrint;
+use function Differ\Differ\showPlain;
 
 class FormattersTest extends TestCase
 {

@@ -5,7 +5,7 @@ namespace Differ\Differ;
 use Differ\FilesProcessing;
 
 use function Differ\Parsers\parseFile;
-use function Differ\Formatters\chooseFormateAndPrint;
+use function Differ\Differ\chooseFormateAndPrint;
 use function Functional\sort;
 
 function addNewLine(mixed $array)

@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 use function Differ\Differ\genDiff;
 
-function getPathToFixtures($path)
+function getPathToFixture($path)
 {
     return __DIR__  . "/fixtures/" . $path;
 }
@@ -39,7 +39,7 @@ final class DifferTest extends TestCase
      */
     public function testGenDiff(string $arrayOne, string $arrayTwo, string $format, string $expected): void
     {
-        $pathToFiles = array_map(fn ($file) => getPathToFixtures($file), [$arrayOne, $arrayTwo, $expected]);
+        $pathToFiles = array_map(fn ($file) => getPathToFixture($file), [$arrayOne, $arrayTwo, $expected]);
         $this->assertStringEqualsFile($pathToFiles[2], genDiff($pathToFiles[0], $pathToFiles[1], $format));
     }
 }

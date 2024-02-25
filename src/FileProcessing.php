@@ -21,5 +21,9 @@ function getFilesContent(string $absolutePath)
         $pathBaseName = pathinfo($absolutePath, PATHINFO_BASENAME);
         throw new \Exception("File \"{$pathBaseName}\" is empty.");
     }
-    return file_get_contents($absolutePath, true);
+    $result = file_get_contents($absolutePath, true);
+    if ($result === false) {
+        throw new \Exception('Error occured when retrieving the content of the file');
+    }
+    return $result;
 }
