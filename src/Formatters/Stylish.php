@@ -4,81 +4,49 @@ namespace Differ\Differ;
 
 use function Differ\Differ\getNode;
 
-function stringify(mixed $item)
+function stringify(mixed $item, int $depth = 0, int $offset = 2, string $separator = '    '): string
 {
-    $jsonFile = json_encode($item, JSON_PRETTY_PRINT, 512);
-    if ($jsonFile === false) {
-        throw new \Exception('Error when turning value into string');
-    }
-    $result = trim($jsonFile, "\"");
-    return $result;
-}
-
-// function makeStylish2(mixed $comparedData, int $depth = 0, string $separator = '    ', int $offset = 2)
-// {
-//     if (!is_array($comparedData)) {
-//         return stringify($comparedData);
-//     }
-//     $emptySpace = str_repeat($separator, $depth);
-//     $result = array_map(function ($key, $data) use ($separator, $depth, $offset) {
-//         $nextDepth =  $depth + 1;
-//         $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
-//         ['status' => $status, 'symbol' => $symbol, 'difference' => $difference] = getNode($data);
-//         if ($status === 'unsorted') {
-//             $keyOfValue = $key;
-//             $value = $data;
-//         } else {
-//             $keyOfValue = key($difference);
-//             $value = current($difference);
-//         }
-//         if ($status === 'old and new') {
-//             $oldAndNewValues = array_map(function ($node) use ($nextDepth, $emptySpace) {
-//                 ['symbol' => $symbol, 'difference' => $difference] = getNode($node);
-//                 $key = key($difference);
-//                 $value = current($difference);
-//                 $stringValue = makeStylish($value, $nextDepth);
-//                 return "{$emptySpace}{$symbol}{$key}: {$stringValue}";
-//             }, $value);
-//             return implode("\n", $oldAndNewValues);
-//         } else {
-//             $convertedValue = makeStylish($value, $nextDepth);
-//         }
-//         return "{$emptySpace}{$symbol}{$keyOfValue}: {$convertedValue}";
-//     }, array_keys($comparedData), $comparedData);
-//     $final = implode("\n", $result);
-//     return "{\n{$final}\n{$emptySpace}}";
-// }
-
-function makeStylish(mixed $comparedData, int $depth = 0, string $separator = '    ', int $offset = 2)
-{
-    if (!is_array($comparedData)) {
-        return stringify($comparedData);
+    if (is_string($item)) {
+        return $item;
+    } elseif (!is_array($item)) {
+        $jsonFile = json_encode($item, JSON_PRETTY_PRINT, 512);
+        if ($jsonFile === false) {
+            throw new \Exception('Error when turning value into string');
+        }
+        return trim($jsonFile, "\"");
     }
     $emptySpace = str_repeat($separator, $depth);
-    $iter = function ($comparedData) use (&$iter, $depth, $separator, $offset) {
-        $result = array_map(function ($key, $data) use ($iter, $depth, $separator, $offset) {
-            $nextDepth =  $depth + 1;
-            $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
-            ['status' => $status, 'symbol' => $symbol, 'difference' => $difference] = getNode($data);
-            if ($status === 'unsorted') {
-                $keyOfValue = $key;
-                $value = $data;
-            } else {
-                $keyOfValue = key($difference);
-                $value = current($difference);
-            }
-            if ($status === 'old and new') {
-                return implode("\n", $iter($value));
-            } else {
-                $convertedValue = makeStylish($value, $nextDepth);
-            }
-            return "{$emptySpace}{$symbol}{$keyOfValue}: {$convertedValue}";
-        }, array_keys($comparedData), $comparedData);
-        return $result;
-    };
-    $final = implode("\n", $iter($comparedData));
-    return "{\n{$final}\n{$emptySpace}}";
+    $result = array_map(function ($key, $value) use ($depth, $separator, $offset) {
+        $nextDepth = $depth + 1;
+        $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
+        $valueString = stringify($value, $depth + 1, $offset);
+        return "{$emptySpace}{$key}: {$valueString}";
+    }, array_keys($item), $item);
+    $resultWithBrackets = ['{', ...$result, "{$emptySpace}}"];
+    return implode("\n", $resultWithBrackets);
 }
 
-// $valueString = makeStylish($value, $nextDepth);
-// return "{$emptySpace}{$key}: {$valueString}";
+function makeStylish(mixed $comparedData, int $depth = 0)
+{
+    $iter = function ($comparedData) use (&$iter, $depth) {
+        $result = array_map(function ($data) use ($iter, $depth) {
+            ['status' => $status, 'symbol' => $symbol, 'difference' => $difference] = getNode($data);
+            $keyOfValue = key($difference);
+            $value = current($difference);
+            if ($status === 'old and new') {
+                return $iter($value);
+            }
+            $keyWithSymbol = "{$symbol}{$keyOfValue}";
+            $nextDepth = $depth + 1;
+            if ($status === 'changed') {
+                $valueString = makeStylish($value, $nextDepth);
+            } else {
+                $offsetWithoutSymbol = 0;
+                $valueString = stringify($value, $nextDepth, $offsetWithoutSymbol);
+            }
+            return [$keyWithSymbol => $valueString];
+        }, $comparedData);
+        return array_merge(...$result);
+    };
+    return stringify($iter($comparedData), $depth);
+}
