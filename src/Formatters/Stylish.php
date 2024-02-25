@@ -31,12 +31,12 @@ function makeStylish(mixed $comparedData, int $depth = 0)
     $iter = function ($comparedData) use (&$iter, $depth) {
         $result = array_map(function ($data) use ($iter, $depth) {
             ['status' => $status, 'symbol' => $symbol, 'difference' => $difference] = getNode($data);
-            $keyOfValue = key($difference);
+            $key = key($difference);
             $value = current($difference);
             if ($status === 'old and new') {
                 return $iter($value);
             }
-            $keyWithSymbol = "{$symbol}{$keyOfValue}";
+            $keyWithSymbol = "{$symbol}{$key}";
             $nextDepth = $depth + 1;
             if ($status === 'changed') {
                 $valueString = makeStylish($value, $nextDepth);
