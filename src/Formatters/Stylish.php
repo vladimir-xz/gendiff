@@ -19,7 +19,7 @@ function stringify(mixed $item, int $depth = 0, int $offset = 2, string $separat
     $lines = array_map(function ($key, $value) use ($depth, $separator, $offset) {
         $nextDepth = $depth + 1;
         $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
-        $valueString = stringify($value, $depth + 1, $offset);
+        $valueString = stringify($value, $nextDepth, $offset);
         return "{$emptySpace}{$key}: {$valueString}";
     }, array_keys($item), $item);
     $linesWithBrackets = ['{', ...$lines, "{$emptySpace}}"];
