@@ -26,7 +26,7 @@ function stringify(mixed $item, int $depth = 0, int $offset = 2, string $separat
     return implode("\n", $linesWithBrackets);
 }
 
-function makeStylish(mixed $comparedData, int $depth = 0)
+function makeStylish(array $comparedData, int $depth = 0)
 {
     $iter = function ($comparedData) use (&$iter, $depth) {
         $result = array_map(function ($data) use ($iter, $depth) {
