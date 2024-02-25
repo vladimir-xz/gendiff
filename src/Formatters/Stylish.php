@@ -16,14 +16,14 @@ function stringify(mixed $item, int $depth = 0, int $offset = 2, string $separat
         return trim($jsonFile, "\"");
     }
     $emptySpace = str_repeat($separator, $depth);
-    $result = array_map(function ($key, $value) use ($depth, $separator, $offset) {
+    $lines = array_map(function ($key, $value) use ($depth, $separator, $offset) {
         $nextDepth = $depth + 1;
         $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
         $valueString = stringify($value, $depth + 1, $offset);
         return "{$emptySpace}{$key}: {$valueString}";
     }, array_keys($item), $item);
-    $resultWithBrackets = ['{', ...$result, "{$emptySpace}}"];
-    return implode("\n", $resultWithBrackets);
+    $linesWithBrackets = ['{', ...$lines, "{$emptySpace}}"];
+    return implode("\n", $linesWithBrackets);
 }
 
 function makeStylish(mixed $comparedData, int $depth = 0)
