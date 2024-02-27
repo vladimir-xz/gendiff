@@ -42,7 +42,7 @@ function format(array $comparedArray, array $tempForKeys = []): string
                 throw new \Exception("Unknown status of value: \"{$status}\"!");
         }
     }, $comparedArray);
-    $withoutEmpty = array_filter($differencies, fn ($array) => $array);
-    $result = implode("\n", $withoutEmpty);
+    $withoutEmpties = array_filter($differencies, fn ($array) => $array);
+    $result = implode("\n", $withoutEmpties);
     return $result;
 }
