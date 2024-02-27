@@ -8,47 +8,45 @@ use function Differ\Parsers\parseFile;
 use function Differ\Formatters\chooseFormateAndPrint;
 use function Functional\sort;
 
-function addNewLine(mixed $value)
+function addNewLine(mixed $value): array
 {
-    return ['status' => 'added', 'symbol' => '+ ', 'difference' => $value ];
+    return ['status' => 'added', 'difference' => $value ];
 }
 
-function addDeletedLine(mixed $value)
+function addDeletedLine(mixed $value): array
 {
-    return ['status' => 'deleted', 'symbol' => '- ', 'difference' => $value ];
+    return ['status' => 'deleted', 'difference' => $value ];
 }
 
-function addSameLine(mixed $value)
+function addSameLine(mixed $value): array
 {
-    return ['status' => 'same', 'symbol' => '  ', 'difference' => $value ];
+    return ['status' => 'same', 'difference' => $value ];
 }
 
-function addChangedLine(mixed $value)
+function addChangedLine(mixed $value): array
 {
-    return ['status' => 'changed', 'symbol' => '  ', 'difference' => $value ];
+    return ['status' => 'changed', 'difference' => $value ];
 }
 
-function addOldAndNew(mixed $old, mixed $new)
+function addOldAndNew(mixed $old, mixed $new): array
 {
     $commomKey = key($old);
     return ['status' => 'old and new',
-    'symbol' => '',
-     'difference' => [$commomKey => [addDeletedLine($old), addNewLine($new)]]];
+    'difference' => [$commomKey => [addDeletedLine($old), addNewLine($new)]]];
 }
 
-function getNode(mixed $value)
+function getNode(mixed $value): array
 {
     return [
         'status' => $value['status'],
-        'symbol' => $value['symbol'],
         'difference' => $value['difference']
     ];
 }
 
-function compare(array $dataOne, array $dataTwo)
+function compare(array $dataOne, array $dataTwo): array
 {
     $mergedKeys = array_merge(array_keys($dataOne), array_keys($dataTwo));
-    $sortedKeys = sort(array_unique($mergedKeys), fn ($left, $right) => strcmp($left, $right), true);
+    $sortedKeys = sort(array_unique($mergedKeys), fn ($left, $right) => strcmp($left, $right), false);
     $result = array_map(function ($key) use ($dataOne, $dataTwo) {
         if (!array_key_exists($key, $dataTwo)) {
             return addDeletedLine([$key => $dataOne[$key]]);

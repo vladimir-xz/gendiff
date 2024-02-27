@@ -4,13 +4,13 @@ namespace Differ\Formatters\Plain;
 
 use function Differ\Differ\getNode;
 
-function stringifyNullProperly(string $value)
+function stringifyNullProperly(string $value): string
 {
     $newValue = $value === "NULL" ? 'null' : $value;
     return $newValue;
 }
 
-function printValuePlain(mixed $value)
+function printValuePlain(mixed $value): string
 {
     $valueString = is_array($value)
     ? '[complex value]'
@@ -19,7 +19,7 @@ function printValuePlain(mixed $value)
     return $valueToPrint;
 }
 
-function format(array $comparedArray, array $tempForKeys = [])
+function format(array $comparedArray, array $tempForKeys = []): string
 {
     $differencies = array_map(function ($node) use ($tempForKeys) {
         ['status' => $status, 'difference' => $difference] = getNode($node);

@@ -4,7 +4,15 @@ namespace Differ\Formatters\Stylish;
 
 use function Differ\Differ\getNode;
 
-function stringify(mixed $item, int $depth = 0, int $offset = 2, string $separator = '    '): string
+const SYMBOLS = [
+    'added' => '+ ',
+    'deleted' => '- ',
+    'same' => '  ',
+    'changed' => '  ',
+    'old and new' => '',
+];
+
+function stringify(mixed $item, int $depth, int $offset = 2, string $separator = '    '): string
 {
     if (is_string($item)) {
         return $item;
@@ -26,13 +34,14 @@ function stringify(mixed $item, int $depth = 0, int $offset = 2, string $separat
     return implode("\n", $linesWithBrackets);
 }
 
-function format(array $comparedData, int $depth = 0)
+function format(array $comparedData, int $depth = 0): string
 {
     $iter = function ($comparedData) use (&$iter, $depth) {
         $result = array_map(function ($data) use ($iter, $depth) {
-            ['status' => $status, 'symbol' => $symbol, 'difference' => $difference] = getNode($data);
+            ['status' => $status, 'difference' => $difference] = getNode($data);
             $key = key($difference);
             $value = current($difference);
+            $symbol = SYMBOLS[$status];
             $keyWithSymbol = "{$symbol}{$key}";
             $nextDepth = $depth + 1;
             if ($status === 'old and new') {

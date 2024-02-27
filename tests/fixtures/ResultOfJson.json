@@ -1,1 +1,182 @@
-{"common":{"follow":false,"setting1":"Value 1","setting2":200,"- setting3":true,"+ setting3":null,"setting4":"blah blah","setting5":{"key5":"value5"},"setting6":{"doge":{"- wow":"","+ wow":"so much"},"key":"value","ops":"vops"}},"group1":{"- baz":"bas","+ baz":"bars","foo":"bar","- nest":{"key":"value"},"+ nest":"str"},"group2":{"abc":12345,"deep":{"id":45}},"group3":{"deep":{"id":{"number":45}},"fee":100500}}
+[
+    {
+        "status": "changed",
+        "difference": {
+            "common": [
+                {
+                    "status": "added",
+                    "difference": {
+                        "follow": false
+                    }
+                },
+                {
+                    "status": "same",
+                    "difference": {
+                        "setting1": "Value 1"
+                    }
+                },
+                {
+                    "status": "deleted",
+                    "difference": {
+                        "setting2": 200
+                    }
+                },
+                {
+                    "status": "old and new",
+                    "difference": {
+                        "setting3": [
+                            {
+                                "status": "deleted",
+                                "difference": {
+                                    "setting3": true
+                                }
+                            },
+                            {
+                                "status": "added",
+                                "difference": {
+                                    "setting3": null
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "status": "added",
+                    "difference": {
+                        "setting4": "blah blah"
+                    }
+                },
+                {
+                    "status": "added",
+                    "difference": {
+                        "setting5": {
+                            "key5": "value5"
+                        }
+                    }
+                },
+                {
+                    "status": "changed",
+                    "difference": {
+                        "setting6": [
+                            {
+                                "status": "changed",
+                                "difference": {
+                                    "doge": [
+                                        {
+                                            "status": "old and new",
+                                            "difference": {
+                                                "wow": [
+                                                    {
+                                                        "status": "deleted",
+                                                        "difference": {
+                                                            "wow": ""
+                                                        }
+                                                    },
+                                                    {
+                                                        "status": "added",
+                                                        "difference": {
+                                                            "wow": "so much"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "status": "same",
+                                "difference": {
+                                    "key": "value"
+                                }
+                            },
+                            {
+                                "status": "added",
+                                "difference": {
+                                    "ops": "vops"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "status": "changed",
+        "difference": {
+            "group1": [
+                {
+                    "status": "old and new",
+                    "difference": {
+                        "baz": [
+                            {
+                                "status": "deleted",
+                                "difference": {
+                                    "baz": "bas"
+                                }
+                            },
+                            {
+                                "status": "added",
+                                "difference": {
+                                    "baz": "bars"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "status": "same",
+                    "difference": {
+                        "foo": "bar"
+                    }
+                },
+                {
+                    "status": "old and new",
+                    "difference": {
+                        "nest": [
+                            {
+                                "status": "deleted",
+                                "difference": {
+                                    "nest": {
+                                        "key": "value"
+                                    }
+                                }
+                            },
+                            {
+                                "status": "added",
+                                "difference": {
+                                    "nest": "str"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "status": "deleted",
+        "difference": {
+            "group2": {
+                "abc": 12345,
+                "deep": {
+                    "id": 45
+                }
+            }
+        }
+    },
+    {
+        "status": "added",
+        "difference": {
+            "group3": {
+                "deep": {
+                    "id": {
+                        "number": 45
+                    }
+                },
+                "fee": 100500
+            }
+        }
+    }
+]

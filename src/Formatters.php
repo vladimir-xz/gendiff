@@ -2,7 +2,7 @@
 
 namespace Differ\Formatters;
 
-function chooseFormateAndPrint(string $format, array $differencies)
+function chooseFormateAndPrint(string $format, array $differencies): string
 {
     switch ($format) {
         case 'stylish':

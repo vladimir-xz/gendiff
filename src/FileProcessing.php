@@ -2,7 +2,7 @@
 
 namespace Differ\FileProcessing;
 
-function makePathAbsolute(string $pathToFile)
+function makePathAbsolute(string $pathToFile): string
 {
     $realPath = realpath($pathToFile);
     if ($realPath === false) {
@@ -13,7 +13,7 @@ function makePathAbsolute(string $pathToFile)
     return $absolutePath;
 }
 
-function getFilesContent(string $absolutePath)
+function getFilesContent(string $absolutePath): string
 {
     if (!file_exists($absolutePath)) {
         throw new \Exception("File do not found: \"{$absolutePath}\"!");
