@@ -39,12 +39,12 @@ function format(array $comparedData, int $depth = 0): string
             $symbol = SYMBOLS[$status];
             $keyWithSymbol = "{$symbol} {$key}";
             $nextDepth = $depth + 1;
+            $offsetWithoutSymbol = 0;
             if ($status === 'old and new') {
                 return $iter($value);
             } elseif ($status === 'changed') {
                 $valueString = format($value, $nextDepth);
             } else {
-                $offsetWithoutSymbol = 0;
                 $valueString = stringify($value, $nextDepth, $offsetWithoutSymbol);
             }
             return [$keyWithSymbol => $valueString];
