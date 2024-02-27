@@ -14,10 +14,8 @@ const SYMBOLS = [
 
 function stringify(mixed $item, int $depth, int $offset = 2, string $separator = '    '): string
 {
-    if (is_string($item)) {
-        return $item;
-    } elseif (!is_array($item)) {
-        $itemString = var_export($item, true);
+    if (!is_array($item)) {
+        $itemString = is_string($item) ? $item : var_export($item, true);
         return $itemString === 'NULL' ? 'null' : $itemString;
     }
     $emptySpace = str_repeat($separator, $depth);
