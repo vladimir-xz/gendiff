@@ -17,11 +17,8 @@ function stringify(mixed $item, int $depth, int $offset = 2, string $separator =
     if (is_string($item)) {
         return $item;
     } elseif (!is_array($item)) {
-        $jsonFile = json_encode($item, JSON_PRETTY_PRINT, 512);
-        if ($jsonFile === false) {
-            throw new \Exception('Error when turning value into string');
-        }
-        return trim($jsonFile, "\"");
+        $itemString = var_export($item, true);
+        return $itemString === 'NULL' ? 'null' : $itemString;
     }
     $emptySpace = str_repeat($separator, $depth);
     $lines = array_map(function ($key, $value) use ($depth, $separator, $offset) {

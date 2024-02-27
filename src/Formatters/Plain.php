@@ -4,19 +4,12 @@ namespace Differ\Formatters\Plain;
 
 use function Differ\Differ\getNode;
 
-function stringifyNullProperly(string $value): string
-{
-    $newValue = $value === "NULL" ? 'null' : $value;
-    return $newValue;
-}
-
 function printValuePlain(mixed $value): string
 {
     $valueString = is_array($value)
     ? '[complex value]'
     : var_export($value, true);
-    $valueToPrint = stringifyNullProperly($valueString);
-    return $valueToPrint;
+    return $valueString === "NULL" ? 'null' : $valueString;
 }
 
 function format(array $comparedArray, array $tempForKeys = []): string
