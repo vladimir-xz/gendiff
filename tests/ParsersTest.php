@@ -3,7 +3,7 @@
 namespace Differ\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Differ\FilesProcessing;
+use Differ\FileProcessing;
 
 use function Differ\Parsers\parseFile;
 
@@ -12,7 +12,7 @@ class ParsersTest extends TestCase
     public function testDoNotExistException(): void
     {
         $this->expectExceptionMessage("File do not found: \"/Notexist.txt\"!");
-        FilesProcessing\getFilesContent('/Notexist.txt');
+        FileProcessing\getFilesContent('/Notexist.txt');
     }
     public function testBadExtention(): void
     {
@@ -23,6 +23,6 @@ class ParsersTest extends TestCase
     {
         $empty = __DIR__ . "/fixtures/Empty.json";
         $this->expectExceptionMessage("File \"Empty.json\" is empty.");
-        FilesProcessing\getFilesContent($empty);
+        FileProcessing\getFilesContent($empty);
     }
 }

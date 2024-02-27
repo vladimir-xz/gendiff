@@ -2,30 +2,30 @@
 
 namespace Differ\Differ;
 
-use Differ\FilesProcessing;
+use Differ\FileProcessing;
 
 use function Differ\Parsers\parseFile;
-use function Differ\Differ\chooseFormateAndPrint;
+use function Differ\Formatters\chooseFormateAndPrint;
 use function Functional\sort;
 
-function addNewLine(mixed $array)
+function addNewLine(mixed $value)
 {
-    return ['status' => 'added', 'symbol' => '+ ', 'difference' => $array ];
+    return ['status' => 'added', 'symbol' => '+ ', 'difference' => $value ];
 }
 
-function addDeletedLine(mixed $array)
+function addDeletedLine(mixed $value)
 {
-    return ['status' => 'deleted', 'symbol' => '- ', 'difference' => $array ];
+    return ['status' => 'deleted', 'symbol' => '- ', 'difference' => $value ];
 }
 
-function addSameLine(mixed $array)
+function addSameLine(mixed $value)
 {
-    return ['status' => 'same', 'symbol' => '  ', 'difference' => $array ];
+    return ['status' => 'same', 'symbol' => '  ', 'difference' => $value ];
 }
 
-function addChangedLine(mixed $array)
+function addChangedLine(mixed $value)
 {
-    return ['status' => 'changed', 'symbol' => '  ', 'difference' => $array ];
+    return ['status' => 'changed', 'symbol' => '  ', 'difference' => $value ];
 }
 
 function addOldAndNew(mixed $old, mixed $new)
@@ -36,12 +36,12 @@ function addOldAndNew(mixed $old, mixed $new)
      'difference' => [$commomKey => [addDeletedLine($old), addNewLine($new)]]];
 }
 
-function getNode(mixed $array)
+function getNode(mixed $value)
 {
     return [
-        'status' => $array['status'],
-        'symbol' => $array['symbol'],
-        'difference' => $array['difference']
+        'status' => $value['status'],
+        'symbol' => $value['symbol'],
+        'difference' => $value['difference']
     ];
 }
 
@@ -65,12 +65,12 @@ function compare(array $dataOne, array $dataTwo)
     return $result;
 }
 
-function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish')
+function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish'): string
 {
-    $firstAbsolutePath = FilesProcessing\makePathAbsolute($pathToFile1);
-    $secondAbsolutePath = FilesProcessing\makePathAbsolute($pathToFile2);
-    $firstContent = FilesProcessing\getFilesContent($firstAbsolutePath);
-    $secondContent = FilesProcessing\getFilesContent($secondAbsolutePath);
+    $firstAbsolutePath = FileProcessing\makePathAbsolute($pathToFile1);
+    $secondAbsolutePath = FileProcessing\makePathAbsolute($pathToFile2);
+    $firstContent = FileProcessing\getFilesContent($firstAbsolutePath);
+    $secondContent = FileProcessing\getFilesContent($secondAbsolutePath);
     $firstFile = parseFile(pathinfo($firstAbsolutePath, PATHINFO_EXTENSION), $firstContent);
     $secondFile = parseFile(pathinfo($secondAbsolutePath, PATHINFO_EXTENSION), $secondContent);
     $differencies = compare($firstFile, $secondFile);

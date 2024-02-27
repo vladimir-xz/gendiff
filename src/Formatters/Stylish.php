@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\Differ;
+namespace Differ\Formatters\Stylish;
 
 use function Differ\Differ\getNode;
 
@@ -26,20 +26,19 @@ function stringify(mixed $item, int $depth = 0, int $offset = 2, string $separat
     return implode("\n", $linesWithBrackets);
 }
 
-function makeStylish(array $comparedData, int $depth = 0)
+function format(array $comparedData, int $depth = 0)
 {
     $iter = function ($comparedData) use (&$iter, $depth) {
         $result = array_map(function ($data) use ($iter, $depth) {
             ['status' => $status, 'symbol' => $symbol, 'difference' => $difference] = getNode($data);
             $key = key($difference);
             $value = current($difference);
-            if ($status === 'old and new') {
-                return $iter($value);
-            }
             $keyWithSymbol = "{$symbol}{$key}";
             $nextDepth = $depth + 1;
-            if ($status === 'changed') {
-                $valueString = makeStylish($value, $nextDepth);
+            if ($status === 'old and new') {
+                return $iter($value);
+            } elseif ($status === 'changed') {
+                $valueString = format($value, $nextDepth);
             } else {
                 $offsetWithoutSymbol = 0;
                 $valueString = stringify($value, $nextDepth, $offsetWithoutSymbol);

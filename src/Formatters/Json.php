@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\Differ;
+namespace Differ\Formatters\Json;
 
 use function Differ\Differ\getNode;
 
@@ -25,7 +25,7 @@ function makeArrayForPrint(array $comparedData): array
     return array_merge(...$result);
 }
 
-function printJson(array $comparedArray)
+function format(array $comparedArray)
 {
     $preparedArray = makeArrayForPrint($comparedArray);
     return json_encode($preparedArray);

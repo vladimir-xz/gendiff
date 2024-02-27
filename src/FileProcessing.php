@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\FilesProcessing;
+namespace Differ\FileProcessing;
 
 function makePathAbsolute(string $pathToFile)
 {

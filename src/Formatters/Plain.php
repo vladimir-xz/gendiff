@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\Differ;
+namespace Differ\Formatters\Plain;
 
 use function Differ\Differ\getNode;
 
@@ -19,7 +19,7 @@ function printValuePlain(mixed $value)
     return $valueToPrint;
 }
 
-function showPlain(array $comparedArray, array $tempForKeys = [])
+function format(array $comparedArray, array $tempForKeys = [])
 {
     $differencies = array_map(function ($node) use ($tempForKeys) {
         ['status' => $status, 'difference' => $difference] = getNode($node);
@@ -37,7 +37,7 @@ function showPlain(array $comparedArray, array $tempForKeys = [])
                 $bothValues = array_merge(...$oldAndNewValues);
                 return "Property '{$keyToPrint}' was updated. From {$bothValues['deleted']} to {$bothValues['added']}";
             case 'changed':
-                return showPlain($value, $newKeys);
+                return format($value, $newKeys);
             case 'same':
                 break;
             case 'added':

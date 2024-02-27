@@ -4,8 +4,8 @@ namespace Differ\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function Differ\Differ\chooseFormateAndPrint;
-use function Differ\Differ\showPlain;
+use function Differ\Formatters\chooseFormateAndPrint;
+use function Differ\Formatters\Plain\format;
 
 class FormattersTest extends TestCase
 {
@@ -18,6 +18,6 @@ class FormattersTest extends TestCase
     public function testUnknownStatusOfValue(): void
     {
         $this->expectExceptionMessage("Unknown status of value: \"*\"!");
-        showPlain([['status' => '*', 'symbol' => '  ', 'difference' => ['key' => 'value']]]);
+        format([['status' => '*', 'symbol' => '  ', 'difference' => ['key' => 'value']]]);
     }
 }
