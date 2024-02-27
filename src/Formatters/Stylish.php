@@ -5,10 +5,10 @@ namespace Differ\Formatters\Stylish;
 use function Differ\Differ\getNode;
 
 const SYMBOLS = [
-    'added' => '+ ',
-    'deleted' => '- ',
-    'same' => '  ',
-    'changed' => '  ',
+    'added' => '+',
+    'deleted' => '-',
+    'same' => ' ',
+    'changed' => ' ',
     'old and new' => '',
 ];
 
@@ -39,7 +39,7 @@ function format(array $comparedData, int $depth = 0): string
             $key = key($difference);
             $value = current($difference);
             $symbol = SYMBOLS[$status];
-            $keyWithSymbol = "{$symbol}{$key}";
+            $keyWithSymbol = "{$symbol} {$key}";
             $nextDepth = $depth + 1;
             if ($status === 'old and new') {
                 return $iter($value);
