@@ -43,6 +43,5 @@ function format(array $comparedArray, array $tempForKeys = []): string
         }
     }, $comparedArray);
     $withoutEmpties = array_filter($differencies, fn ($array) => $array);
-    $result = implode("\n", $withoutEmpties);
-    return $result;
+    return implode("\n", $withoutEmpties);
 }

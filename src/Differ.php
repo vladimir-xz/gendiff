@@ -47,7 +47,7 @@ function compare(array $dataOne, array $dataTwo): array
 {
     $mergedKeys = array_merge(array_keys($dataOne), array_keys($dataTwo));
     $sortedKeys = sort(array_unique($mergedKeys), fn ($left, $right) => strcmp($left, $right), false);
-    $result = array_map(function ($key) use ($dataOne, $dataTwo) {
+    return array_map(function ($key) use ($dataOne, $dataTwo) {
         if (!array_key_exists($key, $dataTwo)) {
             return addDeletedLine([$key => $dataOne[$key]]);
         } elseif (!array_key_exists($key, $dataOne)) {
@@ -60,7 +60,6 @@ function compare(array $dataOne, array $dataTwo): array
             return addOldAndNew([$key => $dataOne[$key]], [$key => $dataTwo[$key]]);
         }
     }, $sortedKeys);
-    return $result;
 }
 
 function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish'): string
