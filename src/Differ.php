@@ -8,31 +8,31 @@ use function Differ\Parsers\parseFile;
 use function Differ\Formatters\chooseFormateAndPrint;
 use function Functional\sort;
 
-function addNewLine(mixed $value): array
+function addNewLine(string $key, mixed $value): array
 {
-    return ['type' => 'added', 'key' => key($value), 'difference' => $value ];
+    return ['type' => 'added', 'key' => $key, 'difference' => [$key => $value]];
 }
 
-function addDeletedLine(mixed $value): array
+function addDeletedLine(string $key, mixed $value): array
 {
-    return ['type' => 'deleted', 'key' => key($value), 'difference' => $value ];
+    return ['type' => 'deleted', 'key' => $key, 'difference' => [$key => $value]];
 }
 
-function addSameLine(mixed $value): array
+function addSameLine(string $key, mixed $value): array
 {
-    return ['type' => 'same', 'key' => key($value), 'difference' => $value ];
+    return ['type' => 'same', 'key' => $key, 'difference' => [$key => $value]];
 }
 
-function addChangedLine(mixed $value): array
+function addChangedLine(string $key, mixed $value): array
 {
-    return ['type' => 'changed', 'key' => key($value), 'difference' => $value ];
+    return ['type' => 'changed', 'key' => $key, 'difference' => $value ];
 }
 
 function addOldAndNew(string $commonKey, mixed $old, mixed $new): array
 {
     return ['type' => 'old and new',
     'key' => $commonKey,
-    'difference' => [addDeletedLine([$commonKey => $old]), addNewLine([$commonKey => $new])]];
+    'difference' => [addDeletedLine($commonKey, $old), addNewLine($commonKey, $new)]];
 }
 
 function getNode(mixed $value): array
@@ -50,13 +50,13 @@ function compare(array $dataOne, array $dataTwo): array
     $sortedKeys = sort(array_unique($mergedKeys), fn ($left, $right) => strcmp($left, $right), false);
     return array_map(function ($key) use ($dataOne, $dataTwo) {
         if (!array_key_exists($key, $dataTwo)) {
-            return addDeletedLine([$key => $dataOne[$key]]);
+            return addDeletedLine($key, $dataOne[$key]);
         } elseif (!array_key_exists($key, $dataOne)) {
-            return addNewLine([$key => $dataTwo[$key]]);
+            return addNewLine($key, $dataTwo[$key]);
         } elseif ($dataOne[$key] === $dataTwo[$key]) {
-            return addSameLine([$key => $dataTwo[$key]]);
+            return addSameLine($key, $dataTwo[$key]);
         } elseif (is_array($dataOne[$key]) && is_array($dataTwo[$key])) {
-            return addChangedLine([$key => compare($dataOne[$key], $dataTwo[$key])]);
+            return addChangedLine($key, compare($dataOne[$key], $dataTwo[$key]));
         } else {
             return addOldAndNew($key, $dataOne[$key], $dataTwo[$key]);
         }

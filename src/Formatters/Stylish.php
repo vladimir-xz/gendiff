@@ -34,7 +34,6 @@ function format(array $comparedData, int $depth = 0): string
     $iter = function ($comparedData) use (&$iter, $depth) {
         $result = array_map(function ($data) use ($iter, $depth) {
             ['type' => $type, 'key' => $key, 'difference' => $difference] = getNode($data);
-            $value = current($difference);
             $symbol = SYMBOLS[$type];
             $keyWithSymbol = "{$symbol} {$key}";
             $nextDepth = $depth + 1;
@@ -42,9 +41,9 @@ function format(array $comparedData, int $depth = 0): string
             if ($type === 'old and new') {
                 return $iter($difference);
             } elseif ($type === 'changed') {
-                $valueString = format($value, $nextDepth);
+                $valueString = format($difference, $nextDepth);
             } else {
-                $valueString = stringify($value, $nextDepth, $offsetWithoutSymbol);
+                $valueString = stringify(current($difference), $nextDepth, $offsetWithoutSymbol);
             }
             return [$keyWithSymbol => $valueString];
         }, $comparedData);

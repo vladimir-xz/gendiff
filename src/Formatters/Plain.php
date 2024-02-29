@@ -16,7 +16,6 @@ function format(array $comparedArray, array $tempForKeys = []): string
 {
     $differencies = array_map(function ($node) use ($tempForKeys) {
         ['type' => $type, 'key' => $key, 'difference' => $difference] = getNode($node);
-        $value = current($difference);
         $newKeys = array_merge($tempForKeys, [$key]);
         $keyToPrint = implode('.', $newKeys);
         switch ($type) {
@@ -29,11 +28,11 @@ function format(array $comparedArray, array $tempForKeys = []): string
                 $bothValues = array_merge(...$oldAndNewValues);
                 return "Property '{$keyToPrint}' was updated. From {$bothValues['deleted']} to {$bothValues['added']}";
             case 'changed':
-                return format($value, $newKeys);
+                return format($difference, $newKeys);
             case 'same':
                 break;
             case 'added':
-                $valueString = printValuePlain($value);
+                $valueString = printValuePlain(current($difference));
                 return "Property '{$keyToPrint}' was added with value: {$valueString}";
             case 'deleted':
                 return "Property '{$keyToPrint}' was removed";

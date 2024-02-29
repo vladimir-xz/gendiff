@@ -2,174 +2,166 @@
     {
         "type": "changed",
         "key": "common",
-        "difference": {
-            "common": [
-                {
-                    "type": "added",
-                    "key": "follow",
-                    "difference": {
-                        "follow": false
-                    }
-                },
-                {
-                    "type": "same",
-                    "key": "setting1",
-                    "difference": {
-                        "setting1": "Value 1"
-                    }
-                },
-                {
-                    "type": "deleted",
-                    "key": "setting2",
-                    "difference": {
-                        "setting2": 200
-                    }
-                },
-                {
-                    "type": "old and new",
-                    "key": "setting3",
-                    "difference": [
-                        {
-                            "type": "deleted",
-                            "key": "setting3",
-                            "difference": {
-                                "setting3": true
-                            }
-                        },
-                        {
-                            "type": "added",
-                            "key": "setting3",
-                            "difference": {
-                                "setting3": null
-                            }
+        "difference": [
+            {
+                "type": "added",
+                "key": "follow",
+                "difference": {
+                    "follow": false
+                }
+            },
+            {
+                "type": "same",
+                "key": "setting1",
+                "difference": {
+                    "setting1": "Value 1"
+                }
+            },
+            {
+                "type": "deleted",
+                "key": "setting2",
+                "difference": {
+                    "setting2": 200
+                }
+            },
+            {
+                "type": "old and new",
+                "key": "setting3",
+                "difference": [
+                    {
+                        "type": "deleted",
+                        "key": "setting3",
+                        "difference": {
+                            "setting3": true
                         }
-                    ]
-                },
-                {
-                    "type": "added",
-                    "key": "setting4",
-                    "difference": {
-                        "setting4": "blah blah"
-                    }
-                },
-                {
-                    "type": "added",
-                    "key": "setting5",
-                    "difference": {
-                        "setting5": {
-                            "key5": "value5"
+                    },
+                    {
+                        "type": "added",
+                        "key": "setting3",
+                        "difference": {
+                            "setting3": null
                         }
                     }
-                },
-                {
-                    "type": "changed",
-                    "key": "setting6",
-                    "difference": {
-                        "setting6": [
-                            {
-                                "type": "changed",
-                                "key": "doge",
-                                "difference": {
-                                    "doge": [
-                                        {
-                                            "type": "old and new",
-                                            "key": "wow",
-                                            "difference": [
-                                                {
-                                                    "type": "deleted",
-                                                    "key": "wow",
-                                                    "difference": {
-                                                        "wow": ""
-                                                    }
-                                                },
-                                                {
-                                                    "type": "added",
-                                                    "key": "wow",
-                                                    "difference": {
-                                                        "wow": "so much"
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                "type": "same",
-                                "key": "key",
-                                "difference": {
-                                    "key": "value"
-                                }
-                            },
-                            {
-                                "type": "added",
-                                "key": "ops",
-                                "difference": {
-                                    "ops": "vops"
-                                }
-                            }
-                        ]
+                ]
+            },
+            {
+                "type": "added",
+                "key": "setting4",
+                "difference": {
+                    "setting4": "blah blah"
+                }
+            },
+            {
+                "type": "added",
+                "key": "setting5",
+                "difference": {
+                    "setting5": {
+                        "key5": "value5"
                     }
                 }
-            ]
-        }
+            },
+            {
+                "type": "changed",
+                "key": "setting6",
+                "difference": [
+                    {
+                        "type": "changed",
+                        "key": "doge",
+                        "difference": [
+                            {
+                                "type": "old and new",
+                                "key": "wow",
+                                "difference": [
+                                    {
+                                        "type": "deleted",
+                                        "key": "wow",
+                                        "difference": {
+                                            "wow": ""
+                                        }
+                                    },
+                                    {
+                                        "type": "added",
+                                        "key": "wow",
+                                        "difference": {
+                                            "wow": "so much"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "same",
+                        "key": "key",
+                        "difference": {
+                            "key": "value"
+                        }
+                    },
+                    {
+                        "type": "added",
+                        "key": "ops",
+                        "difference": {
+                            "ops": "vops"
+                        }
+                    }
+                ]
+            }
+        ]
     },
     {
         "type": "changed",
         "key": "group1",
-        "difference": {
-            "group1": [
-                {
-                    "type": "old and new",
-                    "key": "baz",
-                    "difference": [
-                        {
-                            "type": "deleted",
-                            "key": "baz",
-                            "difference": {
-                                "baz": "bas"
-                            }
-                        },
-                        {
-                            "type": "added",
-                            "key": "baz",
-                            "difference": {
-                                "baz": "bars"
-                            }
+        "difference": [
+            {
+                "type": "old and new",
+                "key": "baz",
+                "difference": [
+                    {
+                        "type": "deleted",
+                        "key": "baz",
+                        "difference": {
+                            "baz": "bas"
                         }
-                    ]
-                },
-                {
-                    "type": "same",
-                    "key": "foo",
-                    "difference": {
-                        "foo": "bar"
+                    },
+                    {
+                        "type": "added",
+                        "key": "baz",
+                        "difference": {
+                            "baz": "bars"
+                        }
                     }
-                },
-                {
-                    "type": "old and new",
-                    "key": "nest",
-                    "difference": [
-                        {
-                            "type": "deleted",
-                            "key": "nest",
-                            "difference": {
-                                "nest": {
-                                    "key": "value"
-                                }
-                            }
-                        },
-                        {
-                            "type": "added",
-                            "key": "nest",
-                            "difference": {
-                                "nest": "str"
+                ]
+            },
+            {
+                "type": "same",
+                "key": "foo",
+                "difference": {
+                    "foo": "bar"
+                }
+            },
+            {
+                "type": "old and new",
+                "key": "nest",
+                "difference": [
+                    {
+                        "type": "deleted",
+                        "key": "nest",
+                        "difference": {
+                            "nest": {
+                                "key": "value"
                             }
                         }
-                    ]
-                }
-            ]
-        }
+                    },
+                    {
+                        "type": "added",
+                        "key": "nest",
+                        "difference": {
+                            "nest": "str"
+                        }
+                    }
+                ]
+            }
+        ]
     },
     {
         "type": "deleted",
