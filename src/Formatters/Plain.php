@@ -15,18 +15,17 @@ function printValuePlain(mixed $value): string
 function format(array $comparedArray, array $tempForKeys = []): string
 {
     $differencies = array_map(function ($node) use ($tempForKeys) {
-        ['status' => $status, 'difference' => $difference] = getNode($node);
-        $key = key($difference);
+        ['type' => $type, 'key' => $key, 'difference' => $difference] = getNode($node);
         $value = current($difference);
         $newKeys = array_merge($tempForKeys, [$key]);
         $keyToPrint = implode('.', $newKeys);
-        switch ($status) {
+        switch ($type) {
             case 'old and new':
                 $oldAndNewValues = array_map(function ($node) {
-                    ['status' => $status, 'difference' => $difference] = getNode($node);
+                    ['type' => $type, 'difference' => $difference] = getNode($node);
                         $valueToPrint = printValuePlain(current($difference));
-                        return [$status => $valueToPrint];
-                }, $value);
+                        return [$type => $valueToPrint];
+                }, $difference);
                 $bothValues = array_merge(...$oldAndNewValues);
                 return "Property '{$keyToPrint}' was updated. From {$bothValues['deleted']} to {$bothValues['added']}";
             case 'changed':
@@ -39,7 +38,7 @@ function format(array $comparedArray, array $tempForKeys = []): string
             case 'deleted':
                 return "Property '{$keyToPrint}' was removed";
             default:
-                throw new \Exception("Unknown status of value: \"{$status}\"!");
+                throw new \Exception("Unknown status of value: \"{$type}\"!");
         }
     }, $comparedArray);
     $withoutEmpties = array_filter($differencies, fn ($array) => $array);

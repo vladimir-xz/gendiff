@@ -1,53 +1,60 @@
 [
     {
-        "status": "changed",
+        "type": "changed",
+        "key": "common",
         "difference": {
             "common": [
                 {
-                    "status": "added",
+                    "type": "added",
+                    "key": "follow",
                     "difference": {
                         "follow": false
                     }
                 },
                 {
-                    "status": "same",
+                    "type": "same",
+                    "key": "setting1",
                     "difference": {
                         "setting1": "Value 1"
                     }
                 },
                 {
-                    "status": "deleted",
+                    "type": "deleted",
+                    "key": "setting2",
                     "difference": {
                         "setting2": 200
                     }
                 },
                 {
-                    "status": "old and new",
-                    "difference": {
-                        "setting3": [
-                            {
-                                "status": "deleted",
-                                "difference": {
-                                    "setting3": true
-                                }
-                            },
-                            {
-                                "status": "added",
-                                "difference": {
-                                    "setting3": null
-                                }
+                    "type": "old and new",
+                    "key": "setting3",
+                    "difference": [
+                        {
+                            "type": "deleted",
+                            "key": "setting3",
+                            "difference": {
+                                "setting3": true
                             }
-                        ]
-                    }
+                        },
+                        {
+                            "type": "added",
+                            "key": "setting3",
+                            "difference": {
+                                "setting3": null
+                            }
+                        }
+                    ]
                 },
                 {
-                    "status": "added",
+                    "type": "added",
+                    "key": "setting4",
                     "difference": {
                         "setting4": "blah blah"
                     }
                 },
                 {
-                    "status": "added",
+                    "type": "added",
+                    "key": "setting5",
                     "difference": {
                         "setting5": {
                             "key5": "value5"
@@ -55,43 +62,48 @@
                     }
                 },
                 {
-                    "status": "changed",
+                    "type": "changed",
+                    "key": "setting6",
                     "difference": {
                         "setting6": [
                             {
-                                "status": "changed",
+                                "type": "changed",
+                                "key": "doge",
                                 "difference": {
                                     "doge": [
                                         {
-                                            "status": "old and new",
-                                            "difference": {
-                                                "wow": [
-                                                    {
-                                                        "status": "deleted",
-                                                        "difference": {
-                                                            "wow": ""
-                                                        }
-                                                    },
-                                                    {
-                                                        "status": "added",
-                                                        "difference": {
-                                                            "wow": "so much"
-                                                        }
+                                            "type": "old and new",
+                                            "key": "wow",
+                                            "difference": [
+                                                {
+                                                    "type": "deleted",
+                                                    "key": "wow",
+                                                    "difference": {
+                                                        "wow": ""
                                                     }
-                                                ]
-                                            }
+                                                },
+                                                {
+                                                    "type": "added",
+                                                    "key": "wow",
+                                                    "difference": {
+                                                        "wow": "so much"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     ]
                                 }
                             },
                             {
-                                "status": "same",
+                                "type": "same",
+                                "key": "key",
                                 "difference": {
                                     "key": "value"
                                 }
                             },
                             {
-                                "status": "added",
+                                "type": "added",
+                                "key": "ops",
                                 "difference": {
                                     "ops": "vops"
                                 }
@@ -103,60 +115,65 @@
         }
     },
     {
-        "status": "changed",
+        "type": "changed",
+        "key": "group1",
         "difference": {
             "group1": [
                 {
-                    "status": "old and new",
-                    "difference": {
-                        "baz": [
-                            {
-                                "status": "deleted",
-                                "difference": {
-                                    "baz": "bas"
-                                }
-                            },
-                            {
-                                "status": "added",
-                                "difference": {
-                                    "baz": "bars"
-                                }
+                    "type": "old and new",
+                    "key": "baz",
+                    "difference": [
+                        {
+                            "type": "deleted",
+                            "key": "baz",
+                            "difference": {
+                                "baz": "bas"
                             }
-                        ]
-                    }
+                        },
+                        {
+                            "type": "added",
+                            "key": "baz",
+                            "difference": {
+                                "baz": "bars"
+                            }
+                        }
+                    ]
                 },
                 {
-                    "status": "same",
+                    "type": "same",
+                    "key": "foo",
                     "difference": {
                         "foo": "bar"
                     }
                 },
                 {
-                    "status": "old and new",
-                    "difference": {
-                        "nest": [
-                            {
-                                "status": "deleted",
-                                "difference": {
-                                    "nest": {
-                                        "key": "value"
-                                    }
-                                }
-                            },
-                            {
-                                "status": "added",
-                                "difference": {
-                                    "nest": "str"
+                    "type": "old and new",
+                    "key": "nest",
+                    "difference": [
+                        {
+                            "type": "deleted",
+                            "key": "nest",
+                            "difference": {
+                                "nest": {
+                                    "key": "value"
                                 }
                             }
-                        ]
-                    }
+                        },
+                        {
+                            "type": "added",
+                            "key": "nest",
+                            "difference": {
+                                "nest": "str"
+                            }
+                        }
+                    ]
                 }
             ]
         }
     },
     {
-        "status": "deleted",
+        "type": "deleted",
+        "key": "group2",
         "difference": {
             "group2": {
                 "abc": 12345,
@@ -167,7 +184,8 @@
         }
     },
     {
-        "status": "added",
+        "type": "added",
+        "key": "group3",
         "difference": {
             "group3": {
                 "deep": {

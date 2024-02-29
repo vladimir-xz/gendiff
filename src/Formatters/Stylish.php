@@ -33,16 +33,15 @@ function format(array $comparedData, int $depth = 0): string
 {
     $iter = function ($comparedData) use (&$iter, $depth) {
         $result = array_map(function ($data) use ($iter, $depth) {
-            ['status' => $status, 'difference' => $difference] = getNode($data);
-            $key = key($difference);
+            ['type' => $type, 'key' => $key, 'difference' => $difference] = getNode($data);
             $value = current($difference);
-            $symbol = SYMBOLS[$status];
+            $symbol = SYMBOLS[$type];
             $keyWithSymbol = "{$symbol} {$key}";
             $nextDepth = $depth + 1;
             $offsetWithoutSymbol = 0;
-            if ($status === 'old and new') {
-                return $iter($value);
-            } elseif ($status === 'changed') {
+            if ($type === 'old and new') {
+                return $iter($difference);
+            } elseif ($type === 'changed') {
                 $valueString = format($value, $nextDepth);
             } else {
                 $valueString = stringify($value, $nextDepth, $offsetWithoutSymbol);
