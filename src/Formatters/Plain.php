@@ -36,6 +36,6 @@ function format(array $comparedArray, array $tempForKeys = []): string
                 throw new \Exception("Unknown type of value: \"{$type}\"!");
         }
     }, $comparedArray);
-    $withoutEmpties = array_filter($differencies, fn ($array) => $array);
+    $withoutEmpties = array_filter($differencies);
     return implode("\n", $withoutEmpties);
 }
