@@ -15,7 +15,7 @@ const SYMBOLS = [
 function createEmptySpace(int $depth, int $offset = 0, string $separator = '    ')
 {
     $emptySpaceWithoutSymbol = str_repeat($separator, $depth);
-    if (is_null($offset)) {
+    if ($offset === 0) {
         return $emptySpaceWithoutSymbol;
     }
     return substr($emptySpaceWithoutSymbol, $offset, null);
