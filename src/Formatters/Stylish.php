@@ -8,7 +8,7 @@ const SYMBOLS = [
     'added' => '+',
     'deleted' => '-',
     'same' => ' ',
-    'changed' => ' ',
+    'nested' => ' ',
     'old and new' => '',
 ];
 
@@ -52,7 +52,7 @@ function format(array $comparedData, int $depth = 0): string
             $valueOld = stringify($value['oldValue'], $nextDepth);
             $valueNew = stringify($value['newValue'], $nextDepth);
             return "{$emptySpace}- {$key}: {$valueOld}\n{$emptySpace}+ {$key}: {$valueNew}";
-        } elseif ($type === 'changed') {
+        } elseif ($type === 'nested') {
             $valueString = format($value, $nextDepth);
         } else {
             $valueString = stringify($value, $nextDepth);

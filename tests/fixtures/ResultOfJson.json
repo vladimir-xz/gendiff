@@ -1,6 +1,6 @@
 [
     {
-        "type": "changed",
+        "type": "nested",
         "key": "common",
         "value": [
             {
@@ -39,11 +39,11 @@
                 }
             },
             {
-                "type": "changed",
+                "type": "nested",
                 "key": "setting6",
                 "value": [
                     {
-                        "type": "changed",
+                        "type": "nested",
                         "key": "doge",
                         "value": [
                             {
@@ -71,7 +71,7 @@
         ]
     },
     {
-        "type": "changed",
+        "type": "nested",
         "key": "group1",
         "value": [
             {

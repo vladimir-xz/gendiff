@@ -23,7 +23,7 @@ function format(array $comparedArray, array $tempForKeys = []): string
                 $oldValue = printValuePlain($value['oldValue']);
                 $newValue = printValuePlain($value['newValue']);
                 return "Property '{$keyToPrint}' was updated. From {$oldValue} to {$newValue}";
-            case 'changed':
+            case 'nested':
                 return format($value, $newKeys);
             case 'same':
                 break;

@@ -23,9 +23,9 @@ function addSameLine(string $key, mixed $value): array
     return ['type' => 'same', 'key' => $key, 'value' => $value];
 }
 
-function addChangedLine(string $key, mixed $value): array
+function addNestedLine(string $key, mixed $value): array
 {
-    return ['type' => 'changed', 'key' => $key, 'value' => $value ];
+    return ['type' => 'nested', 'key' => $key, 'value' => $value ];
 }
 
 function addOldAndNew(string $commonKey, mixed $old, mixed $new): array
@@ -59,7 +59,7 @@ function compare(array $dataOne, array $dataTwo): array
         } elseif ($dataOne[$key] === $dataTwo[$key]) {
             return addSameLine($key, $dataTwo[$key]);
         } elseif (is_array($dataOne[$key]) && is_array($dataTwo[$key])) {
-            return addChangedLine($key, compare($dataOne[$key], $dataTwo[$key]));
+            return addNestedLine($key, compare($dataOne[$key], $dataTwo[$key]));
         } else {
             return addOldAndNew($key, $dataOne[$key], $dataTwo[$key]);
         }
