@@ -15,29 +15,25 @@ function printValuePlain(mixed $value): string
 function format(array $comparedArray, array $tempForKeys = []): string
 {
     $differencies = array_map(function ($node) use ($tempForKeys) {
-        ['type' => $type, 'key' => $key, 'difference' => $difference] = getNode($node);
+        ['type' => $type, 'key' => $key, 'value' => $value] = getNode($node);
         $newKeys = array_merge($tempForKeys, [$key]);
         $keyToPrint = implode('.', $newKeys);
         switch ($type) {
             case 'old and new':
-                $oldAndNewValues = array_map(function ($node) {
-                    ['type' => $type, 'difference' => $difference] = getNode($node);
-                        $valueToPrint = printValuePlain(current($difference));
-                        return [$type => $valueToPrint];
-                }, $difference);
-                $bothValues = array_merge(...$oldAndNewValues);
-                return "Property '{$keyToPrint}' was updated. From {$bothValues['deleted']} to {$bothValues['added']}";
+                $oldValue = printValuePlain($value['oldValue']);
+                $newValue = printValuePlain($value['newValue']);
+                return "Property '{$keyToPrint}' was updated. From {$oldValue} to {$newValue}";
             case 'changed':
-                return format($difference, $newKeys);
+                return format($value, $newKeys);
             case 'same':
                 break;
             case 'added':
-                $valueString = printValuePlain(current($difference));
+                $valueString = printValuePlain($value);
                 return "Property '{$keyToPrint}' was added with value: {$valueString}";
             case 'deleted':
                 return "Property '{$keyToPrint}' was removed";
             default:
-                throw new \Exception("Unknown status of value: \"{$type}\"!");
+                throw new \Exception("Unknown type of value: \"{$type}\"!");
         }
     }, $comparedArray);
     $withoutEmpties = array_filter($differencies, fn ($array) => $array);

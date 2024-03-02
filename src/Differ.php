@@ -10,29 +10,32 @@ use function Functional\sort;
 
 function addNewLine(string $key, mixed $value): array
 {
-    return ['type' => 'added', 'key' => $key, 'difference' => [$key => $value]];
+    return ['type' => 'added', 'key' => $key, 'value' => $value];
 }
 
 function addDeletedLine(string $key, mixed $value): array
 {
-    return ['type' => 'deleted', 'key' => $key, 'difference' => [$key => $value]];
+    return ['type' => 'deleted', 'key' => $key, 'value' =>  $value];
 }
 
 function addSameLine(string $key, mixed $value): array
 {
-    return ['type' => 'same', 'key' => $key, 'difference' => [$key => $value]];
+    return ['type' => 'same', 'key' => $key, 'value' => $value];
 }
 
 function addChangedLine(string $key, mixed $value): array
 {
-    return ['type' => 'changed', 'key' => $key, 'difference' => $value ];
+    return ['type' => 'changed', 'key' => $key, 'value' => $value ];
 }
 
 function addOldAndNew(string $commonKey, mixed $old, mixed $new): array
 {
     return ['type' => 'old and new',
     'key' => $commonKey,
-    'difference' => [addDeletedLine($commonKey, $old), addNewLine($commonKey, $new)]];
+    'value' => [
+        'oldValue' => $old,
+        'newValue' => $new
+    ]];
 }
 
 function getNode(mixed $value): array
@@ -40,7 +43,7 @@ function getNode(mixed $value): array
     return [
         'type' => $value['type'],
         'key' => $value['key'],
-        'difference' => $value['difference']
+        'value' => $value['value']
     ];
 }
 

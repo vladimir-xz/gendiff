@@ -2,107 +2,69 @@
     {
         "type": "changed",
         "key": "common",
-        "difference": [
+        "value": [
             {
                 "type": "added",
                 "key": "follow",
-                "difference": {
-                    "follow": false
-                }
+                "value": false
             },
             {
                 "type": "same",
                 "key": "setting1",
-                "difference": {
-                    "setting1": "Value 1"
-                }
+                "value": "Value 1"
             },
             {
                 "type": "deleted",
                 "key": "setting2",
-                "difference": {
-                    "setting2": 200
-                }
+                "value": 200
             },
             {
                 "type": "old and new",
                 "key": "setting3",
-                "difference": [
-                    {
-                        "type": "deleted",
-                        "key": "setting3",
-                        "difference": {
-                            "setting3": true
-                        }
-                    },
-                    {
-                        "type": "added",
-                        "key": "setting3",
-                        "difference": {
-                            "setting3": null
-                        }
-                    }
-                ]
-            },
-            {
-                "type": "added",
-                "key": "setting4",
-                "difference": {
-                    "setting4": "blah blah"
+                "value": {
+                    "oldValue": true,
+                    "newValue": null
                 }
             },
             {
                 "type": "added",
+                "key": "setting4",
+                "value": "blah blah"
+            },
+            {
+                "type": "added",
                 "key": "setting5",
-                "difference": {
-                    "setting5": {
-                        "key5": "value5"
-                    }
+                "value": {
+                    "key5": "value5"
                 }
             },
             {
                 "type": "changed",
                 "key": "setting6",
-                "difference": [
+                "value": [
                     {
                         "type": "changed",
                         "key": "doge",
-                        "difference": [
+                        "value": [
                             {
                                 "type": "old and new",
                                 "key": "wow",
-                                "difference": [
-                                    {
-                                        "type": "deleted",
-                                        "key": "wow",
-                                        "difference": {
-                                            "wow": ""
-                                        }
-                                    },
-                                    {
-                                        "type": "added",
-                                        "key": "wow",
-                                        "difference": {
-                                            "wow": "so much"
-                                        }
-                                    }
-                                ]
+                                "value": {
+                                    "oldValue": "",
+                                    "newValue": "so much"
+                                }
                             }
                         ]
                     },
                     {
                         "type": "same",
                         "key": "key",
-                        "difference": {
-                            "key": "value"
-                        }
+                        "value": "value"
                     },
                     {
                         "type": "added",
                         "key": "ops",
-                        "difference": {
-                            "ops": "vops"
-                        }
+                        "value": "vops"
                     }
                 ]
             }
@@ -111,82 +73,52 @@
     {
         "type": "changed",
         "key": "group1",
-        "difference": [
+        "value": [
             {
                 "type": "old and new",
                 "key": "baz",
-                "difference": [
-                    {
-                        "type": "deleted",
-                        "key": "baz",
-                        "difference": {
-                            "baz": "bas"
-                        }
-                    },
-                    {
-                        "type": "added",
-                        "key": "baz",
-                        "difference": {
-                            "baz": "bars"
-                        }
-                    }
-                ]
+                "value": {
+                    "oldValue": "bas",
+                    "newValue": "bars"
+                }
             },
             {
                 "type": "same",
                 "key": "foo",
-                "difference": {
-                    "foo": "bar"
-                }
+                "value": "bar"
             },
             {
                 "type": "old and new",
                 "key": "nest",
-                "difference": [
-                    {
-                        "type": "deleted",
-                        "key": "nest",
-                        "difference": {
-                            "nest": {
-                                "key": "value"
-                            }
-                        }
+                "value": {
+                    "oldValue": {
+                        "key": "value"
                     },
-                    {
-                        "type": "added",
-                        "key": "nest",
-                        "difference": {
-                            "nest": "str"
-                        }
-                    }
-                ]
+                    "newValue": "str"
+                }
             }
         ]
     },
     {
         "type": "deleted",
         "key": "group2",
-        "difference": {
-            "group2": {
-                "abc": 12345,
-                "deep": {
-                    "id": 45
-                }
+        "value": {
+            "abc": 12345,
+            "deep": {
+                "id": 45
             }
         }
     },
     {
         "type": "added",
         "key": "group3",
-        "difference": {
-            "group3": {
-                "deep": {
-                    "id": {
-                        "number": 45
-                    }
-                },
-                "fee": 100500
-            }
+        "value": {
+            "deep": {
+                "id": {
+                    "number": 45
+                }
+            },
+            "fee": 100500
         }
     }
 ]

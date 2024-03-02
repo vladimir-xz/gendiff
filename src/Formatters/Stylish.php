@@ -12,17 +12,26 @@ const SYMBOLS = [
     'old and new' => '',
 ];
 
-function stringify(mixed $item, int $depth, int $offset = 2, string $separator = '    '): string
+function createEmptySpace(int $depth, int $offset = 0, string $separator = '    ')
+{
+    $emptySpaceWithoutSymbol = str_repeat($separator, $depth);
+    if (!$offset) {
+        return $emptySpaceWithoutSymbol;
+    }
+    return substr($emptySpaceWithoutSymbol, $offset, null);
+}
+
+function stringify(mixed $item, int $depth): string
 {
     if (!is_array($item)) {
         $itemString = is_string($item) ? $item : var_export($item, true);
         return $itemString === 'NULL' ? 'null' : $itemString;
     }
-    $emptySpace = str_repeat($separator, $depth);
-    $lines = array_map(function ($key, $value) use ($depth, $separator, $offset) {
+    $emptySpace = createEmptySpace($depth);
+    $lines = array_map(function ($key, $value) use ($depth) {
         $nextDepth = $depth + 1;
-        $emptySpace = substr(str_repeat($separator, $nextDepth), $offset, null);
-        $valueString = stringify($value, $nextDepth, $offset);
+        $emptySpace = createEmptySpace($nextDepth);
+        $valueString = stringify($value, $nextDepth);
         return "{$emptySpace}{$key}: {$valueString}";
     }, array_keys($item), $item);
     $linesWithBrackets = ['{', ...$lines, "{$emptySpace}}"];
@@ -31,23 +40,25 @@ function stringify(mixed $item, int $depth, int $offset = 2, string $separator =
 
 function format(array $comparedData, int $depth = 0): string
 {
-    $iter = function ($comparedData) use (&$iter, $depth) {
-        $result = array_map(function ($data) use ($iter, $depth) {
-            ['type' => $type, 'key' => $key, 'difference' => $difference] = getNode($data);
-            $symbol = SYMBOLS[$type];
-            $keyWithSymbol = "{$symbol} {$key}";
-            $nextDepth = $depth + 1;
-            $offsetWithoutSymbol = 0;
-            if ($type === 'old and new') {
-                return $iter($difference);
-            } elseif ($type === 'changed') {
-                $valueString = format($difference, $nextDepth);
-            } else {
-                $valueString = stringify(current($difference), $nextDepth, $offsetWithoutSymbol);
-            }
-            return [$keyWithSymbol => $valueString];
-        }, $comparedData);
-        return array_merge(...$result);
-    };
-    return stringify($iter($comparedData), $depth);
+    $emptySpace = createEmptySpace($depth);
+    $lines = array_map(function ($data) use ($depth) {
+        ['type' => $type, 'key' => $key, 'value' => $value] = getNode($data);
+        $symbol = SYMBOLS[$type];
+        $nextDepth = $depth + 1;
+        $offsetForSymbol = 2;
+        $emptySpace = createEmptySpace($nextDepth, $offsetForSymbol);
+        $keyForPrint = "{$emptySpace}{$symbol} {$key}";
+        if ($type === 'old and new') {
+            $valueOld = stringify($value['oldValue'], $nextDepth);
+            $valueNew = stringify($value['newValue'], $nextDepth);
+            return "{$emptySpace}- {$key}: {$valueOld}\n{$emptySpace}+ {$key}: {$valueNew}";
+        } elseif ($type === 'changed') {
+            $valueString = format($value, $nextDepth);
+        } else {
+            $valueString = stringify($value, $nextDepth);
+        }
+        return "{$keyForPrint}: {$valueString}";
+    }, $comparedData);
+    $linesWithBrackets = ['{', ...$lines, "{$emptySpace}}"];
+    return implode("\n", $linesWithBrackets);
 }
