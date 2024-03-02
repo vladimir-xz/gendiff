@@ -33,8 +33,8 @@ function addOldAndNew(string $commonKey, mixed $old, mixed $new): array
     return ['type' => 'old and new',
     'key' => $commonKey,
     'value' => [
-        'oldValue' => $old,
-        'newValue' => $new
+        'old' => $old,
+        'new' => $new
     ]];
 }
 

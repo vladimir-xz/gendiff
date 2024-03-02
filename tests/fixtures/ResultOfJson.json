@@ -22,8 +22,8 @@
                 "type": "old and new",
                 "key": "setting3",
                 "value": {
-                    "oldValue": true,
-                    "newValue": null
+                    "old": true,
+                    "new": null
                 }
             },
             {
@@ -50,8 +50,8 @@
                                 "type": "old and new",
                                 "key": "wow",
                                 "value": {
-                                    "oldValue": "",
-                                    "newValue": "so much"
+                                    "old": "",
+                                    "new": "so much"
                                 }
                             }
                         ]
@@ -78,8 +78,8 @@
                 "type": "old and new",
                 "key": "baz",
                 "value": {
-                    "oldValue": "bas",
-                    "newValue": "bars"
+                    "old": "bas",
+                    "new": "bars"
                 }
             },
             {
@@ -91,10 +91,10 @@
                 "type": "old and new",
                 "key": "nest",
                 "value": {
-                    "oldValue": {
+                    "old": {
                         "key": "value"
                     },
-                    "newValue": "str"
+                    "new": "str"
                 }
             }
         ]

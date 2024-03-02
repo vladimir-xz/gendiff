@@ -20,9 +20,8 @@ function format(array $comparedArray, array $tempForKeys = []): string
         $keyToPrint = implode('.', $newKeys);
         switch ($type) {
             case 'old and new':
-                $oldValue = printValuePlain($value['oldValue']);
-                $newValue = printValuePlain($value['newValue']);
-                return "Property '{$keyToPrint}' was updated. From {$oldValue} to {$newValue}";
+                $oldAndNew = array_map(fn ($item) => printValuePlain($item), $value);
+                return "Property '{$keyToPrint}' was updated. From {$oldAndNew['old']} to {$oldAndNew['new']}";
             case 'nested':
                 return format($value, $newKeys);
             case 'same':

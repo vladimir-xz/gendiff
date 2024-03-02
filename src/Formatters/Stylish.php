@@ -49,9 +49,8 @@ function format(array $comparedData, int $depth = 0): string
         $emptySpace = createEmptySpace($nextDepth, $offsetForSymbol);
         $keyForPrint = "{$emptySpace}{$symbol} {$key}";
         if ($type === 'old and new') {
-            $valueOld = stringify($value['oldValue'], $nextDepth);
-            $valueNew = stringify($value['newValue'], $nextDepth);
-            return "{$emptySpace}- {$key}: {$valueOld}\n{$emptySpace}+ {$key}: {$valueNew}";
+            $oldAndNew = array_map(fn ($item) => stringify($item, $nextDepth), $value);
+            return "{$emptySpace}- {$key}: {$oldAndNew['old']}\n{$emptySpace}+ {$key}: {$oldAndNew['new']}";
         } elseif ($type === 'nested') {
             $valueString = format($value, $nextDepth);
         } else {
